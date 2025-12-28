@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Wasim Mahmood Mia — Profile</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family: system-ui, -apple-system, Inter, sans-serif; color:#fff !important;}
+body{
+  min-height:100vh;
+  margin:0;
+  color:#fff;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  overflow-x:hidden;
+  background: linear-gradient(270deg,#6b4bff,#ff8a4b,#1f9bff,#6b4bff);
+  background-size: 800% 800%;
+  animation: gradientMove 20s ease infinite;
+  position:relative;
+}
+
+/* Particle & Snow canvas */
+#particles-js{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:0;
+  pointer-events:none;
+}
+
+/* Liquid background animation */
+@keyframes gradientMove{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+.container{
+  max-width:900px;
+  width:94%;
+  margin:60px auto;
+  z-index:2;
+  position:relative;
+}
+.card{
+  background: rgba(255,255,255,0.1);
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:28px;
+  padding:32px;
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  box-shadow:0 20px 60px rgba(0,0,0,.35);
+  z-index:2;
+  position:relative;
+}
+
+/* Header */
+.header{
+  display:flex;
+  gap:20px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.header img{
+  width:95px;height:95px;border-radius:50%;object-fit:cover;
+  border:3px solid rgba(255,255,255,.4);
+}
+.name-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  flex-wrap:nowrap;
+}
+.name{
+  font-size:26px;
+  font-weight:800;
+  white-space:nowrap;
+}
+.badge{
+  background:#1877f2;
+  color:#fff;
+  border-radius:50%;
+  width:20px;height:20px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;
+}
+.tagline{opacity:.9;margin-top:4px}
+
+/* Social grid */
+.social{
+  margin-top:22px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:12px;
+}
+.social a{
+  text-decoration:none;
+  color:#fff !important;
+  background:rgba(255,255,255,0.1);
+  border-radius:18px;
+  padding:12px 14px;
+  border:1px solid rgba(255,255,255,.2);
+  display:flex;
+  align-items:center;
+  gap:10px;
+  transition:.3s;
+  font-weight:600;
+  position:relative;
+}
+.social a i{font-size:22px;transition:.3s;}
+.social a:hover i{
+  text-shadow:
+    0 0 8px currentColor,
+    0 0 12px currentColor,
+    0 0 20px currentColor,
+    0 0 28px currentColor,
+    0 0 36px currentColor;
+}
+.social a:hover{
+  transform:translateY(-3px);
+  background:rgba(255,255,255,0.25);
+}
+
+/* Colorful platform icons */
+.fb i{color:#1877f2}
+.ig i{color:#E4405F}
+.tt i{color:#000}
+.tg i{color:#2AABEE}
+.wa i{color:#25D366}
+.tw i{color:#1DA1F2}
+.th i{color:#8C44F7}
+
+/* Sections */
+.section{
+  margin-top:26px;
+  background:rgba(255,255,255,0.08);
+  border-radius:22px;
+  border:1px solid rgba(255,255,255,.2);
+  padding:18px 20px;
+}
+.section strong{font-size:16px;color:#fff !important;}
+.section p{opacity:.9; margin-top:6px;color:#fff !important;}
+
+/* Contact line */
+.info-line{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:6px;
+  font-weight:600;
+  color:#fff !important;
+}
+.info-line i{opacity:.9;color:#fff !important;}
+
+/* Location line */
+.location-line{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:6px;
+  font-weight:600;
+  color:#fff !important;
+}
+.location-line i{opacity:.9;color:#fff !important;}
+
+/* Form */
+form{
+  margin-top:12px;
+  display:grid;
+  gap:10px;
+}
+input,textarea{
+  padding:10px 12px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.25);
+  background:rgba(0,0,0,.2);
+  color:#fff !important;
+}
+button{
+  padding:11px;
+  border-radius:16px;
+  border:0;
+  font-weight:700;
+  cursor:pointer;
+  background:linear-gradient(135deg,#665bff,#ff7b32);
+  color:#fff !important;
+  transition:.3s;
+}
+button:hover{box-shadow:0 0 20px #ff7b32,0 0 30px #665bff;}
+
+/* Footer */
+footer{text-align:center;margin-top:22px;opacity:.8;font-size:13px;color:#fff !important}
+
+/* Scroll animation */
+.reveal{
+  opacity:0;
+  transform:translateY(32px) scale(.97);
+  transition: .7s cubic-bezier(.16,.84,.44,1);
+}
+.reveal.visible{
+  opacity:1;
+  transform:none;
+}
+
+/* Responsive */
+@media(max-width:560px){
+  .header{justify-content:center; text-align:center;}
+  .name{white-space:normal;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- Particles & Snow background -->
+<canvas id="particles-js"></canvas>
+
+<div class="container">
+
+  <div class="card reveal">
+    <div class="header">
+      <img src="https://i.ibb.co.com/sJ2wWdYJ/retouch-2025122322321363.jpg" alt="Profile" />
+      <div>
+        <div class="name-badge">
+          <div class="name">Wasim Mahmood</div>
+          <div class="badge">✔</div>
+        </div>
+        <div class="tagline"></div>
+        <div class="location-line"><i class="fa-solid fa-location-dot"></i>Dhaka, kishanganj, Bhairab Bazar</div>
+      </div>
+    </div>
+
+    <!-- Social -->
+    <div class="social reveal">
+      <a class="fb" href="https://www.facebook.com/share/1DMBocK6Ff/" target="_blank"><i class="fa-brands fa-facebook"></i>Facebook</a>
+      <a class="ig" href="https://www.instagram.com/zaynmahin_?igsh=MW56OHVsNmo5anlxag==" target="_blank"><i class="fa-brands fa-instagram"></i>Instagram</a>
+      <a class="tt" href="https://www.tiktok.com/@zaynmahin__?_r=1&_t=ZS-92akIXzWl8s" target="_blank"><i class="fa-brands fa-tiktok"></i>TikTok</a>
+      <a class="tg" href="https://t.me/+8801772447277" target="_blank"><i class="fa-brands fa-telegram"></i>Telegram</a>
+      <a class="wa" href="https://wa.me/+8801772447277" target="_blank"><i class="fa-brands fa-whatsapp"></i>WhatsApp</a>
+      <a class="tw" href="https://x.com/zaynmahin?fbclid=..." target="_blank"><i class="fa-brands fa-x-twitter"></i>X (Twitter)</a>
+      <a class="th" href="https://www.threads.com/@zaynmahin_" target="_blank"><i class="fa-brands fa-threads"></i>Threads</a>
+    </div>
+
+    <!-- Contact -->
+    <div class="section reveal">
+      <strong>Contact</strong>
+      <div class="info-line"><i class="fa-solid fa-phone"></i><a href="tel:01663899614" style="color:inherit;text-decoration:none">01620434794</a></div>
+      <div class="info-line"><i class="fa-solid fa-envelope"></i><span>wasim5882@hotmail.com</span></div>
+    </div>
+
+    <!-- About -->
+    <div class="section reveal">
+      <strong>About Me</strong>
+      <p>A creative mind always eager to learn something new. I find joy in small moments and constantly strive to improve my skills and reach my goals. Passionate about technology, new experiences, and embracing challenges.</p>
+    </div>
+
+    <!-- Hobbies -->
+    <div class="section reveal">
+      <strong>Hobbies / Interests</strong>
+      <p>• 🎵 Listening to Music
+• 💻 Programming & Web/Game Development
+• 🚗 Driving
+• 🔧 Tech & Gadgets
+• 📚 Learning New Skills
+• 🖥️ Learning About Tech & Hardware
+• ⚽ Following Football Highlights & Analysis
+• 🍽️ Trying New Foods
+• 📱 Exploring New Apps & Tools
+• 🎬 Watching Movies & Series</p>
+    </div>
+
+    <!-- Strength -->
+    <div class="section reveal">
+      <strong>What I’m Good At</strong>
+      <p>Communication • Social Networking • Fast Learning • Creative Thinking</p>
+    </div>
+
+    <!-- Form -->
+    <div class="section reveal">
+      <strong>Contact Me</strong>
+      <form>
+        <input placeholder="Your Name" required>
+        <input placeholder="Your Email" type="email" required>
+        <textarea rows="3" placeholder="Message..." required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+
+    <footer class="reveal">
+      © <span id="year"></span> Wasim Mahmood Mia — All Rights Reserved
+    </footer>
+  </div>
+
+</div>
+
+<script>
+// year
+document.getElementById("year").textContent = new Date().getFullYear();
+
+// Scroll animation
+const reveals=document.querySelectorAll('.reveal');
+const io=new IntersectionObserver(e=>{
+  e.forEach(x=>{ if(x.isIntersecting){x.target.classList.add('visible')}});
+},{threshold:.15});
+reveals.forEach(r=>io.observe(r));
+
+// Auto Light/Dark by time
+(function(){
+  const h=new Date().getHours();
+  if(h>=19||h<6){ document.body.classList.remove('light'); }
+  else{ document.body.classList.add('light'); }
+})();
+
+/* Particle + Snow Animation with bigger flakes & glow */
+const canvas=document.getElementById('particles-js');
+const ctx=canvas.getContext('2d');
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let particles=[];
+for(let i=0;i<120;i++){
+  particles.push({
+    x:Math.random()*canvas.width,
+    y:Math.random()*canvas.height,
+    r:Math.random()*4+2,  // bigger size
+    dx:(Math.random()-0.5)*0.5,
+    dy:(Math.random()*0.7)+0.3  // random downward speed
+  });
+}
+
+function animateParticles(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  for(let p of particles){
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle='rgba(255,255,255,0.2)';
+    ctx.shadowColor = 'rgba(255,255,255,0.5)';
+    ctx.shadowBlur = 4;
+    ctx.fill();
+    p.x+=p.dx;
+    p.y+=p.dy;
+    if(p.x<0)p.x=canvas.width;
+    if(p.x>canvas.width)p.x=0;
+    if(p.y>canvas.height){p.y=0; p.x=Math.random()*canvas.width;}
+  }
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+// Resize canvas
+window.addEventListener('resize',()=>{
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+});
+</script>
+
+</body>
+</html>
