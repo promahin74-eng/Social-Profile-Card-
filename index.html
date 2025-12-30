@@ -8,210 +8,509 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family: system-ui, -apple-system, Inter, sans-serif; color:#fff !important;}
-body{
-  min-height:100vh;
-  margin:0;
-  color:#fff;
-  display:flex;
-  justify-content:center;
-  align-items:flex-start;
-  overflow-x:hidden;
-  background: linear-gradient(270deg,#6b4bff,#ff8a4b,#1f9bff,#6b4bff);
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, Inter, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow-x: hidden;
+  background: linear-gradient(270deg, #6b4bff, #ff8a4b, #1f9bff, #6b4bff);
   background-size: 800% 800%;
   animation: gradientMove 20s ease infinite;
-  position:relative;
+  position: relative;
+  transition: background 0.5s ease;
+}
+
+body.dark-mode {
+  background: linear-gradient(270deg, #0a0a0a, #1a1a2e, #16213e, #0f3460);
+  background-size: 800% 800%;
+  animation: gradientMove 20s ease infinite;
 }
 
 /* Particle & Snow canvas */
-#particles-js{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  z-index:0;
-  pointer-events:none;
+#particles-js {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
 }
 
 /* Liquid background animation */
-@keyframes gradientMove{
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
+@keyframes gradientMove {
+  0% { background-position: 0% 50% }
+  50% { background-position: 100% 50% }
+  100% { background-position: 0% 50% }
 }
 
-.container{
-  max-width:900px;
-  width:94%;
-  margin:60px auto;
-  z-index:2;
-  position:relative;
+.container {
+  max-width: 900px;
+  width: 94%;
+  margin: 60px auto;
+  z-index: 2;
+  position: relative;
 }
-.card{
-  background: rgba(255,255,255,0.1);
-  border:1px solid rgba(255,255,255,.2);
-  border-radius:28px;
-  padding:32px;
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
-  box-shadow:0 20px 60px rgba(0,0,0,.35);
-  z-index:2;
-  position:relative;
+
+.card {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 28px;
+  padding: 32px;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .35);
+  z-index: 2;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.dark-mode .card {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, .1);
 }
 
 /* Header */
-.header{
-  display:flex;
-  gap:20px;
-  align-items:center;
-  flex-wrap:wrap;
+.header {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+  position: relative;
 }
-.header img{
-  width:95px;height:95px;border-radius:50%;object-fit:cover;
-  border:3px solid rgba(255,255,255,.4);
+
+/* Prevent image download */
+.header img {
+  width: 95px;
+  height: 95px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(255, 255, 255, .4);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
 }
-.name-badge{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  flex-wrap:nowrap;
+
+/* Image protection overlay */
+.image-protection {
+  position: relative;
+  display: inline-block;
 }
-.name{
-  font-size:26px;
-  font-weight:800;
-  white-space:nowrap;
+
+.image-protection::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: transparent;
+  z-index: 1;
 }
-.badge{
-  background:#1877f2;
-  color:#fff;
-  border-radius:50%;
-  width:20px;height:20px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:12px;
+
+.name-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: nowrap;
 }
-.tagline{opacity:.9;margin-top:4px}
+
+.name {
+  font-size: 26px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.badge {
+  background: #1877f2;
+  color: #fff;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.tagline {
+  opacity: .9;
+  margin-top: 4px;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 20px;
+  transition: all 0.3s ease;
+  color: white;
+  z-index: 10;
+}
+
+.theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(30deg);
+}
 
 /* Social grid */
-.social{
-  margin-top:22px;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-  gap:12px;
+.social {
+  margin-top: 22px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
 }
-.social a{
-  text-decoration:none;
-  color:#fff !important;
-  background:rgba(255,255,255,0.1);
-  border-radius:18px;
-  padding:12px 14px;
-  border:1px solid rgba(255,255,255,.2);
-  display:flex;
-  align-items:center;
-  gap:10px;
-  transition:.3s;
-  font-weight:600;
-  position:relative;
+
+.social a {
+  text-decoration: none;
+  color: #fff !important;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: .3s;
+  font-weight: 600;
+  position: relative;
 }
-.social a i{font-size:22px;transition:.3s;}
-.social a:hover i{
-  text-shadow:
-    0 0 8px currentColor,
-    0 0 12px currentColor,
-    0 0 20px currentColor,
-    0 0 28px currentColor,
-    0 0 36px currentColor;
+
+.dark-mode .social a {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, .1);
 }
-.social a:hover{
-  transform:translateY(-3px);
-  background:rgba(255,255,255,0.25);
+
+.social a i {
+  font-size: 22px;
+  transition: .3s;
+}
+
+.social a:hover i {
+  text-shadow: 0 0 8px currentColor, 0 0 12px currentColor, 0 0 20px currentColor;
+}
+
+.social a:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.dark-mode .social a:hover {
+  background: rgba(255, 255, 255, 0.15);
 }
 
 /* Colorful platform icons */
-.fb i{color:#1877f2}
-.ig i{color:#E4405F}
-.tt i{color:#000}
-.tg i{color:#2AABEE}
-.wa i{color:#25D366}
-.tw i{color:#1DA1F2}
-.th i{color:#8C44F7}
+.fb i { color: #1877f2 }
+.ig i { color: #E4405F }
+.tt i { color: #000 }
+.tg i { color: #2AABEE }
+.wa i { color: #25D366 }
+.tw i { color: #1DA1F2 }
+.th i { color: #8C44F7 }
 
 /* Sections */
-.section{
-  margin-top:26px;
-  background:rgba(255,255,255,0.08);
-  border-radius:22px;
-  border:1px solid rgba(255,255,255,.2);
-  padding:18px 20px;
+.section {
+  margin-top: 26px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  padding: 18px 20px;
+  transition: all 0.3s ease;
 }
-.section strong{font-size:16px;color:#fff !important;}
-.section p{opacity:.9; margin-top:6px;color:#fff !important;}
+
+.dark-mode .section {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, .1);
+}
+
+.section strong {
+  font-size: 16px;
+  color: #fff !important;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.section p {
+  opacity: .9;
+  margin-top: 6px;
+  color: #fff !important;
+  line-height: 1.6;
+}
 
 /* Contact line */
-.info-line{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin-top:6px;
-  font-weight:600;
-  color:#fff !important;
+.info-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+  font-weight: 600;
+  color: #fff !important;
 }
-.info-line i{opacity:.9;color:#fff !important;}
+
+.info-line i {
+  opacity: .9;
+  color: #fff !important;
+}
 
 /* Location line */
-.location-line{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin-top:6px;
-  font-weight:600;
-  color:#fff !important;
+.location-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+  font-weight: 600;
+  color: #fff !important;
 }
-.location-line i{opacity:.9;color:#fff !important;}
+
+.location-line i {
+  opacity: .9;
+  color: #fff !important;
+}
+
+/* Skills Progress */
+.skill {
+  margin: 15px 0;
+}
+
+.skill-name {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.progress-bar {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar div {
+  height: 100%;
+  background: linear-gradient(90deg, #6b4bff, #ff8a4b);
+  border-radius: 4px;
+  width: 0;
+  transition: width 1.5s ease-in-out;
+}
+
+/* Skills Grid */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.skill-item {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px 12px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, .2);
+}
+
+.dark-mode .skill-item {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.skill-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-3px);
+}
+
+.dark-mode .skill-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
 
 /* Form */
-form{
-  margin-top:12px;
-  display:grid;
-  gap:10px;
+form {
+  margin-top: 12px;
+  display: grid;
+  gap: 10px;
 }
-input,textarea{
-  padding:10px 12px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.25);
-  background:rgba(0,0,0,.2);
-  color:#fff !important;
+
+input, textarea {
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, .25);
+  background: rgba(0, 0, 0, .2);
+  color: #fff !important;
+  font-size: 16px;
 }
-button{
-  padding:11px;
-  border-radius:16px;
-  border:0;
-  font-weight:700;
-  cursor:pointer;
-  background:linear-gradient(135deg,#665bff,#ff7b32);
-  color:#fff !important;
-  transition:.3s;
+
+.dark-mode input,
+.dark-mode textarea {
+  background: rgba(255, 255, 255, 0.05);
 }
-button:hover{box-shadow:0 0 20px #ff7b32,0 0 30px #665bff;}
+
+button {
+  padding: 12px;
+  border-radius: 16px;
+  border: 0;
+  font-weight: 700;
+  cursor: pointer;
+  background: linear-gradient(135deg, #665bff, #ff7b32);
+  color: #fff !important;
+  transition: .3s;
+  font-size: 16px;
+}
+
+button:hover {
+  box-shadow: 0 0 20px #ff7b32, 0 0 30px #665bff;
+  transform: translateY(-3px);
+}
 
 /* Footer */
-footer{text-align:center;margin-top:22px;opacity:.8;font-size:13px;color:#fff !important}
+footer {
+  text-align: center;
+  margin-top: 22px;
+  opacity: .8;
+  font-size: 13px;
+  color: #fff !important;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, .2);
+}
+
+.dark-mode footer {
+  border-top: 1px solid rgba(255, 255, 255, .1);
+}
 
 /* Scroll animation */
-.reveal{
-  opacity:0;
-  transform:translateY(32px) scale(.97);
-  transition: .7s cubic-bezier(.16,.84,.44,1);
+.reveal {
+  opacity: 0;
+  transform: translateY(32px) scale(.97);
+  transition: .7s cubic-bezier(.16, .84, .44, 1);
 }
-.reveal.visible{
-  opacity:1;
-  transform:none;
+
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Back to Top */
+.back-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  background: #6b4bff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 100;
+  border: none;
+  color: white;
+  font-size: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.dark-mode .back-to-top {
+  background: #333;
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.back-to-top:hover {
+  background: #ff8a4b;
+  transform: translateY(-5px);
 }
 
 /* Responsive */
-@media(max-width:560px){
-  .header{justify-content:center; text-align:center;}
-  .name{white-space:normal;}
+@media (max-width: 768px) {
+  .container {
+    margin: 30px auto;
+    width: 96%;
+  }
+  
+  .card {
+    padding: 20px;
+  }
+  
+  .social {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+  
+  .name {
+    font-size: 22px;
+  }
+  
+  .back-to-top {
+    bottom: 20px;
+    right: 20px;
+    width: 45px;
+    height: 45px;
+  }
+  
+  .theme-toggle {
+    position: relative;
+    top: 0;
+    right: 0;
+    margin: 10px auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .header {
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .name {
+    white-space: normal;
+  }
+  
+  .social {
+    grid-template-columns: 1fr;
+  }
+  
+  .theme-toggle {
+    position: relative;
+    top: 0;
+    right: 0;
+    margin: 10px auto;
+  }
+  
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 </style>
 </head>
@@ -222,36 +521,105 @@ footer{text-align:center;margin-top:22px;opacity:.8;font-size:13px;color:#fff !i
 <canvas id="particles-js"></canvas>
 
 <div class="container">
-
   <div class="card reveal">
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" id="themeToggle">
+      <i class="fas fa-moon"></i>
+    </button>
+    
     <div class="header">
-      <img src="https://i.ibb.co.com/CsK9t0DJ/retouch-2025122322321363.jpg" alt="Profile" />
+      <!-- Protected Profile Image -->
+      <div class="image-protection">
+        <img src="https://i.ibb.co.com/CsK9t0DJ/retouch-2025122322321363.jpg" alt="Profile" />
+      </div>
       <div>
         <div class="name-badge">
           <div class="name">Wasim Mahmood</div>
           <div class="badge">✔</div>
         </div>
-        <div class="tagline"></div>
-        <div class="location-line"><i class="fa-solid fa-location-dot"></i>Dhaka, Kishanganj, Bhairab Bazar</div>
+        <div class="tagline">Creative Developer & Tech Enthusiast</div>
+        <div class="location-line">
+          <i class="fa-solid fa-location-dot"></i>
+          Dhaka, Kishanganj, Bhairab Bazar
+        </div>
       </div>
     </div>
 
     <!-- Social -->
     <div class="social reveal">
-      <a class="fb" href="https://www.facebook.com/share/1DMBocK6Ff/" target="_blank"><i class="fa-brands fa-facebook"></i>Facebook</a>
-      <a class="ig" href="https://www.instagram.com/zaynmahin_?igsh=MW56OHVsNmo5anlxag==" target="_blank"><i class="fa-brands fa-instagram"></i>Instagram</a>
-      <a class="tt" href="https://www.tiktok.com/@zaynmahin__?_r=1&_t=ZS-92akIXzWl8s" target="_blank"><i class="fa-brands fa-tiktok"></i>TikTok</a>
-      <a class="tg" href="https://t.me/+8801772447277" target="_blank"><i class="fa-brands fa-telegram"></i>Telegram</a>
-      <a class="wa" href="https://wa.me/+8801772447277" target="_blank"><i class="fa-brands fa-whatsapp"></i>WhatsApp</a>
-      <a class="tw" href="https://x.com/zaynmahin?fbclid=..." target="_blank"><i class="fa-brands fa-x-twitter"></i>X (Twitter)</a>
-      <a class="th" href="https://www.threads.com/@zaynmahin_" target="_blank"><i class="fa-brands fa-threads"></i>Threads</a>
+      <a class="fb" href="https://www.facebook.com/share/1DMBocK6Ff/" target="_blank">
+        <i class="fa-brands fa-facebook"></i>Facebook
+      </a>
+      <a class="ig" href="https://www.instagram.com/zaynmahin_?igsh=MW56OHVsNmo5anlxag==" target="_blank">
+        <i class="fa-brands fa-instagram"></i>Instagram
+      </a>
+      <a class="tt" href="https://www.tiktok.com/@zaynmahin__?_r=1&_t=ZS-92akIXzWl8s" target="_blank">
+        <i class="fa-brands fa-tiktok"></i>TikTok
+      </a>
+      <a class="tg" href="https://t.me/+8801772447277" target="_blank">
+        <i class="fa-brands fa-telegram"></i>Telegram
+      </a>
+      <a class="wa" href="https://wa.me/+8801772447277" target="_blank">
+        <i class="fa-brands fa-whatsapp"></i>WhatsApp
+      </a>
+      <a class="tw" href="https://x.com/zaynmahin?fbclid=..." target="_blank">
+        <i class="fa-brands fa-x-twitter"></i>X (Twitter)
+      </a>
+      <a class="th" href="https://www.threads.com/@zaynmahin_" target="_blank">
+        <i class="fa-brands fa-threads"></i>Threads
+      </a>
     </div>
 
     <!-- Contact -->
     <div class="section reveal">
       <strong>Contact</strong>
-      <div class="info-line"><i class="fa-solid fa-phone"></i><a href="tel:01663899614" style="color:inherit;text-decoration:none">01620434794</a></div>
-      <div class="info-line"><i class="fa-solid fa-envelope"></i><span>wasim5882@hotmail.com</span></div>
+      <div class="info-line">
+        <i class="fa-solid fa-phone"></i>
+        <a href="tel:01620434794" style="color:inherit;text-decoration:none">01620434794</a>
+      </div>
+      <div class="info-line">
+        <i class="fa-solid fa-envelope"></i>
+        <span>wasim5882@hotmail.com</span>
+      </div>
+    </div>
+
+    <!-- Skills -->
+    <div class="section reveal">
+      <strong>Technical Skills</strong>
+      <div class="skill">
+        <div class="skill-name">
+          <span>Web Development</span>
+          <span>90%</span>
+        </div>
+        <div class="progress-bar"><div style="width: 90%"></div></div>
+      </div>
+      <div class="skill">
+        <div class="skill-name">
+          <span>UI/UX Design</span>
+          <span>75%</span>
+        </div>
+        <div class="progress-bar"><div style="width: 75%"></div></div>
+      </div>
+      <div class="skill">
+        <div class="skill-name">
+          <span>Communication</span>
+          <span>95%</span>
+        </div>
+        <div class="progress-bar"><div style="width: 95%"></div></div>
+      </div>
+    </div>
+
+    <!-- Additional Skills -->
+    <div class="section reveal">
+      <strong>What I'm Good At</strong>
+      <div class="skills-grid">
+        <div class="skill-item">Communication</div>
+        <div class="skill-item">Social Networking</div>
+        <div class="skill-item">Fast Learning</div>
+        <div class="skill-item">Creative Thinking</div>
+        <div class="skill-item">Problem Solving</div>
+        <div class="skill-item">Team Leadership</div>
+      </div>
     </div>
 
     <!-- About -->
@@ -263,101 +631,220 @@ footer{text-align:center;margin-top:22px;opacity:.8;font-size:13px;color:#fff !i
     <!-- Hobbies -->
     <div class="section reveal">
       <strong>Hobbies / Interests</strong>
-      <p>• 🎵 Listening to Music
-• 💻 Programming & Web/Game Development
-• 🚗 Driving
-• 🔧 Tech & Gadgets
-• 📚 Learning New Skills
-• 🖥️ Learning About Tech & Hardware
-• ⚽ Following Football Highlights & Analysis
-• 🍽️ Trying New Foods
-• 📱 Exploring New Apps & Tools
-• 🎬 Watching Movies & Series</p>
-    </div>
-
-    <!-- Strength -->
-    <div class="section reveal">
-      <strong>What I’m Good At</strong>
-      <p>Communication • Social Networking • Fast Learning • Creative Thinking</p>
+      <p>
+        • 🎵 Listening to Music<br>
+        • 💻 Programming & Web/Game Development<br>
+        • 🚗 Driving<br>
+        • 🔧 Tech & Gadgets<br>
+        • 📚 Learning New Skills<br>
+        • 🖥️ Learning About Tech & Hardware<br>
+        • ⚽ Following Football Highlights & Analysis<br>
+        • 🍽️ Trying New Foods<br>
+        • 📱 Exploring New Apps & Tools<br>
+        • 🎬 Watching Movies & Series
+      </p>
     </div>
 
     <!-- Form -->
     <div class="section reveal">
       <strong>Contact Me</strong>
-      <form>
-        <input placeholder="Your Name" required>
-        <input placeholder="Your Email" type="email" required>
-        <textarea rows="3" placeholder="Message..." required></textarea>
+      <form id="contactForm">
+        <input placeholder="Your Name" id="name" required>
+        <input placeholder="Your Email" type="email" id="email" required>
+        <textarea rows="3" placeholder="Message..." id="message" required></textarea>
         <button type="submit">Send Message</button>
       </form>
+      <p style="text-align: center; margin-top: 10px; font-size: 14px;" id="formMessage"></p>
     </div>
 
     <footer class="reveal">
-      © <span id="year"></span> Wasim Mahmood Mia — All Rights Reserved
+      ©️ <span id="year"></span> Wasim Mahmood Mia — All Rights Reserved
     </footer>
   </div>
-
 </div>
 
+<!-- Back to Top Button -->
+<button class="back-to-top" id="backToTop">
+  <i class="fas fa-arrow-up"></i>
+</button>
+
 <script>
-// year
-document.getElementById("year").textContent = new Date().getFullYear();
+// Set current year
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// Prevent image download
+document.addEventListener('contextmenu', function(e) {
+  if (e.target.tagName === 'IMG') {
+    e.preventDefault();
+    return false;
+  }
+});
+
+// Disable drag for images
+document.addEventListener('dragstart', function(e) {
+  if (e.target.tagName === 'IMG') {
+    e.preventDefault();
+    return false;
+  }
+});
 
 // Scroll animation
-const reveals=document.querySelectorAll('.reveal');
-const io=new IntersectionObserver(e=>{
-  e.forEach(x=>{ if(x.isIntersecting){x.target.classList.add('visible')}});
-},{threshold:.15});
-reveals.forEach(r=>io.observe(r));
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver(e => {
+  e.forEach(x => { 
+    if(x.isIntersecting){
+      x.target.classList.add('visible');
+      // Animate progress bars when visible
+      if(x.target.querySelector('.progress-bar div')) {
+        const progressBars = x.target.querySelectorAll('.progress-bar div');
+        progressBars.forEach(bar => {
+          const width = bar.style.width;
+          bar.style.width = '0%';
+          setTimeout(() => {
+            bar.style.width = width;
+          }, 100);
+        });
+      }
+    }
+  });
+}, {threshold: .15});
 
-// Auto Light/Dark by time
-(function(){
-  const h=new Date().getHours();
-  if(h>=19||h<6){ document.body.classList.remove('light'); }
-  else{ document.body.classList.add('light'); }
-})();
+reveals.forEach(r => io.observe(r));
 
-/* Particle + Snow Animation with bigger flakes & glow */
-const canvas=document.getElementById('particles-js');
-const ctx=canvas.getContext('2d');
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
+// Theme Toggle
+const themeToggle = document.getElementById('themeToggle');
+const themeIcon = themeToggle.querySelector('i');
 
-let particles=[];
-for(let i=0;i<120;i++){
+themeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('dark-mode');
+  if (document.body.classList.contains('dark-mode')) {
+    themeIcon.className = 'fas fa-sun';
+    localStorage.setItem('theme', 'dark');
+  } else {
+    themeIcon.className = 'fas fa-moon';
+    localStorage.setItem('theme', 'light');
+  }
+});
+
+// Check saved theme
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'dark') {
+  document.body.classList.add('dark-mode');
+  themeIcon.className = 'fas fa-sun';
+}
+
+// Back to Top Button
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  if (window.pageYOffset > 300) {
+    backToTop.classList.add('visible');
+  } else {
+    backToTop.classList.remove('visible');
+  }
+});
+
+backToTop.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// Form Submission
+const contactForm = document.getElementById('contactForm');
+const formMessage = document.getElementById('formMessage');
+
+contactForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const message = document.getElementById('message').value;
+  
+  // Show sending message
+  formMessage.textContent = "Sending message...";
+  formMessage.style.color = "#1f9bff";
+  
+  // Simulate sending
+  setTimeout(() => {
+    formMessage.textContent = `Thank you, ${name}! Your message has been sent successfully.`;
+    formMessage.style.color = "#25D366";
+    contactForm.reset();
+    
+    // Clear message after 5 seconds
+    setTimeout(() => {
+      formMessage.textContent = "";
+    }, 5000);
+  }, 1500);
+});
+
+/* Particle + Snow Animation */
+const canvas = document.getElementById('particles-js');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+for(let i = 0; i < 100; i++) {
   particles.push({
-    x:Math.random()*canvas.width,
-    y:Math.random()*canvas.height,
-    r:Math.random()*4+2,  // bigger size
-    dx:(Math.random()-0.5)*0.5,
-    dy:(Math.random()*0.7)+0.3  // random downward speed
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 3 + 2,
+    dx: (Math.random() - 0.5) * 0.5,
+    dy: (Math.random() * 0.7) + 0.3,
+    color: `rgba(255, 255, 255, ${Math.random() * 0.2 + 0.1})`
   });
 }
 
-function animateParticles(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  for(let p of particles){
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  for(let p of particles) {
     ctx.beginPath();
-    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fillStyle='rgba(255,255,255,0.2)';
-    ctx.shadowColor = 'rgba(255,255,255,0.5)';
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = p.color;
+    ctx.shadowColor = 'rgba(255, 255, 255, 0.5)';
     ctx.shadowBlur = 4;
     ctx.fill();
-    p.x+=p.dx;
-    p.y+=p.dy;
-    if(p.x<0)p.x=canvas.width;
-    if(p.x>canvas.width)p.x=0;
-    if(p.y>canvas.height){p.y=0; p.x=Math.random()*canvas.width;}
+    
+    p.x += p.dx;
+    p.y += p.dy;
+    
+    if(p.x < 0) p.x = canvas.width;
+    if(p.x > canvas.width) p.x = 0;
+    if(p.y > canvas.height) {
+      p.y = 0;
+      p.x = Math.random() * canvas.width;
+    }
   }
+  
   requestAnimationFrame(animateParticles);
 }
+
 animateParticles();
 
 // Resize canvas
-window.addEventListener('resize',()=>{
-  canvas.width=window.innerWidth;
-  canvas.height=window.innerHeight;
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 });
+
+// Keyboard shortcuts
+document.addEventListener('keydown', (e) => {
+  // Toggle theme with 't' key
+  if (e.key === 't' || e.key === 'T') {
+    themeToggle.click();
+  }
+});
+
+// Auto theme by time (only if user hasn't set preference)
+(function() {
+  const savedTheme = localStorage.getItem('theme');
+  if (!savedTheme) {
+    const h = new Date().getHours();
+    if (h >= 19 || h < 6) {
+      document.body.classList.add('dark-mode');
+      themeIcon.className = 'fas fa-sun';
+    }
+  }
+})();
 </script>
 
 </body>
