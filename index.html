@@ -231,8 +231,22 @@ body.dark-mode {
 .tt i { color: #000 }
 .tg i { color: #2AABEE }
 .wa i { color: #25D366 }
-.tw i { color: #1DA1F2 }
-.th i { color: #8C44F7 }
+.tw i { color: #ffffff }
+.th i { color: #ff9500 }
+.pi i { color: #E60023 }
+.gi i { color: #000000 }
+.sc i { color: #FFFC00 }
+.lk i { color: #0077B5 }
+.yt i { color: #FF0000 }
+.rd i { color: #FF4500 }
+.dc i { color: #5865F2 }
+.tw i { color: #6441A4 }
+.ve i { color: #1AB7EA }
+.li i { color: #00B900 }
+.we i { color: #07C160 }
+.vi i { color: #7360f2 }
+.sk i { color: #00AFF0 }
+  
 
 /* Sections */
 .section {
@@ -568,6 +582,45 @@ footer {
       <a class="th" href="https://www.threads.com/@zaynmahin_" target="_blank">
         <i class="fa-brands fa-threads"></i>Threads
       </a>
+      <a class="pi" href="YOUR_LINK" target="_blank">
+        <i class="fa-brands fa-pinterest"></i>Pinterest
+      </a>
+      <a class="gi" href="YOUR_LINK" target="_blank">
+        <i class="fa-brands fa-github"></i>GitHub
+      </a>
+      <a class="sc" href="YOUR_LINK" target="_blank">
+        <i class="fa-brands fa fa-snapchat"></i>Snapchat
+      </a>
+      <a class="lk" href="YOUR_LINK" target="_blank">
+        <i class="fa-brands fa-linkedin"></i>LinkedIn
+      </a>
+      <a class="yt" href="YOUR_LINK" target="_blank">
+        <i class="fa-brands fa-youtube"></i>YouTube
+      </a>
+      <a class="rd" href="YOUR_LINK" target="_blank">
+        <i class="fa-brands fa-reddit"></i>Reddit
+      </a>
+      <a class="dc" href="YOUR_LINK" target="_blank">
+        <i class="fa-brands fa-discord"></i>Discord
+      </a>
+      <a class="tw" href="YOUR_LINK" target="_blank">
+        <i class="fa-brands fa-twitch"></i>Twitch
+      </a>
+      <a class="ve" href="YOUR_LINK" target="_blank">
+        <i class="fa-brands fa-vimeo"></i>Vimeo
+      </a>
+      <a class="li" href="YOUR_LINK" target="_blank">
+        <i class="fa-brands fa-line"></i>Line
+      </a>
+      <a class="we" href="YOUR_LINK" target="_blank">
+        <i class="fa-brands fa-weixin"></i>WeChat
+      </a>
+      <a class="vi" href="YOUR_LINK" target="_blank">
+        <i class="fa-brands fa-viber"></i>Viber
+      </a>
+      <a class="sk" href="YOUR_LINK" target="_blank">
+        <i class="fa-brands fa-skype"></i>Skype
+      </a>
     </div>
 
     <!-- Contact -->
@@ -579,7 +632,7 @@ footer {
       </div>
       <div class="info-line">
         <i class="fa-solid fa-envelope"></i>
-        <span>wasim5882@hotmail.com</span>
+        <span>wasimmahmoodmia@hotmail.com</span>
       </div>
     </div>
 
@@ -747,7 +800,7 @@ backToTop.addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
-// Form Submission
+// FORM SUBMISSION WITH MAILTO (100% WORKING)
 const contactForm = document.getElementById('contactForm');
 const formMessage = document.getElementById('formMessage');
 
@@ -758,21 +811,42 @@ contactForm.addEventListener('submit', function(e) {
   const email = document.getElementById('email').value;
   const message = document.getElementById('message').value;
   
+  // Validation
+  if(!name || !email || !message) {
+    formMessage.textContent = "Please fill all fields!";
+    formMessage.style.color = "#ff8a4b";
+    return;
+  }
+  
   // Show sending message
-  formMessage.textContent = "Sending message...";
+  formMessage.textContent = "📧 Opening email app...";
   formMessage.style.color = "#1f9bff";
   
-  // Simulate sending
+  // Create email content
+  const subject = `Message from ${name} - Portfolio Website`;
+  const body = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}\n\n---\nSent from your portfolio website.`;
+  
+  // Encode for URL
+  const encodedSubject = encodeURIComponent(subject);
+  const encodedBody = encodeURIComponent(body);
+  
+  // Open email client with mailto
+  const mailtoLink = `mailto:wasimmahmoodmia@hotmail.com?subject=${encodedSubject}&body=${encodedBody}`;
+  
+  // Try to open email client
   setTimeout(() => {
-    formMessage.textContent = `Thank you, ${name}! Your message has been sent successfully.`;
-    formMessage.style.color = "#25D366";
-    contactForm.reset();
+    window.location.href = mailtoLink;
     
-    // Clear message after 5 seconds
+    // Update message
+    formMessage.textContent = "✅ Email app opened! Please send the message.";
+    formMessage.style.color = "#25D366";
+    
+    // Reset form after 3 seconds
     setTimeout(() => {
+      contactForm.reset();
       formMessage.textContent = "";
-    }, 5000);
-  }, 1500);
+    }, 3000);
+  }, 500);
 });
 
 /* Particle + Snow Animation */
