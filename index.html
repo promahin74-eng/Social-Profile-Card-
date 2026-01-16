@@ -28,12 +28,28 @@ body {
   animation: gradientMove 20s ease infinite;
   position: relative;
   transition: background 0.5s ease;
+  user-select: none; /* Prevent text selection */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 body.dark-mode {
   background: linear-gradient(270deg, #0a0a0a, #1a1a2e, #16213e, #0f3460);
   background-size: 800% 800%;
   animation: gradientMove 20s ease infinite;
+}
+
+/* Anti-copy overlay */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9998;
+  pointer-events: none;
 }
 
 /* Particle & Snow canvas */
@@ -135,6 +151,9 @@ body.dark-mode {
   font-size: 26px;
   font-weight: 800;
   white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
 }
 
 .badge {
@@ -152,6 +171,8 @@ body.dark-mode {
 .tagline {
   opacity: .9;
   margin-top: 4px;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 /* Theme Toggle Button */
@@ -171,7 +192,7 @@ body.dark-mode {
   font-size: 20px;
   transition: all 0.3s ease;
   color: white;
-  z-index: 10;
+  z-index: 10000; /* Higher z-index for security */
 }
 
 .theme-toggle:hover {
@@ -200,6 +221,8 @@ body.dark-mode {
   transition: .3s;
   font-weight: 600;
   position: relative;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .dark-mode .social a {
@@ -256,6 +279,8 @@ body.dark-mode {
   border: 1px solid rgba(255, 255, 255, .2);
   padding: 18px 20px;
   transition: all 0.3s ease;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .dark-mode .section {
@@ -379,6 +404,8 @@ input, textarea {
   background: rgba(0, 0, 0, .2);
   color: #fff !important;
   font-size: 16px;
+  user-select: text; /* Allow text selection in form fields */
+  -webkit-user-select: text;
 }
 
 .dark-mode input,
@@ -396,6 +423,8 @@ button {
   color: #fff !important;
   transition: .3s;
   font-size: 16px;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 button:hover {
@@ -412,6 +441,8 @@ footer {
   color: #fff !important;
   padding-top: 20px;
   border-top: 1px solid rgba(255, 255, 255, .2);
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .dark-mode footer {
@@ -446,7 +477,7 @@ footer {
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s ease;
-  z-index: 100;
+  z-index: 10000; /* Higher z-index for security */
   border: none;
   color: white;
   font-size: 20px;
@@ -465,6 +496,45 @@ footer {
 .back-to-top:hover {
   background: #ff8a4b;
   transform: translateY(-5px);
+}
+
+/* Anti-copy warning message */
+.copy-warning {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 20px 30px;
+  border-radius: 15px;
+  border: 2px solid #ff4b4b;
+  z-index: 9999;
+  display: none;
+  text-align: center;
+  font-weight: bold;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(255, 0, 0, 0.3);
+  max-width: 80%;
+}
+
+/* Screen recording prevention overlay */
+.recording-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255, 0, 0, 0.05),
+    rgba(255, 0, 0, 0.05) 10px,
+    rgba(0, 0, 0, 0.05) 10px,
+    rgba(0, 0, 0, 0.05) 20px
+  );
+  z-index: 9997;
+  display: none;
+  pointer-events: none;
 }
 
 /* Responsive */
@@ -525,11 +595,26 @@ footer {
   .skills-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+  
+  .copy-warning {
+    padding: 15px 20px;
+    font-size: 14px;
+  }
 }
 </style>
 </head>
 
 <body>
+
+<!-- Anti-copy warning -->
+<div class="copy-warning" id="copyWarning">
+  <i class="fas fa-ban" style="font-size: 40px; margin-bottom: 10px; color: #ff4b4b;"></i>
+  <p>Copying content is not allowed!</p>
+  <p style="font-size: 12px; opacity: 0.8;">This content is protected</p>
+</div>
+
+<!-- Screen recording prevention overlay -->
+<div class="recording-overlay" id="recordingOverlay"></div>
 
 <!-- Particles & Snow background -->
 <canvas id="particles-js"></canvas>
@@ -725,21 +810,163 @@ footer {
 // Set current year
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// Prevent image download
+// =================== SECURITY ENHANCEMENTS ===================
+
+// 1. Prevent text selection and copying
+document.addEventListener('selectstart', function(e) {
+  if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+    e.preventDefault();
+    showCopyWarning();
+    return false;
+  }
+});
+
+// 2. Prevent copy
+document.addEventListener('copy', function(e) {
+  e.preventDefault();
+  showCopyWarning();
+  return false;
+});
+
+// 3. Prevent cut
+document.addEventListener('cut', function(e) {
+  e.preventDefault();
+  showCopyWarning();
+  return false;
+});
+
+// 4. Prevent paste
+document.addEventListener('paste', function(e) {
+  if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+    e.preventDefault();
+    showCopyWarning();
+    return false;
+  }
+});
+
+// 5. Prevent right-click menu
+document.addEventListener('contextmenu', function(e) {
+  if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+    e.preventDefault();
+    showCopyWarning();
+    return false;
+  }
+});
+
+// 6. Prevent image download
 document.addEventListener('contextmenu', function(e) {
   if (e.target.tagName === 'IMG') {
+    e.preventDefault();
+    showCopyWarning();
+    return false;
+  }
+});
+
+// 7. Disable drag for images
+document.addEventListener('dragstart', function(e) {
+  if (e.target.tagName === 'IMG' || e.target.tagName === 'A') {
     e.preventDefault();
     return false;
   }
 });
 
-// Disable drag for images
-document.addEventListener('dragstart', function(e) {
-  if (e.target.tagName === 'IMG') {
+// 8. Keyboard shortcuts prevention
+document.addEventListener('keydown', function(e) {
+  // Disable Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+A, Ctrl+S, Ctrl+P
+  if (e.ctrlKey && (e.key === 'c' || e.key === 'C' || 
+                    e.key === 'v' || e.key === 'V' || 
+                    e.key === 'x' || e.key === 'X' || 
+                    e.key === 'a' || e.key === 'A' ||
+                    e.key === 's' || e.key === 'S' ||
+                    e.key === 'p' || e.key === 'P')) {
+    if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+      e.preventDefault();
+      showCopyWarning();
+      return false;
+    }
+  }
+  
+  // Disable Print Screen key
+  if (e.key === 'PrintScreen' || e.code === 'PrintScreen') {
     e.preventDefault();
+    showCopyWarning();
+    activateRecordingOverlay();
     return false;
   }
+  
+  // Disable F12 for DevTools
+  if (e.key === 'F12' || e.code === 'F12') {
+    e.preventDefault();
+    showCopyWarning();
+    return false;
+  }
+  
+  // Theme toggle with 't' key
+  if (e.key === 't' || e.key === 'T') {
+    if (!e.ctrlKey && !e.altKey && !e.shiftKey) {
+      themeToggle.click();
+    }
+  }
 });
+
+// 9. Detect screen recording attempts
+let recordingCheckInterval;
+function startRecordingDetection() {
+  recordingCheckInterval = setInterval(function() {
+    // Check for known screen recording APIs
+    if (window.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
+      // This is a basic check - more advanced detection would be needed
+      activateRecordingOverlay();
+    }
+  }, 5000);
+}
+
+// 10. Show copy warning
+function showCopyWarning() {
+  const warning = document.getElementById('copyWarning');
+  warning.style.display = 'block';
+  
+  // Position warning near cursor
+  setTimeout(() => {
+    warning.style.display = 'none';
+  }, 2000);
+}
+
+// 11. Activate recording overlay
+function activateRecordingOverlay() {
+  const overlay = document.getElementById('recordingOverlay');
+  overlay.style.display = 'block';
+  
+  setTimeout(() => {
+    overlay.style.display = 'none';
+  }, 3000);
+}
+
+// 12. Prevent iframe embedding
+if (window.location !== window.parent.location) {
+  window.top.location = window.location;
+}
+
+// 13. Disable text selection via CSS
+document.body.style.userSelect = 'none';
+document.body.style.webkitUserSelect = 'none';
+document.body.style.mozUserSelect = 'none';
+document.body.style.msUserSelect = 'none';
+
+// 14. Blur content when window loses focus
+let isWindowActive = true;
+window.addEventListener('blur', function() {
+  isWindowActive = false;
+  document.body.style.filter = 'blur(3px)';
+  document.body.style.transition = 'filter 0.3s ease';
+});
+
+window.addEventListener('focus', function() {
+  isWindowActive = true;
+  document.body.style.filter = 'none';
+});
+
+// =================== EXISTING FUNCTIONALITY ===================
 
 // Scroll animation
 const reveals = document.querySelectorAll('.reveal');
@@ -900,14 +1127,6 @@ window.addEventListener('resize', () => {
   canvas.height = window.innerHeight;
 });
 
-// Keyboard shortcuts
-document.addEventListener('keydown', (e) => {
-  // Toggle theme with 't' key
-  if (e.key === 't' || e.key === 'T') {
-    themeToggle.click();
-  }
-});
-
 // Auto theme by time (only if user hasn't set preference)
 (function() {
   const savedTheme = localStorage.getItem('theme');
@@ -919,6 +1138,14 @@ document.addEventListener('keydown', (e) => {
     }
   }
 })();
+
+// Start recording detection
+startRecordingDetection();
+
+// Console warning
+console.log('%c⚠️ WARNING ⚠️', 'color: red; font-size: 30px; font-weight: bold;');
+console.log('%cThis website is protected against unauthorized copying and recording.', 'color: orange; font-size: 16px;');
+console.log('%cAny attempt to copy content may trigger security measures.', 'color: yellow; font-size: 14px;');
 </script>
 
 </body>
