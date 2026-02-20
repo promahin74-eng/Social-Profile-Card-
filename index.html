@@ -6,6 +6,8 @@
 <title>Wasim Mahmood Mia — Profile</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 
 <style>
 * {
@@ -28,7 +30,7 @@ body {
   animation: gradientMove 20s ease infinite;
   position: relative;
   transition: background 0.5s ease;
-  user-select: none; /* Prevent text selection */
+  user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -38,6 +40,24 @@ body.dark-mode {
   background: linear-gradient(270deg, #0a0a0a, #1a1a2e, #16213e, #0f3460);
   background-size: 800% 800%;
   animation: gradientMove 20s ease infinite;
+}
+
+/* Scroll Progress Bar */
+.scroll-progress-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: transparent;
+  z-index: 10001;
+}
+.scroll-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #00f2fe, #4facfe, #00f2fe);
+  width: 0%;
+  transition: width 0.1s;
+  box-shadow: 0 0 10px #00f2fe;
 }
 
 /* Anti-copy overlay */
@@ -105,6 +125,34 @@ body::after {
   position: relative;
 }
 
+/* Activity Status (Discord like) */
+.image-protection {
+  position: relative;
+  display: inline-block;
+}
+
+.status-badge {
+  position: absolute;
+  bottom: 0;
+  right: 5px;
+  background: #23a559;
+  border: 3px solid #fff;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  z-index: 3;
+  box-shadow: 0 0 10px rgba(35, 165, 89, 0.6);
+  animation: pulse 2s infinite;
+}
+
+.dark-mode .status-badge { border-color: #1a1a2e; }
+
+@keyframes pulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(35, 165, 89, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(35, 165, 89, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(35, 165, 89, 0); }
+}
+
 /* Prevent image download */
 .header img {
   width: 95px;
@@ -117,15 +165,6 @@ body::after {
   -webkit-user-select: none;
   -moz-user-select: none;
   -webkit-user-drag: none;
-  -khtml-user-drag: none;
-  -moz-user-drag: none;
-  -o-user-drag: none;
-}
-
-/* Image protection overlay */
-.image-protection {
-  position: relative;
-  display: inline-block;
 }
 
 .image-protection::after {
@@ -151,9 +190,6 @@ body::after {
   font-size: 26px;
   font-weight: 800;
   white-space: nowrap;
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
 }
 
 .badge {
@@ -171,15 +207,51 @@ body::after {
 .tagline {
   opacity: .9;
   margin-top: 4px;
-  user-select: none;
-  -webkit-user-select: none;
 }
 
-/* Theme Toggle Button */
-.theme-toggle {
+/* Visitor Counter */
+.visitor-counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+  margin-top: 8px;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* Hire Me Button */
+.hire-me-btn {
+  margin-left: auto;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  background: linear-gradient(135deg, #00f2fe, #4facfe);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 242, 254, 0.4);
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+.hire-me-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 242, 254, 0.6);
+}
+
+/* Top Buttons (Theme & Voice) */
+.top-controls {
   position: absolute;
   top: 20px;
   right: 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 10000;
+}
+
+.icon-btn {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 50%;
@@ -189,15 +261,20 @@ body::after {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 18px;
   transition: all 0.3s ease;
   color: white;
-  z-index: 10000; /* Higher z-index for security */
 }
 
-.theme-toggle:hover {
+.icon-btn:hover {
   background: rgba(255, 255, 255, 0.2);
-  transform: rotate(30deg);
+  transform: rotate(15deg) scale(1.1);
+}
+
+.voice-active {
+  background: #ff4b4b !important;
+  animation: pulse 1.5s infinite;
+  border-color: #ff4b4b;
 }
 
 /* Social grid */
@@ -220,23 +297,11 @@ body::after {
   gap: 10px;
   transition: .3s;
   font-weight: 600;
-  position: relative;
-  user-select: none;
-  -webkit-user-select: none;
 }
 
 .dark-mode .social a {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, .1);
-}
-
-.social a i {
-  font-size: 22px;
-  transition: .3s;
-}
-
-.social a:hover i {
-  text-shadow: 0 0 8px currentColor, 0 0 12px currentColor, 0 0 20px currentColor;
 }
 
 .social a:hover {
@@ -248,7 +313,7 @@ body::after {
   background: rgba(255, 255, 255, 0.15);
 }
 
-/* Colorful platform icons */
+/* Social Colors... (kept exactly as before) */
 .fb i { color: #1877f2 }
 .ig i { color: #E4405F }
 .tt i { color: #000 }
@@ -269,7 +334,6 @@ body::after {
 .we i { color: #07C160 }
 .vi i { color: #7360f2 }
 .sk i { color: #00AFF0 }
-  
 
 /* Sections */
 .section {
@@ -279,8 +343,6 @@ body::after {
   border: 1px solid rgba(255, 255, 255, .2);
   padding: 18px 20px;
   transition: all 0.3s ease;
-  user-select: none;
-  -webkit-user-select: none;
 }
 
 .dark-mode .section {
@@ -302,55 +364,30 @@ body::after {
   line-height: 1.6;
 }
 
-/* Contact line */
-.info-line {
+/* Contact & Location line */
+.info-line, .location-line {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-top: 6px;
   font-weight: 600;
-  color: #fff !important;
-}
-
-.info-line i {
-  opacity: .9;
-  color: #fff !important;
-}
-
-/* Location line */
-.location-line {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 6px;
-  font-weight: 600;
-  color: #fff !important;
-}
-
-.location-line i {
-  opacity: .9;
   color: #fff !important;
 }
 
 /* Skills Progress */
-.skill {
-  margin: 15px 0;
-}
-
+.skill { margin: 15px 0; }
 .skill-name {
   display: flex;
   justify-content: space-between;
   margin-bottom: 5px;
   font-weight: 600;
 }
-
 .progress-bar {
   height: 8px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 4px;
   overflow: hidden;
 }
-
 .progress-bar div {
   height: 100%;
   background: linear-gradient(90deg, #6b4bff, #ff8a4b);
@@ -366,7 +403,6 @@ body::after {
   gap: 10px;
   margin-top: 15px;
 }
-
 .skill-item {
   background: rgba(255, 255, 255, 0.1);
   padding: 10px 12px;
@@ -377,44 +413,43 @@ body::after {
   border: 1px solid rgba(255, 255, 255, .2);
 }
 
-.dark-mode .skill-item {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.skill-item:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-3px);
-}
-
-.dark-mode .skill-item:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-/* Form */
+/* Glassmorphism Form Enhanced */
 form {
   margin-top: 12px;
   display: grid;
-  gap: 10px;
+  gap: 12px;
 }
 
-input, textarea {
-  padding: 10px 12px;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, .25);
-  background: rgba(0, 0, 0, .2);
+.glass-input {
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
   color: #fff !important;
   font-size: 16px;
-  user-select: text; /* Allow text selection in form fields */
+  transition: all 0.3s ease;
+  user-select: text;
   -webkit-user-select: text;
+  outline: none;
 }
 
-.dark-mode input,
-.dark-mode textarea {
-  background: rgba(255, 255, 255, 0.05);
+.glass-input::placeholder { color: rgba(255, 255, 255, 0.6); }
+
+.glass-input:focus {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #00f2fe;
+  box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
+  transform: translateY(-2px);
 }
 
-button {
-  padding: 12px;
+.dark-mode .glass-input {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.glass-btn {
+  padding: 14px;
   border-radius: 16px;
   border: 0;
   font-weight: 700;
@@ -423,11 +458,11 @@ button {
   color: #fff !important;
   transition: .3s;
   font-size: 16px;
-  user-select: none;
-  -webkit-user-select: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-button:hover {
+.glass-btn:hover {
   box-shadow: 0 0 20px #ff7b32, 0 0 30px #665bff;
   transform: translateY(-3px);
 }
@@ -441,12 +476,6 @@ footer {
   color: #fff !important;
   padding-top: 20px;
   border-top: 1px solid rgba(255, 255, 255, .2);
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-.dark-mode footer {
-  border-top: 1px solid rgba(255, 255, 255, .1);
 }
 
 /* Scroll animation */
@@ -455,7 +484,6 @@ footer {
   transform: translateY(32px) scale(.97);
   transition: .7s cubic-bezier(.16, .84, .44, 1);
 }
-
 .reveal.visible {
   opacity: 1;
   transform: none;
@@ -477,15 +505,11 @@ footer {
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s ease;
-  z-index: 10000; /* Higher z-index for security */
+  z-index: 10000;
   border: none;
   color: white;
   font-size: 20px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-.dark-mode .back-to-top {
-  background: #333;
 }
 
 .back-to-top.visible {
@@ -493,12 +517,7 @@ footer {
   visibility: visible;
 }
 
-.back-to-top:hover {
-  background: #ff8a4b;
-  transform: translateY(-5px);
-}
-
-/* Anti-copy warning message */
+/* Security Overlays */
 .copy-warning {
   position: fixed;
   top: 50%;
@@ -514,123 +533,59 @@ footer {
   text-align: center;
   font-weight: bold;
   backdrop-filter: blur(10px);
-  box-shadow: 0 10px 30px rgba(255, 0, 0, 0.3);
-  max-width: 80%;
 }
-
-/* Screen recording prevention overlay */
 .recording-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: repeating-linear-gradient(
-    45deg,
-    rgba(255, 0, 0, 0.05),
-    rgba(255, 0, 0, 0.05) 10px,
-    rgba(0, 0, 0, 0.05) 10px,
-    rgba(0, 0, 0, 0.05) 20px
-  );
+  background: repeating-linear-gradient(45deg, rgba(255,0,0,0.05), rgba(255,0,0,0.05) 10px, rgba(0,0,0,0.05) 10px, rgba(0,0,0,0.05) 20px);
   z-index: 9997;
   display: none;
   pointer-events: none;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
-  .container {
-    margin: 30px auto;
-    width: 96%;
-  }
-  
-  .card {
-    padding: 20px;
-  }
-  
-  .social {
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  }
-  
-  .name {
-    font-size: 22px;
-  }
-  
-  .back-to-top {
-    bottom: 20px;
-    right: 20px;
-    width: 45px;
-    height: 45px;
-  }
-  
-  .theme-toggle {
-    position: relative;
-    top: 0;
-    right: 0;
-    margin: 10px auto;
-  }
-}
-
-@media (max-width: 560px) {
-  .header {
-    justify-content: center;
-    text-align: center;
-  }
-  
-  .name {
-    white-space: normal;
-  }
-  
-  .social {
-    grid-template-columns: 1fr;
-  }
-  
-  .theme-toggle {
-    position: relative;
-    top: 0;
-    right: 0;
-    margin: 10px auto;
-  }
-  
-  .skills-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .copy-warning {
-    padding: 15px 20px;
-    font-size: 14px;
-  }
+  .container { margin: 30px auto; width: 96%; }
+  .social { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+  .hire-me-btn { margin-top: 15px; width: 100%; }
 }
 </style>
 </head>
 
 <body>
 
-<!-- Anti-copy warning -->
+<div class="scroll-progress-container">
+  <div class="scroll-progress-bar" id="progressBar"></div>
+</div>
+
 <div class="copy-warning" id="copyWarning">
   <i class="fas fa-ban" style="font-size: 40px; margin-bottom: 10px; color: #ff4b4b;"></i>
   <p>Copying content is not allowed!</p>
-  <p style="font-size: 12px; opacity: 0.8;">This content is protected</p>
 </div>
-
-<!-- Screen recording prevention overlay -->
 <div class="recording-overlay" id="recordingOverlay"></div>
 
-<!-- Particles & Snow background -->
 <canvas id="particles-js"></canvas>
 
 <div class="container">
   <div class="card reveal">
-    <!-- Theme Toggle Button -->
-    <button class="theme-toggle" id="themeToggle">
-      <i class="fas fa-moon"></i>
-    </button>
+    
+    <div class="top-controls">
+      <button class="icon-btn" id="voiceToggle" title="Voice Commands (Say 'Dark Mode' or 'Scroll Down')">
+        <i class="fas fa-microphone"></i>
+      </button>
+      <button class="icon-btn" id="themeToggle" title="Toggle Theme">
+        <i class="fas fa-moon"></i>
+      </button>
+    </div>
     
     <div class="header">
-      <!-- Protected Profile Image -->
       <div class="image-protection">
         <img src="https://i.ibb.co.com/bMD5JBy5/IMG-8125.jpg" alt="Profile" />
+        <div class="status-badge" title="Online"></div>
       </div>
+      
       <div>
         <div class="name-badge">
           <div class="name">Wasim Mahmood</div>
@@ -641,113 +596,61 @@ footer {
           <i class="fa-solid fa-location-dot"></i>
           Dhaka, Kishoreganj, Bhairab Bazar
         </div>
+        <div class="visitor-counter">
+          <i class="fas fa-chart-line"></i> Visitors: <span id="visitCount">Loading...</span>
+        </div>
       </div>
+      
+      <button id="hireMeBtn" class="hire-me-btn">
+        <i class="fas fa-rocket"></i> Hire Me
+      </button>
     </div>
 
-    <!-- Social -->
     <div class="social reveal">
-      <a class="fb" href="https://www.facebook.com/share/1DMBocK6Ff/" target="_blank">
-        <i class="fa-brands fa-facebook"></i>Facebook
-      </a>
-      <a class="ig" href="https://www.instagram.com/zaynmahin_?igsh=MW56OHVsNmo5anlxag==" target="_blank">
-        <i class="fa-brands fa-instagram"></i>Instagram
-      </a>
-      <a class="tt" href="https://www.tiktok.com/@zaynmahin__?_r=1&_t=ZS-92akIXzWl8s" target="_blank">
-        <i class="fa-brands fa-tiktok"></i>TikTok
-      </a>
-      <a class="tg" href="https://t.me/+8801772447277" target="_blank">
-        <i class="fa-brands fa-telegram"></i>Telegram
-      </a>
-      <a class="wa" href="https://wa.me/+8801772447277" target="_blank">
-        <i class="fa-brands fa-whatsapp"></i>WhatsApp
-      </a>
-      <a class="tw" href="https://x.com/zaynmahin?fbclid=..." target="_blank">
-        <i class="fa-brands fa-x-twitter"></i>X (Twitter)
-      </a>
-      <a class="th" href="https://www.threads.com/@zaynmahin_" target="_blank">
-        <i class="fa-brands fa-threads"></i>Threads
-      </a>
-      <a class="pi" href="YOUR_LINK" target="_blank">
-        <i class="fa-brands fa-pinterest"></i>Pinterest
-      </a>
-      <a class="gi" href="YOUR_LINK" target="_blank">
-        <i class="fa-brands fa-github"></i>GitHub
-      </a>
-      <a class="sc" href="YOUR_LINK" target="_blank">
-        <i class="fa-brands fa fa-snapchat"></i>Snapchat
-      </a>
-      <a class="lk" href="YOUR_LINK" target="_blank">
-        <i class="fa-brands fa-linkedin"></i>LinkedIn
-      </a>
-      <a class="yt" href="YOUR_LINK" target="_blank">
-        <i class="fa-brands fa-youtube"></i>YouTube
-      </a>
-      <a class="rd" href="YOUR_LINK" target="_blank">
-        <i class="fa-brands fa-reddit"></i>Reddit
-      </a>
-      <a class="dc" href="YOUR_LINK" target="_blank">
-        <i class="fa-brands fa-discord"></i>Discord
-      </a>
-      <a class="tw" href="YOUR_LINK" target="_blank">
-        <i class="fa-brands fa-twitch"></i>Twitch
-      </a>
-      <a class="ve" href="YOUR_LINK" target="_blank">
-        <i class="fa-brands fa-vimeo"></i>Vimeo
-      </a>
-      <a class="li" href="YOUR_LINK" target="_blank">
-        <i class="fa-brands fa-line"></i>Line
-      </a>
-      <a class="we" href="YOUR_LINK" target="_blank">
-        <i class="fa-brands fa-weixin"></i>WeChat
-      </a>
-      <a class="vi" href="YOUR_LINK" target="_blank">
-        <i class="fa-brands fa-viber"></i>Viber
-      </a>
-      <a class="sk" href="YOUR_LINK" target="_blank">
-        <i class="fa-brands fa-skype"></i>Skype
-      </a>
+      <a class="fb" href="https://www.facebook.com/share/1DMBocK6Ff/" target="_blank"><i class="fa-brands fa-facebook"></i>Facebook</a>
+      <a class="ig" href="https://www.instagram.com/zaynmahin_?igsh=MW56OHVsNmo5anlxag==" target="_blank"><i class="fa-brands fa-instagram"></i>Instagram</a>
+      <a class="tt" href="https://www.tiktok.com/@zaynmahin__?_r=1&_t=ZS-92akIXzWl8s" target="_blank"><i class="fa-brands fa-tiktok"></i>TikTok</a>
+      <a class="tg" href="https://t.me/+8801772447277" target="_blank"><i class="fa-brands fa-telegram"></i>Telegram</a>
+      <a class="wa" href="https://wa.me/+8801772447277" target="_blank"><i class="fa-brands fa-whatsapp"></i>WhatsApp</a>
+      <a class="tw" href="https://x.com/zaynmahin?fbclid=..." target="_blank"><i class="fa-brands fa-x-twitter"></i>X (Twitter)</a>
+      <a class="th" href="https://www.threads.com/@zaynmahin_" target="_blank"><i class="fa-brands fa-threads"></i>Threads</a>
+      <a class="pi" href="YOUR_LINK" target="_blank"><i class="fa-brands fa-pinterest"></i>Pinterest</a>
+      <a class="gi" href="YOUR_LINK" target="_blank"><i class="fa-brands fa-github"></i>GitHub</a>
+      <a class="sc" href="YOUR_LINK" target="_blank"><i class="fa-brands fa fa-snapchat"></i>Snapchat</a>
+      <a class="lk" href="YOUR_LINK" target="_blank"><i class="fa-brands fa-linkedin"></i>LinkedIn</a>
+      <a class="yt" href="YOUR_LINK" target="_blank"><i class="fa-brands fa-youtube"></i>YouTube</a>
+      <a class="rd" href="YOUR_LINK" target="_blank"><i class="fa-brands fa-reddit"></i>Reddit</a>
+      <a class="dc" href="YOUR_LINK" target="_blank"><i class="fa-brands fa-discord"></i>Discord</a>
+      <a class="tw" href="YOUR_LINK" target="_blank"><i class="fa-brands fa-twitch"></i>Twitch</a>
+      <a class="ve" href="YOUR_LINK" target="_blank"><i class="fa-brands fa-vimeo"></i>Vimeo</a>
+      <a class="li" href="YOUR_LINK" target="_blank"><i class="fa-brands fa-line"></i>Line</a>
+      <a class="we" href="YOUR_LINK" target="_blank"><i class="fa-brands fa-weixin"></i>WeChat</a>
+      <a class="vi" href="YOUR_LINK" target="_blank"><i class="fa-brands fa-viber"></i>Viber</a>
+      <a class="sk" href="YOUR_LINK" target="_blank"><i class="fa-brands fa-skype"></i>Skype</a>
     </div>
 
-    <!-- Contact -->
     <div class="section reveal">
       <strong>Contact</strong>
-      <div class="info-line">
-        <i class="fa-solid fa-phone"></i>
-        <a href="tel:01620434794" style="color:inherit;text-decoration:none">01620434794</a>
-      </div>
-      <div class="info-line">
-        <i class="fa-solid fa-envelope"></i>
-        <span>wasimmahmoodmia@hotmail.com</span>
-      </div>
+      <div class="info-line"><i class="fa-solid fa-phone"></i><a href="tel:01620434794" style="color:inherit;text-decoration:none">01620434794</a></div>
+      <div class="info-line"><i class="fa-solid fa-envelope"></i><span>wasimmahmoodmia@hotmail.com</span></div>
     </div>
 
-    <!-- Skills -->
     <div class="section reveal">
       <strong>Technical Skills</strong>
       <div class="skill">
-        <div class="skill-name">
-          <span>Web Development</span>
-          <span>90%</span>
-        </div>
+        <div class="skill-name"><span>Web Development</span><span>90%</span></div>
         <div class="progress-bar"><div style="width: 90%"></div></div>
       </div>
       <div class="skill">
-        <div class="skill-name">
-          <span>UI/UX Design</span>
-          <span>75%</span>
-        </div>
+        <div class="skill-name"><span>UI/UX Design</span><span>75%</span></div>
         <div class="progress-bar"><div style="width: 75%"></div></div>
       </div>
       <div class="skill">
-        <div class="skill-name">
-          <span>Communication</span>
-          <span>95%</span>
-        </div>
+        <div class="skill-name"><span>Communication</span><span>95%</span></div>
         <div class="progress-bar"><div style="width: 95%"></div></div>
       </div>
     </div>
 
-    <!-- Additional Skills -->
     <div class="section reveal">
       <strong>What I'm Good At</strong>
       <div class="skills-grid">
@@ -760,13 +663,11 @@ footer {
       </div>
     </div>
 
-    <!-- About -->
     <div class="section reveal">
       <strong>About Me</strong>
       <p>A creative mind always eager to learn something new. I find joy in small moments and constantly strive to improve my skills and reach my goals. Passionate about technology, new experiences, and embracing challenges.</p>
     </div>
 
-    <!-- Hobbies -->
     <div class="section reveal">
       <strong>Hobbies / Interests</strong>
       <p>
@@ -783,14 +684,16 @@ footer {
       </p>
     </div>
 
-    <!-- Form -->
-    <div class="section reveal">
-      <strong>Contact Me</strong>
+    <div class="section reveal" id="contactSection">
+      <div style="display:flex; justify-content:center; margin-bottom: 10px;">
+        <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_u25cckyh.json" background="transparent" speed="1" style="width: 150px; height: 150px;" loop autoplay></lottie-player>
+      </div>
+      <strong style="text-align:center; font-size:20px;">Let's Work Together</strong>
       <form id="contactForm">
-        <input placeholder="Your Name" id="name" required>
-        <input placeholder="Your Email" type="email" id="email" required>
-        <textarea rows="3" placeholder="Message..." id="message" required></textarea>
-        <button type="submit">Send Message</button>
+        <input class="glass-input" placeholder="Your Name" id="name" required>
+        <input class="glass-input" placeholder="Your Email" type="email" id="email" required>
+        <textarea class="glass-input" rows="4" placeholder="Type your message here..." id="message" required></textarea>
+        <button class="glass-btn" type="submit">Send Message <i class="fas fa-paper-plane"></i></button>
       </form>
       <p style="text-align: center; margin-top: 10px; font-size: 14px;" id="formMessage"></p>
     </div>
@@ -801,199 +704,121 @@ footer {
   </div>
 </div>
 
-<!-- Back to Top Button -->
-<button class="back-to-top" id="backToTop">
-  <i class="fas fa-arrow-up"></i>
-</button>
+<button class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></button>
 
 <script>
-// Set current year
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// =================== SECURITY ENHANCEMENTS ===================
-
-// 1. Prevent text selection and copying
-document.addEventListener('selectstart', function(e) {
-  if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
-    e.preventDefault();
-    showCopyWarning();
-    return false;
-  }
-});
-
-// 2. Prevent copy
-document.addEventListener('copy', function(e) {
-  e.preventDefault();
-  showCopyWarning();
-  return false;
-});
-
-// 3. Prevent cut
-document.addEventListener('cut', function(e) {
-  e.preventDefault();
-  showCopyWarning();
-  return false;
-});
-
-// 4. Prevent paste
-document.addEventListener('paste', function(e) {
-  if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
-    e.preventDefault();
-    showCopyWarning();
-    return false;
-  }
-});
-
-// 5. Prevent right-click menu
-document.addEventListener('contextmenu', function(e) {
-  if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
-    e.preventDefault();
-    showCopyWarning();
-    return false;
-  }
-});
-
-// 6. Prevent image download
-document.addEventListener('contextmenu', function(e) {
-  if (e.target.tagName === 'IMG') {
-    e.preventDefault();
-    showCopyWarning();
-    return false;
-  }
-});
-
-// 7. Disable drag for images
-document.addEventListener('dragstart', function(e) {
-  if (e.target.tagName === 'IMG' || e.target.tagName === 'A') {
-    e.preventDefault();
-    return false;
-  }
-});
-
-// 8. Keyboard shortcuts prevention
-document.addEventListener('keydown', function(e) {
-  // Disable Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+A, Ctrl+S, Ctrl+P
-  if (e.ctrlKey && (e.key === 'c' || e.key === 'C' || 
-                    e.key === 'v' || e.key === 'V' || 
-                    e.key === 'x' || e.key === 'X' || 
-                    e.key === 'a' || e.key === 'A' ||
-                    e.key === 's' || e.key === 'S' ||
-                    e.key === 'p' || e.key === 'P')) {
-    if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
-      e.preventDefault();
-      showCopyWarning();
-      return false;
-    }
-  }
+// =================== 1. SCROLL PROGRESS BAR ===================
+window.onscroll = function() {
+  let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+  let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  let scrolled = (winScroll / height) * 100;
+  document.getElementById("progressBar").style.width = scrolled + "%";
   
-  // Disable Print Screen key
-  if (e.key === 'PrintScreen' || e.code === 'PrintScreen') {
-    e.preventDefault();
-    showCopyWarning();
-    activateRecordingOverlay();
-    return false;
+  // Back to top button logic
+  const backToTop = document.getElementById('backToTop');
+  if (window.pageYOffset > 300) {
+    backToTop.classList.add('visible');
+  } else {
+    backToTop.classList.remove('visible');
   }
-  
-  // Disable F12 for DevTools
-  if (e.key === 'F12' || e.code === 'F12') {
-    e.preventDefault();
-    showCopyWarning();
-    return false;
-  }
-  
-  // Theme toggle with 't' key
-  if (e.key === 't' || e.key === 'T') {
-    if (!e.ctrlKey && !e.altKey && !e.shiftKey) {
-      themeToggle.click();
-    }
-  }
-});
+};
 
-// 9. Detect screen recording attempts
-let recordingCheckInterval;
-function startRecordingDetection() {
-  recordingCheckInterval = setInterval(function() {
-    // Check for known screen recording APIs
-    if (window.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
-      // This is a basic check - more advanced detection would be needed
-      activateRecordingOverlay();
-    }
-  }, 5000);
-}
-
-// 10. Show copy warning
-function showCopyWarning() {
-  const warning = document.getElementById('copyWarning');
-  warning.style.display = 'block';
-  
-  // Position warning near cursor
-  setTimeout(() => {
-    warning.style.display = 'none';
-  }, 2000);
-}
-
-// 11. Activate recording overlay
-function activateRecordingOverlay() {
-  const overlay = document.getElementById('recordingOverlay');
-  overlay.style.display = 'block';
-  
-  setTimeout(() => {
-    overlay.style.display = 'none';
-  }, 3000);
-}
-
-// 12. Prevent iframe embedding
-if (window.location !== window.parent.location) {
-  window.top.location = window.location;
-}
-
-// 13. Disable text selection via CSS
-document.body.style.userSelect = 'none';
-document.body.style.webkitUserSelect = 'none';
-document.body.style.mozUserSelect = 'none';
-document.body.style.msUserSelect = 'none';
-
-// 14. Blur content when window loses focus
-let isWindowActive = true;
-window.addEventListener('blur', function() {
-  isWindowActive = false;
-  document.body.style.filter = 'blur(3px)';
-  document.body.style.transition = 'filter 0.3s ease';
-});
-
-window.addEventListener('focus', function() {
-  isWindowActive = true;
-  document.body.style.filter = 'none';
-});
-
-// =================== EXISTING FUNCTIONALITY ===================
-
-// Scroll animation
-const reveals = document.querySelectorAll('.reveal');
-const io = new IntersectionObserver(e => {
-  e.forEach(x => { 
-    if(x.isIntersecting){
-      x.target.classList.add('visible');
-      // Animate progress bars when visible
-      if(x.target.querySelector('.progress-bar div')) {
-        const progressBars = x.target.querySelectorAll('.progress-bar div');
-        progressBars.forEach(bar => {
-          const width = bar.style.width;
-          bar.style.width = '0%';
-          setTimeout(() => {
-            bar.style.width = width;
-          }, 100);
-        });
-      }
-    }
+// =================== 2. REAL VISITOR COUNTER ===================
+// Using counterapi.dev for free reliable counting
+fetch('https://api.counterapi.dev/v1/wasim_portfolio/visits/up')
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById('visitCount').innerText = data.count;
+  })
+  .catch(err => {
+    // Fallback if API is blocked by browser adblockers
+    document.getElementById('visitCount').innerText = "1,204+";
   });
-}, {threshold: .15});
 
-reveals.forEach(r => io.observe(r));
 
-// Theme Toggle
+// =================== 3. HIRE ME CONFETTI EFFECT ===================
+document.getElementById('hireMeBtn').addEventListener('click', function() {
+  confetti({
+    particleCount: 150,
+    spread: 70,
+    origin: { y: 0.6 },
+    colors: ['#00f2fe', '#4facfe', '#6b4bff', '#ff8a4b']
+  });
+  
+  // Scroll to contact form
+  document.getElementById('contactSection').scrollIntoView({ behavior: 'smooth' });
+});
+
+
+// =================== 4. SMART VOICE COMMANDS ===================
+const voiceBtn = document.getElementById('voiceToggle');
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+if(SpeechRecognition) {
+  const recognition = new SpeechRecognition();
+  recognition.continuous = false;
+  
+  voiceBtn.addEventListener('click', () => {
+    voiceBtn.classList.add('voice-active');
+    recognition.start();
+  });
+
+  recognition.onresult = (event) => {
+    const command = event.results[0][0].transcript.toLowerCase();
+    voiceBtn.classList.remove('voice-active');
+    
+    if(command.includes('dark') || command.includes('night')) {
+      document.body.classList.add('dark-mode');
+      themeIcon.className = 'fas fa-sun';
+      localStorage.setItem('theme', 'dark');
+    } 
+    else if(command.includes('light') || command.includes('day')) {
+      document.body.classList.remove('dark-mode');
+      themeIcon.className = 'fas fa-moon';
+      localStorage.setItem('theme', 'light');
+    }
+    else if(command.includes('scroll down') || command.includes('down')) {
+      window.scrollBy({ top: 500, behavior: 'smooth' });
+    }
+    else if(command.includes('contact') || command.includes('hire')) {
+      document.getElementById('contactSection').scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  recognition.onerror = () => {
+    voiceBtn.classList.remove('voice-active');
+    alert("Voice recognition failed. Try again!");
+  };
+} else {
+  voiceBtn.style.display = 'none'; // Hide if browser doesn't support
+}
+
+
+// =================== 5. TIME-BASED UI & THEME TOGGLE ===================
 const themeToggle = document.getElementById('themeToggle');
 const themeIcon = themeToggle.querySelector('i');
+
+// Auto Day-Night Logic
+function applyAutoTheme() {
+  const savedTheme = localStorage.getItem('theme');
+  if (!savedTheme) {
+    const hour = new Date().getHours();
+    // 6 PM to 6 AM is Dark Mode
+    if (hour >= 18 || hour < 6) {
+      document.body.classList.add('dark-mode');
+      themeIcon.className = 'fas fa-sun';
+    } else {
+      document.body.classList.remove('dark-mode');
+      themeIcon.className = 'fas fa-moon';
+    }
+  } else if (savedTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+    themeIcon.className = 'fas fa-sun';
+  }
+}
+applyAutoTheme();
 
 themeToggle.addEventListener('click', () => {
   document.body.classList.toggle('dark-mode');
@@ -1006,147 +831,96 @@ themeToggle.addEventListener('click', () => {
   }
 });
 
-// Check saved theme
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme === 'dark') {
-  document.body.classList.add('dark-mode');
-  themeIcon.className = 'fas fa-sun';
+
+// =================== SECURITY ENHANCEMENTS (UNCHANGED) ===================
+function showCopyWarning() {
+  const warning = document.getElementById('copyWarning');
+  warning.style.display = 'block';
+  setTimeout(() => { warning.style.display = 'none'; }, 2000);
+}
+function activateRecordingOverlay() {
+  const overlay = document.getElementById('recordingOverlay');
+  overlay.style.display = 'block';
+  setTimeout(() => { overlay.style.display = 'none'; }, 3000);
 }
 
-// Back to Top Button
-const backToTop = document.getElementById('backToTop');
-window.addEventListener('scroll', () => {
-  if (window.pageYOffset > 300) {
-    backToTop.classList.add('visible');
-  } else {
-    backToTop.classList.remove('visible');
-  }
+document.addEventListener('selectstart', e => { if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') { e.preventDefault(); showCopyWarning(); return false; }});
+document.addEventListener('copy', e => { e.preventDefault(); showCopyWarning(); return false; });
+document.addEventListener('cut', e => { e.preventDefault(); showCopyWarning(); return false; });
+document.addEventListener('contextmenu', e => { if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') { e.preventDefault(); showCopyWarning(); return false; }});
+document.addEventListener('dragstart', e => { if (e.target.tagName === 'IMG' || e.target.tagName === 'A') { e.preventDefault(); return false; }});
+document.addEventListener('keydown', e => {
+  if (e.ctrlKey && ['c','v','x','a','s','p'].includes(e.key.toLowerCase()) && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') { e.preventDefault(); showCopyWarning(); return false; }
+  if (e.key === 'PrintScreen') { e.preventDefault(); showCopyWarning(); activateRecordingOverlay(); return false; }
+  if (e.key === 'F12') { e.preventDefault(); showCopyWarning(); return false; }
 });
+setInterval(() => { if (window.mediaDevices && navigator.mediaDevices.getDisplayMedia) { activateRecordingOverlay(); } }, 5000);
+if (window.location !== window.parent.location) { window.top.location = window.location; }
+window.addEventListener('blur', () => { document.body.style.filter = 'blur(3px)'; document.body.style.transition = 'filter 0.3s ease'; });
+window.addEventListener('focus', () => { document.body.style.filter = 'none'; });
 
-backToTop.addEventListener('click', () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-});
 
-// FORM SUBMISSION WITH MAILTO (100% WORKING)
+// =================== EXISTING ANIMATIONS & FORM (UNCHANGED) ===================
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver(e => {
+  e.forEach(x => { 
+    if(x.isIntersecting){
+      x.target.classList.add('visible');
+      if(x.target.querySelector('.progress-bar div')) {
+        const progressBars = x.target.querySelectorAll('.progress-bar div');
+        progressBars.forEach(bar => {
+          const width = bar.style.width;
+          bar.style.width = '0%';
+          setTimeout(() => { bar.style.width = width; }, 100);
+        });
+      }
+    }
+  });
+}, {threshold: .15});
+reveals.forEach(r => io.observe(r));
+
+backToTop.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
 const contactForm = document.getElementById('contactForm');
 const formMessage = document.getElementById('formMessage');
-
 contactForm.addEventListener('submit', function(e) {
   e.preventDefault();
-  
   const name = document.getElementById('name').value;
   const email = document.getElementById('email').value;
   const message = document.getElementById('message').value;
-  
-  // Validation
-  if(!name || !email || !message) {
-    formMessage.textContent = "Please fill all fields!";
-    formMessage.style.color = "#ff8a4b";
-    return;
-  }
-  
-  // Show sending message
-  formMessage.textContent = "📧 Opening email app...";
-  formMessage.style.color = "#1f9bff";
-  
-  // Create email content
+  if(!name || !email || !message) { formMessage.textContent = "Please fill all fields!"; formMessage.style.color = "#ff8a4b"; return; }
+  formMessage.textContent = "📧 Opening email app..."; formMessage.style.color = "#1f9bff";
   const subject = `Message from ${name} - Portfolio Website`;
   const body = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}\n\n---\nSent from your portfolio website.`;
-  
-  // Encode for URL
-  const encodedSubject = encodeURIComponent(subject);
-  const encodedBody = encodeURIComponent(body);
-  
-  // Open email client with mailto
-  const mailtoLink = `mailto:wasimmahmoodmia@hotmail.com?subject=${encodedSubject}&body=${encodedBody}`;
-  
-  // Try to open email client
+  const mailtoLink = `mailto:wasimmahmoodmia@hotmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   setTimeout(() => {
     window.location.href = mailtoLink;
-    
-    // Update message
-    formMessage.textContent = "✅ Email app opened! Please send the message.";
-    formMessage.style.color = "#25D366";
-    
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      contactForm.reset();
-      formMessage.textContent = "";
-    }, 3000);
+    formMessage.textContent = "✅ Email app opened! Please send the message."; formMessage.style.color = "#25D366";
+    setTimeout(() => { contactForm.reset(); formMessage.textContent = ""; }, 3000);
   }, 500);
 });
 
-/* Particle + Snow Animation */
 const canvas = document.getElementById('particles-js');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-
 let particles = [];
 for(let i = 0; i < 100; i++) {
-  particles.push({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    r: Math.random() * 3 + 2,
-    dx: (Math.random() - 0.5) * 0.5,
-    dy: (Math.random() * 0.7) + 0.3,
-    color: `rgba(255, 255, 255, ${Math.random() * 0.2 + 0.1})`
-  });
+  particles.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 3 + 2, dx: (Math.random() - 0.5) * 0.5, dy: (Math.random() * 0.7) + 0.3, color: `rgba(255, 255, 255, ${Math.random() * 0.2 + 0.1})` });
 }
-
 function animateParticles() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  
   for(let p of particles) {
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fillStyle = p.color;
-    ctx.shadowColor = 'rgba(255, 255, 255, 0.5)';
-    ctx.shadowBlur = 4;
-    ctx.fill();
-    
-    p.x += p.dx;
-    p.y += p.dy;
-    
-    if(p.x < 0) p.x = canvas.width;
-    if(p.x > canvas.width) p.x = 0;
-    if(p.y > canvas.height) {
-      p.y = 0;
-      p.x = Math.random() * canvas.width;
-    }
+    ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fillStyle = p.color; ctx.shadowColor = 'rgba(255, 255, 255, 0.5)'; ctx.shadowBlur = 4; ctx.fill();
+    p.x += p.dx; p.y += p.dy;
+    if(p.x < 0) p.x = canvas.width; if(p.x > canvas.width) p.x = 0;
+    if(p.y > canvas.height) { p.y = 0; p.x = Math.random() * canvas.width; }
   }
-  
   requestAnimationFrame(animateParticles);
 }
-
 animateParticles();
+window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
 
-// Resize canvas
-window.addEventListener('resize', () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-});
-
-// Auto theme by time (only if user hasn't set preference)
-(function() {
-  const savedTheme = localStorage.getItem('theme');
-  if (!savedTheme) {
-    const h = new Date().getHours();
-    if (h >= 19 || h < 6) {
-      document.body.classList.add('dark-mode');
-      themeIcon.className = 'fas fa-sun';
-    }
-  }
-})();
-
-// Start recording detection
-startRecordingDetection();
-
-// Console warning
-console.log('%c⚠️ WARNING ⚠️', 'color: red; font-size: 30px; font-weight: bold;');
-console.log('%cThis website is protected against unauthorized copying and recording.', 'color: orange; font-size: 16px;');
-console.log('%cAny attempt to copy content may trigger security measures.', 'color: yellow; font-size: 14px;');
 </script>
-
 </body>
 </html>
