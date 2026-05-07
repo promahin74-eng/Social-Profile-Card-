@@ -1,926 +1,2275 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn" data-theme="light">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Wasim Mahmood Mia — Profile</title>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-
+<meta name="description" content="PC Doctor BD — Windows PC tips, shortcuts, troubleshooting in Bengali" />
+<title>PC Doctor BD</title>
 <style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: system-ui, -apple-system, Inter, sans-serif;
+:root{
+  --bg:#f3f3f3;--surface:#ffffff;--surface-2:#fafafa;--border:#e5e5e5;
+  --text:#1a1a1a;--text-2:#5c5c5c;--accent:#0078D4;--accent-2:#106ebe;
+  --shadow:0 2px 6px rgba(0,0,0,.08);--shadow-lg:0 8px 24px rgba(0,0,0,.12);
+  --radius:10px;--radius-lg:14px;--key-bg:#ffffff;--key-shadow:#cfcfcf;
+}
+[data-theme="dark"]{
+  --bg:#1f1f1f;--surface:#2b2b2b;--surface-2:#262626;--border:#3a3a3a;
+  --text:#f3f3f3;--text-2:#bdbdbd;--accent:#60cdff;--accent-2:#4cc2ff;
+  --shadow:0 2px 6px rgba(0,0,0,.4);--shadow-lg:0 8px 24px rgba(0,0,0,.5);
+  --key-bg:#3a3a3a;--key-shadow:#101010;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;font-family:"Segoe UI","Hind Siliguri","Noto Sans Bengali",-apple-system,system-ui,Roboto,Arial,sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.55;
+  transition:background .25s,color .25s;
+}
+img,svg{display:block;max-width:100%}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+.icon{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+
+/* Loader */
+#loader{
+  position:fixed;inset:0;background:#000;z-index:9999;display:flex;
+  align-items:center;justify-content:center;flex-direction:column;gap:24px;
+  transition:opacity .5s ease;
+}
+#loader .logo{width:64px;height:64px;color:#fff}
+#loader .spinner{
+  width:40px;height:40px;border-radius:50%;
+  border:3px solid rgba(255,255,255,.15);border-top-color:#fff;
+  animation:spin 1s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+#loader.hide{opacity:0;pointer-events:none}
+
+/* Navbar */
+.navbar{
+  position:sticky;top:0;z-index:50;backdrop-filter:saturate(180%) blur(20px);
+  -webkit-backdrop-filter:saturate(180%) blur(20px);
+  background:rgba(255,255,255,.72);border-bottom:1px solid var(--border);
+}
+[data-theme="dark"] .navbar{background:rgba(31,31,31,.72)}
+.nav-inner{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:18px;color:var(--text)}
+.brand .icon{width:24px;height:24px;color:var(--accent)}
+.nav-links{display:flex;gap:6px;margin-left:12px;flex:1}
+.nav-links a{
+  padding:8px 12px;border-radius:8px;color:var(--text-2);font-size:14px;
+  transition:background .15s,color .15s;text-decoration:none;
+}
+.nav-links a:hover{background:var(--surface-2);color:var(--text)}
+.nav-actions{display:flex;align-items:center;gap:8px;position:relative}
+.search{
+  display:flex;align-items:center;gap:8px;background:var(--surface-2);
+  border:1px solid var(--border);border-radius:8px;padding:6px 10px;
+  min-width:220px;transition:border-color .15s;
+}
+.search:focus-within{border-color:var(--accent)}
+.search input{
+  background:transparent;border:none;outline:none;color:var(--text);
+  width:100%;font-size:14px;font-family:inherit;
+}
+.search .icon{color:var(--text-2)}
+.search-panel{
+  position:absolute;top:48px;right:132px;width:min(420px,calc(100vw - 32px));display:none;z-index:80;
+  background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow-lg);overflow:hidden;
+}
+.search-panel.show{display:block;animation:fadeIn .14s ease-out}
+.search-result{display:flex;gap:10px;align-items:flex-start;width:100%;padding:10px 12px;text-align:left;background:transparent;color:var(--text);border-bottom:1px solid var(--border)}
+.search-result:last-child{border-bottom:0}
+.search-result:hover{background:rgba(0,120,212,.08)}
+.search-result strong{display:block;font-size:13px;margin-bottom:2px}
+.search-result span{display:block;color:var(--text-2);font-size:12px;line-height:1.45}
+.search-result mark{background:rgba(0,120,212,.16);color:var(--accent);border-radius:4px;padding:0 2px}
+.icon-btn{
+  width:36px;height:36px;border-radius:8px;display:inline-flex;
+  align-items:center;justify-content:center;color:var(--text);
+  background:transparent;transition:background .15s;
+}
+.icon-btn:hover{background:var(--surface-2)}
+.lang-btn{
+  padding:6px 12px;border-radius:8px;background:var(--accent);color:#fff;
+  font-weight:500;font-size:13px;transition:background .15s;
+}
+.lang-btn:hover{background:var(--accent-2)}
+.hamburger{display:none}
+
+/* Hero */
+.hero{padding:60px 0 40px}
+.hero-inner{display:grid;grid-template-columns:1.1fr .9fr;gap:32px;align-items:center}
+.hero h1{font-size:44px;line-height:1.15;margin:0 0 14px;font-weight:700;letter-spacing:-.5px}
+.hero p{font-size:18px;color:var(--text-2);margin:0 0 24px}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;padding:10px 18px;
+  border-radius:8px;font-weight:500;font-size:14px;
+  transition:transform .1s,background .15s,box-shadow .15s;
+  border:1px solid transparent;
+}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-2);text-decoration:none}
+.btn-ghost{background:var(--surface);color:var(--text);border-color:var(--border)}
+.btn-ghost:hover{background:var(--surface-2);text-decoration:none}
+.hero-art{
+  background:linear-gradient(135deg,rgba(0,120,212,.1),rgba(0,120,212,.02));
+  border:1px solid var(--border);border-radius:var(--radius-lg);
+  padding:32px;display:flex;align-items:center;justify-content:center;
+  min-height:260px;position:relative;overflow:hidden;
+}
+.hero-art svg{width:220px;height:220px;color:var(--accent);animation:float 4s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+/* Section */
+section{padding:48px 0}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;gap:16px;flex-wrap:wrap}
+.section-head h2{font-size:28px;margin:0;font-weight:600}
+.section-head p{margin:4px 0 0;color:var(--text-2)}
+
+/* Tiles */
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.tile{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:18px;display:flex;flex-direction:column;gap:10px;cursor:pointer;
+  transition:transform .15s,box-shadow .15s,background .15s;
+  text-align:left;color:var(--text);
+}
+.tile:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);background:var(--surface-2)}
+.tile .icon{width:28px;height:28px;color:var(--accent)}
+.tile h3{margin:0;font-size:15px;font-weight:600}
+.tile p{margin:0;color:var(--text-2);font-size:13px}
+
+/* Tip of day */
+.tip-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);
+  padding:20px;display:flex;gap:16px;box-shadow:var(--shadow);
+}
+.tip-card .icon-wrap{
+  width:44px;height:44px;border-radius:10px;background:rgba(0,120,212,.1);
+  color:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.tip-card h3{margin:0 0 4px;font-size:16px;font-weight:600}
+.tip-card p{margin:0;color:var(--text-2);font-size:14px}
+
+/* Keyboard keys */
+.kbd{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:30px;padding:4px 8px;margin:0 2px;
+  background:var(--key-bg);border:1px solid var(--border);
+  border-bottom-width:2px;border-radius:6px;
+  font-family:"Segoe UI",Consolas,monospace;font-size:12px;font-weight:600;
+  color:var(--text);box-shadow:0 1px 0 var(--key-shadow);
+  white-space:nowrap;line-height:1.3;
+}
+.shortcut-group{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:18px;margin-bottom:16px;
+}
+.shortcut-group h3{margin:0 0 14px;font-size:18px;display:flex;align-items:center;gap:8px}
+.shortcut-group h3 .icon{color:var(--accent)}
+.shortcut-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.shortcut-item{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding:8px 10px;background:var(--surface-2);border-radius:6px;
+}
+.shortcut-keys{display:inline-flex;align-items:center;gap:2px;flex-shrink:0}
+.shortcut-desc{font-size:13px;color:var(--text-2)}
+.kbd-tooltip{position:relative}
+.kbd-tooltip:hover::after{
+  content:attr(data-tooltip);position:absolute;bottom:calc(100% + 6px);left:50%;
+  transform:translateX(-50%);background:var(--text);color:var(--bg);
+  padding:4px 8px;border-radius:6px;font-size:12px;white-space:nowrap;z-index:10;
+  font-weight:400;
 }
 
-body {
-  min-height: 100vh;
-  margin: 0;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  overflow-x: hidden;
-  background: linear-gradient(270deg, #6b4bff, #ff8a4b, #1f9bff, #6b4bff);
-  background-size: 800% 800%;
-  animation: gradientMove 20s ease infinite;
-  position: relative;
-  transition: background 0.5s ease;
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
+/* Tips section */
+.tips-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.tip-section{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:18px;transition:box-shadow .25s,border-color .25s;
+}
+.tip-section.flash{box-shadow:0 0 0 2px var(--accent);border-color:var(--accent)}
+.tip-section-head{
+  display:flex;align-items:center;gap:10px;margin-bottom:14px;
+  padding-bottom:10px;border-bottom:1px solid var(--border);
+}
+.tip-section-head h3{margin:0;font-size:18px;font-weight:600}
+.tip-section-head .icon-wrap{
+  width:34px;height:34px;border-radius:8px;background:rgba(0,120,212,.1);
+  color:var(--accent);display:flex;align-items:center;justify-content:center;
+}
+.tip-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.tip-item{
+  background:var(--surface-2);border-radius:8px;padding:10px 12px;
+  display:flex;justify-content:space-between;align-items:flex-start;gap:10px;
+  flex-wrap:wrap;font-size:14px;line-height:1.55;
+}
+.tip-text{flex:1;min-width:200px}
+.tip-actions{display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap}
+.tip-btn{
+  display:inline-flex;align-items:center;gap:6px;padding:6px 10px;
+  border-radius:6px;color:var(--text-2);background:var(--surface);
+  border:1px solid var(--border);font-size:12px;font-weight:500;
+  transition:background .15s,color .15s,border-color .15s;
+}
+.tip-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tip-btn .icon{width:14px;height:14px}
+.tip-btn.fav-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.empty{
+  text-align:center;padding:40px 20px;color:var(--text-2);
+  background:var(--surface);border:1px dashed var(--border);border-radius:var(--radius);
+}
+.empty .icon-wrap{margin:0 auto 12px}
+.icon-wrap{
+  width:36px;height:36px;border-radius:8px;background:rgba(0,120,212,.1);
+  color:var(--accent);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.icon-wrap.large{width:56px;height:56px;border-radius:14px}
+.icon-wrap.large .icon{width:28px;height:28px}
+
+/* Shortcut row */
+.shortcut-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.shortcut-head h3{margin:0;font-size:18px;font-weight:600}
+.shortcut-row{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding:10px 12px;background:var(--surface-2);border-radius:8px;
+  transition:background .15s;
+}
+.shortcut-row:hover{background:rgba(0,120,212,.08)}
+.shortcut-keys{display:inline-flex;align-items:center;gap:0;flex-wrap:wrap;flex-shrink:0}
+.shortcut-keys .plus{margin:0 2px;color:var(--text-2);font-weight:600}
+.shortcut-desc{font-size:13px;color:var(--text-2);text-align:right}
+
+/* Tile title */
+.tile-icon{
+  width:36px;height:36px;border-radius:8px;background:rgba(0,120,212,.1);
+  color:var(--accent);display:flex;align-items:center;justify-content:center;
+}
+.tile-icon .icon{width:22px;height:22px}
+.tile-title{font-size:15px;font-weight:600;color:var(--text)}
+
+/* Problem solver */
+.solver-wrap{display:grid;grid-template-columns:1fr 1.5fr;gap:16px}
+.solver-list{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:8px;display:flex;flex-direction:column;gap:4px;
+  align-self:start;
+}
+.solver-item{
+  text-align:left;padding:10px 12px;border-radius:8px;font-size:14px;
+  color:var(--text);background:transparent;display:flex;align-items:center;gap:10px;
+  border:1px solid transparent;cursor:pointer;
+}
+.solver-item:hover{background:var(--surface-2)}
+.solver-item.active{background:var(--accent);color:#fff}
+.solver-item.active .icon-wrap{background:rgba(255,255,255,.2);color:#fff}
+.solver-item .icon-wrap{width:28px;height:28px}
+.solver-item-text{flex:1}
+.solver-detail{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:20px;
+}
+.solver-detail-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.solver-detail-head h3{margin:0;font-size:20px;font-weight:600}
+.solver-empty{text-align:center;padding:40px 20px;color:var(--text-2)}
+.solver-empty p{margin:12px 0 0}
+.solver-steps{margin:0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.solver-steps li{
+  display:flex;gap:12px;align-items:flex-start;
+  padding:12px 14px;background:var(--surface-2);border-radius:8px;font-size:14px;
+}
+.step-num{
+  width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-weight:600;font-size:12px;
+  flex-shrink:0;
+}
+.step-text{flex:1;line-height:1.6}
+
+/* Favorites */
+.fav-list{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.fav-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:14px;display:flex;flex-direction:column;gap:10px;
+}
+.fav-meta{display:flex;align-items:center;gap:8px;color:var(--text-2);font-size:12px}
+.fav-meta .icon-wrap{width:28px;height:28px}
+.fav-text{font-size:14px;line-height:1.55}
+
+/* Commands table */
+.cmd-table{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  overflow-x:auto;
+}
+.cmd-table table{width:100%;border-collapse:collapse}
+.cmd-table th,.cmd-table td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--border);font-size:14px;vertical-align:middle}
+.cmd-table th{background:var(--surface-2);font-weight:600;font-size:13px;color:var(--text-2)}
+.cmd-table tr:last-child td{border-bottom:none}
+.cmd-code{
+  display:inline-block;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;
+  padding:2px 6px;font-size:13px;color:var(--accent);font-family:Consolas,"Segoe UI",monospace;
+  margin-right:6px;
+}
+.cmd-copy{padding:4px 6px}
+.cmd-copy .icon{width:13px;height:13px}
+
+/* Favorites */
+.fav-empty{
+  text-align:center;padding:40px;color:var(--text-2);
+  background:var(--surface);border:1px dashed var(--border);border-radius:var(--radius);
 }
 
-body.dark-mode {
-  background: linear-gradient(270deg, #0a0a0a, #1a1a2e, #16213e, #0f3460);
-  background-size: 800% 800%;
-  animation: gradientMove 20s ease infinite;
+/* About */
+.about-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);
+  padding:28px;
 }
-
-/* Scroll Progress Bar */
-.scroll-progress-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 5px;
-  background: transparent;
-  z-index: 10001;
-}
-.scroll-progress-bar {
-  height: 100%;
-  background: linear-gradient(90deg, #00f2fe, #4facfe, #00f2fe);
-  width: 0%;
-  transition: width 0.1s;
-  box-shadow: 0 0 10px #00f2fe;
-}
-
-/* Anti-copy overlay */
-body::after {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 9998;
-  pointer-events: none;
-}
-
-/* Particle & Snow canvas */
-#particles-js {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* Liquid background animation */
-@keyframes gradientMove {
-  0% { background-position: 0% 50% }
-  50% { background-position: 100% 50% }
-  100% { background-position: 0% 50% }
-}
-
-.container {
-  max-width: 900px;
-  width: 94%;
-  margin: 60px auto;
-  z-index: 2;
-  position: relative;
-}
-
-.card {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, .2);
-  border-radius: 28px;
-  padding: 32px;
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, .35);
-  z-index: 2;
-  position: relative;
-  transition: all 0.3s ease;
-}
-
-.dark-mode .card {
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, .1);
-}
-
-/* Header */
-.header {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-  flex-wrap: wrap;
-  position: relative;
-}
-
-/* Activity Status (Discord like) */
-.image-protection {
-  position: relative;
-  display: inline-block;
-}
-
-.status-badge {
-  position: absolute;
-  bottom: 0;
-  right: 5px;
-  background: #23a559;
-  border: 3px solid #fff;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  z-index: 3;
-  box-shadow: 0 0 10px rgba(35, 165, 89, 0.6);
-  animation: pulse 2s infinite;
-}
-
-.dark-mode .status-badge { border-color: #1a1a2e; }
-
-@keyframes pulse {
-  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(35, 165, 89, 0.7); }
-  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(35, 165, 89, 0); }
-  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(35, 165, 89, 0); }
-}
-
-/* Prevent image download */
-.header img {
-  width: 95px;
-  height: 95px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid rgba(255, 255, 255, .4);
-  pointer-events: none;
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -webkit-user-drag: none;
-}
-
-.image-protection::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: transparent;
-  z-index: 1;
-}
-
-.name-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: nowrap;
-}
-
-.name {
-  font-size: 26px;
-  font-weight: 800;
-  white-space: nowrap;
-}
-
-.badge {
-  background: #1877f2;
-  color: #fff;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-}
-
-.tagline {
-  opacity: .9;
-  margin-top: 4px;
-}
-
-/* Visitor Counter */
-.visitor-counter {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(255, 255, 255, 0.15);
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 13px;
-  margin-top: 8px;
-  border: 1px solid rgba(255,255,255,0.2);
-}
-
-/* Hire Me Button */
-.hire-me-btn {
-  margin-left: auto;
-  padding: 10px 20px;
-  border-radius: 20px;
-  border: none;
-  background: linear-gradient(135deg, #00f2fe, #4facfe);
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 4px 15px rgba(0, 242, 254, 0.4);
-  transition: all 0.3s ease;
-  z-index: 10;
-}
-.hire-me-btn:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 6px 20px rgba(0, 242, 254, 0.6);
-}
-
-/* Top Buttons (Theme & Voice) */
-.top-controls {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  display: flex;
-  gap: 10px;
-  z-index: 10000;
-}
-
-.icon-btn {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 18px;
-  transition: all 0.3s ease;
-  color: white;
-}
-
-.icon-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: rotate(15deg) scale(1.1);
-}
-
-.voice-active {
-  background: #ff4b4b !important;
-  animation: pulse 1.5s infinite;
-  border-color: #ff4b4b;
-}
-
-/* Social grid */
-.social {
-  margin-top: 22px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 12px;
-}
-
-.social a {
-  text-decoration: none;
-  color: #fff !important;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 18px;
-  padding: 12px 14px;
-  border: 1px solid rgba(255, 255, 255, .2);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  transition: .3s;
-  font-weight: 600;
-}
-
-.dark-mode .social a {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, .1);
-}
-
-.social a:hover {
-  transform: translateY(-3px);
-  background: rgba(255, 255, 255, 0.25);
-}
-
-.dark-mode .social a:hover {
-  background: rgba(255, 255, 255, 0.15);
-}
-
-/* Social Colors... (kept exactly as before) */
-.fb i { color: #1877f2 }
-.ig i { color: #E4405F }
-.tt i { color: #000 }
-.tg i { color: #2AABEE }
-.wa i { color: #25D366 }
-.tw i { color: #ffffff }
-.th i { color: #ff9500 }
-.pi i { color: #E60023 }
-.gi i { color: #000000 }
-.sc i { color: #FFFC00 }
-.lk i { color: #0077B5 }
-.yt i { color: #FF0000 }
-.rd i { color: #FF4500 }
-.dc i { color: #5865F2 }
-.tw i { color: #6441A4 }
-.ve i { color: #1AB7EA }
-.li i { color: #00B900 }
-.we i { color: #07C160 }
-.vi i { color: #7360f2 }
-.sk i { color: #00AFF0 }
-
-/* Sections */
-.section {
-  margin-top: 26px;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 22px;
-  border: 1px solid rgba(255, 255, 255, .2);
-  padding: 18px 20px;
-  transition: all 0.3s ease;
-}
-
-.dark-mode .section {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, .1);
-}
-
-.section strong {
-  font-size: 16px;
-  color: #fff !important;
-  display: block;
-  margin-bottom: 10px;
-}
-
-.section p {
-  opacity: .9;
-  margin-top: 6px;
-  color: #fff !important;
-  line-height: 1.6;
-}
-
-/* Contact & Location line */
-.info-line, .location-line {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 6px;
-  font-weight: 600;
-  color: #fff !important;
-}
-
-/* Skills Progress */
-.skill { margin: 15px 0; }
-.skill-name {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 5px;
-  font-weight: 600;
-}
-.progress-bar {
-  height: 8px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
-  overflow: hidden;
-}
-.progress-bar div {
-  height: 100%;
-  background: linear-gradient(90deg, #6b4bff, #ff8a4b);
-  border-radius: 4px;
-  width: 0;
-  transition: width 1.5s ease-in-out;
-}
-
-/* Skills Grid */
-.skills-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 10px;
-  margin-top: 15px;
-}
-.skill-item {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 10px 12px;
-  border-radius: 10px;
-  text-align: center;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, .2);
-}
-
-/* Glassmorphism Form Enhanced */
-form {
-  margin-top: 12px;
-  display: grid;
-  gap: 12px;
-}
-
-.glass-input {
-  padding: 14px 16px;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  color: #fff !important;
-  font-size: 16px;
-  transition: all 0.3s ease;
-  user-select: text;
-  -webkit-user-select: text;
-  outline: none;
-}
-
-.glass-input::placeholder { color: rgba(255, 255, 255, 0.6); }
-
-.glass-input:focus {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: #00f2fe;
-  box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
-  transform: translateY(-2px);
-}
-
-.dark-mode .glass-input {
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-.glass-btn {
-  padding: 14px;
-  border-radius: 16px;
-  border: 0;
-  font-weight: 700;
-  cursor: pointer;
-  background: linear-gradient(135deg, #665bff, #ff7b32);
-  color: #fff !important;
-  transition: .3s;
-  font-size: 16px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.glass-btn:hover {
-  box-shadow: 0 0 20px #ff7b32, 0 0 30px #665bff;
-  transform: translateY(-3px);
-}
+.about-card p{margin:0 0 12px;color:var(--text-2)}
 
 /* Footer */
-footer {
-  text-align: center;
-  margin-top: 22px;
-  opacity: .8;
-  font-size: 13px;
-  color: #fff !important;
-  padding-top: 20px;
-  border-top: 1px solid rgba(255, 255, 255, .2);
+footer{
+  background:var(--surface);border-top:1px solid var(--border);
+  padding:32px 0 20px;margin-top:40px;
 }
+.foot-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:20px}
+.foot-grid h4{margin:0 0 10px;font-size:15px}
+.foot-grid a{display:block;color:var(--text-2);font-size:14px;margin-bottom:6px}
+.foot-grid a:hover{color:var(--accent)}
+.foot-bottom{
+  border-top:1px solid var(--border);padding-top:16px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;
+  color:var(--text-2);font-size:13px;
+}
+.social-links{display:flex;gap:8px}
+.social-links a{
+  width:36px;height:36px;border-radius:8px;display:inline-flex;
+  align-items:center;justify-content:center;background:var(--surface-2);color:var(--text-2);
+  transition:background .15s,color .15s;
+}
+.social-links a:hover{background:var(--accent);color:#fff}
 
-/* Scroll animation */
-.reveal {
-  opacity: 0;
-  transform: translateY(32px) scale(.97);
-  transition: .7s cubic-bezier(.16, .84, .44, 1);
+/* Scroll to top */
+#scrollTop{
+  position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;
+  background:var(--accent);color:#fff;display:none;align-items:center;justify-content:center;
+  box-shadow:var(--shadow-lg);z-index:40;transition:transform .15s,background .15s;
 }
-.reveal.visible {
-  opacity: 1;
-  transform: none;
-}
+#scrollTop.show{display:inline-flex}
+#scrollTop:hover{background:var(--accent-2);transform:translateY(-2px)}
 
-/* Back to Top */
-.back-to-top {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  width: 50px;
-  height: 50px;
-  background: #6b4bff;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
-  z-index: 10000;
-  border: none;
-  color: white;
-  font-size: 20px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+/* Toast */
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);
+  background:var(--text);color:var(--bg);padding:10px 16px;border-radius:8px;
+  font-size:14px;z-index:100;transition:transform .25s;box-shadow:var(--shadow-lg);
 }
+.toast.show{transform:translateX(-50%) translateY(0)}
 
-.back-to-top.visible {
-  opacity: 1;
-  visibility: visible;
+/* Category modal */
+.modal-backdrop{
+  position:fixed;inset:0;z-index:90;display:none;padding:20px;background:rgba(15,23,42,.42);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);align-items:center;justify-content:center;
 }
+.modal-backdrop.show{display:flex;animation:fadeIn .18s ease-out}
+.category-panel{
+  width:min(1120px,100%);max-height:min(86vh,820px);display:grid;grid-template-columns:300px 1fr;
+  background:var(--surface);border:1px solid var(--border);border-radius:24px;box-shadow:var(--shadow-lg);
+  overflow:hidden;animation:panelIn .22s cubic-bezier(.2,.8,.2,1);
+}
+.category-sidebar{
+  position:relative;padding:24px;background:linear-gradient(180deg,rgba(0,120,212,.13),rgba(255,255,255,.03));
+  border-right:1px solid var(--border);display:flex;flex-direction:column;gap:12px;
+}
+.modal-close{position:absolute;right:16px;top:16px}
+.category-sidebar h2{margin:72px 0 0;font-size:26px;line-height:1.2}
+.category-sidebar p{margin:0;color:var(--text-2);line-height:1.6}
+.modal-search{display:flex;width:100%;min-width:0;margin-top:8px}
+.modal-search input{width:100%}
+.category-content{overflow:auto;padding:24px;display:grid;gap:14px;align-content:start}
+.category-tip{background:var(--surface-2);border:1px solid var(--border);border-radius:16px;padding:16px;transition:transform .18s,border-color .18s,box-shadow .18s}
+.category-tip:hover{transform:translateY(-2px);border-color:rgba(0,120,212,.35);box-shadow:0 16px 40px rgba(0,120,212,.12)}
+.category-tip summary{cursor:pointer;list-style:none;display:flex;gap:12px;align-items:flex-start;justify-content:space-between;font-weight:600}
+.category-tip summary::-webkit-details-marker{display:none}
+.category-tip p{margin:10px 0 0;color:var(--text-2);line-height:1.65}
+.category-tip ol{margin:12px 0 0;padding-left:22px;color:var(--text-2);line-height:1.7}
+.category-tip-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes panelIn{from{opacity:0;transform:translateY(18px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
 
-/* Security Overlays */
-.copy-warning {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, 0.9);
-  color: white;
-  padding: 20px 30px;
-  border-radius: 15px;
-  border: 2px solid #ff4b4b;
-  z-index: 9999;
-  display: none;
-  text-align: center;
-  font-weight: bold;
-  backdrop-filter: blur(10px);
+/* Responsive */
+@media (max-width: 960px){
+  .hero-inner{grid-template-columns:1fr}
+  .hero h1{font-size:32px}
+  .tiles{grid-template-columns:repeat(2,1fr)}
+  .tips-grid{grid-template-columns:1fr}
+  .solver-wrap{grid-template-columns:1fr}
+  .shortcut-list{grid-template-columns:1fr}
+  .category-panel{grid-template-columns:1fr;max-height:90vh}
+  .category-sidebar{border-right:0;border-bottom:1px solid var(--border)}
+  .category-sidebar h2{margin-top:48px}
+  .foot-grid{grid-template-columns:1fr}
+  .nav-links{display:none;position:absolute;top:60px;left:0;right:0;background:var(--surface);
+    flex-direction:column;padding:14px;border-bottom:1px solid var(--border);gap:4px;}
+  .nav-links.open{display:flex}
+  .hamburger{display:inline-flex}
+  .search{min-width:140px}
 }
-.recording-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: repeating-linear-gradient(45deg, rgba(255,0,0,0.05), rgba(255,0,0,0.05) 10px, rgba(0,0,0,0.05) 10px, rgba(0,0,0,0.05) 20px);
-  z-index: 9997;
-  display: none;
-  pointer-events: none;
+@media (max-width: 600px){
+  .tiles{grid-template-columns:1fr}
+  .search{display:none}
+  .nav-inner{gap:8px}
+  .hero{padding:32px 0 20px}
+  section{padding:32px 0}
 }
-
-@media (max-width: 768px) {
-  .container { margin: 30px auto; width: 96%; }
-  .social { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
-  .hire-me-btn { margin-top: 15px; width: 100%; }
+@media print{
+  .navbar,.hero,.hero-art,#scrollTop,.tip-actions,footer,.search,.lang-btn,.icon-btn{display:none!important}
+  body{background:#fff;color:#000}
+  .shortcut-group{break-inside:avoid;page-break-inside:avoid}
 }
 </style>
 </head>
-
 <body>
+<!-- SVG sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-pc" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="13" rx="1.5"/><path d="M8 21h8M12 17v4"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+    <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.5 15.4 6.5M8.6 13.5l6.8 4"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.27 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></symbol>
+    <symbol id="i-print" viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol>
+    <symbol id="i-speed" viewBox="0 0 24 24"><path d="M12 2v2M5 5l1.4 1.4M2 12h2M22 12h-2M12 12l5-3"/><circle cx="12" cy="14" r="8"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-keyboard" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M6 14h12"/></symbol>
+    <symbol id="i-globe2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></symbol>
+    <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-3 3-2.7-2.7 3-3z"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></symbol>
+    <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 15h3M1 9h3M1 15h3"/></symbol>
+    <symbol id="i-app" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></symbol>
+    <symbol id="i-battery" viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 11v2"/><path d="M6 10v4M9 10v4M12 10v4"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+    <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></symbol>
+    <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r=".5"/></symbol>
+    <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></symbol>
+    <symbol id="i-terminal" viewBox="0 0 24 24"><path d="M4 17l6-6-6-6M12 19h8"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+    <symbol id="i-tools" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 1 1-5.66 5.66l-1.4 1.4a4 4 0 1 1-5.65-5.65l1.4-1.4a4 4 0 1 1 5.66-5.66"/></symbol>
+    <symbol id="i-printer" viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol>
+    <symbol id="i-volume" viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4zM15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14"/></symbol>
+    <symbol id="i-game" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="6"/><path d="M7 12h2M8 11v2M15 12h.01M18 12h.01"/></symbol>
+    <symbol id="i-cloud2" viewBox="0 0 24 24"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/><path d="M12 14v4M9 17h6"/></symbol>
+    <symbol id="i-laptop" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M2 20h20"/></symbol>
+    <symbol id="i-update" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-network" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="5" cy="5" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="M7 7l3 3M17 7l-3 3M7 17l3-3M17 17l-3-3"/></symbol>
+    <symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M10.85 12.15 19 4M18 5l3 3M15 8l3 3"/></symbol>
+    <symbol id="i-rocket" viewBox="0 0 24 24"><path d="M5 19s-2 0-2-2 2-7 8-7 8 5 8 7-2 2-2 2"/><circle cx="12" cy="9" r="3"/><path d="M12 2v3M3 21l3-3M21 21l-3-3"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></symbol>
+    <symbol id="i-warn" viewBox="0 0 24 24"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></symbol>
+    <symbol id="i-thermometer" viewBox="0 0 24 24"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></symbol>
+    <symbol id="i-usb" viewBox="0 0 24 24"><circle cx="12" cy="20" r="2"/><circle cx="6" cy="6" r="2"/><path d="M12 18V8M12 8h6V5l3 2-3 2V8M6 8v6l6 4"/></symbol>
+    <symbol id="i-fb" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></symbol>
+    <symbol id="i-yt" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polyline points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-power" viewBox="0 0 24 24"><path d="M18.36 6.64a9 9 0 1 1-12.73 0M12 2v10"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/></symbol>
+    <symbol id="i-screen" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M2 21h20M9 17l-1 4M15 17l1 4"/></symbol>
+  </defs>
+</svg>
 
-<div class="scroll-progress-container">
-  <div class="scroll-progress-bar" id="progressBar"></div>
+<!-- Loader -->
+<div id="loader">
+  <svg class="logo"><use href="#i-pc"/></svg>
+  <div class="spinner"></div>
+  <div style="color:#fff;font-size:14px" id="loaderText">PC Doctor BD লোড হচ্ছে...</div>
 </div>
 
-<div class="copy-warning" id="copyWarning">
-  <i class="fas fa-ban" style="font-size: 40px; margin-bottom: 10px; color: #ff4b4b;"></i>
-  <p>Copying content is not allowed!</p>
-</div>
-<div class="recording-overlay" id="recordingOverlay"></div>
-
-<canvas id="particles-js"></canvas>
-
-<div class="container">
-  <div class="card reveal">
-    
-    <div class="top-controls">
-      <button class="icon-btn" id="voiceToggle" title="Voice Commands (Say 'Dark Mode' or 'Scroll Down')">
-        <i class="fas fa-microphone"></i>
+<!-- Navbar -->
+<header class="navbar">
+  <div class="container nav-inner">
+    <a href="#home" class="brand">
+      <svg class="icon"><use href="#i-pc"/></svg>
+      <span>PC Doctor BD</span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#home" data-i18n="nav.home">হোম</a>
+      <a href="#categories" data-i18n="nav.categories">ক্যাটাগরি</a>
+      <a href="#shortcuts" data-i18n="nav.shortcuts">শর্টকাট</a>
+      <a href="#solver" data-i18n="nav.solver">সমস্যা সমাধান</a>
+      <a href="#favorites" data-i18n="nav.favorites">ফেভারিটস</a>
+      <a href="#about" data-i18n="nav.about">সম্পর্কে</a>
+    </nav>
+    <div class="nav-actions">
+      <label class="search">
+        <svg class="icon"><use href="#i-search"/></svg>
+        <input type="search" id="searchInput" placeholder="খুঁজুন..." data-i18n-placeholder="nav.search" autocomplete="off" />
+      </label>
+      <div class="search-panel" id="searchPanel" role="listbox"></div>
+      <button class="lang-btn" id="langBtn" title="Language">
+        <svg class="icon" style="width:14px;height:14px;display:inline;vertical-align:middle;margin-right:4px"><use href="#i-globe"/></svg>
+        <span id="langLabel">English</span>
       </button>
-      <button class="icon-btn" id="themeToggle" title="Toggle Theme">
-        <i class="fas fa-moon"></i>
+      <button class="icon-btn" id="themeBtn" title="Theme" aria-label="Toggle theme">
+        <svg class="icon"><use href="#i-moon"/></svg>
+      </button>
+      <button class="icon-btn hamburger" id="menuBtn" aria-label="Menu">
+        <svg class="icon"><use href="#i-menu"/></svg>
       </button>
     </div>
-    
-    <div class="header">
-      <div class="image-protection">
-        <img src="https://i.ibb.co.com/Rkd9H4w1/IMG-8125.jpg.jpeg" alt="Profile" />
-        <div class="status-badge" title="Online"></div>
+  </div>
+</header>
+
+<!-- Hero -->
+<section id="home" class="hero">
+  <div class="container hero-inner">
+    <div>
+      <h1 data-i18n="hero.title">আপনার PC এর ডাক্তার</h1>
+      <p data-i18n="hero.subtitle">PC সমস্যার সহজ সমাধান বাংলায়</p>
+      <div class="cta-row">
+        <a href="#categories" class="btn btn-primary">
+          <svg class="icon"><use href="#i-rocket"/></svg>
+          <span data-i18n="hero.cta1">টিপস দেখুন</span>
+        </a>
+        <a href="#shortcuts" class="btn btn-ghost">
+          <svg class="icon"><use href="#i-keyboard"/></svg>
+          <span data-i18n="hero.cta2">শর্টকাট দেখুন</span>
+        </a>
       </div>
-      
+    </div>
+    <div class="hero-art">
+      <svg viewBox="0 0 200 200">
+        <rect x="20" y="40" width="160" height="100" rx="6" fill="none" stroke="currentColor" stroke-width="2"/>
+        <rect x="32" y="52" width="136" height="76" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M70 160h60M100 140v20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <circle cx="100" cy="90" r="20" fill="none" stroke="currentColor" stroke-width="2"/>
+        <path d="M100 78v12l8 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <circle cx="60" cy="68" r="4" fill="currentColor"/>
+        <circle cx="140" cy="68" r="4" fill="currentColor"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- Tip of day -->
+<section style="padding-top:0">
+  <div class="container">
+    <div class="tip-card" id="tipOfDay">
+      <div class="icon-wrap"><svg class="icon"><use href="#i-bell"/></svg></div>
       <div>
-        <div class="name-badge">
-          <div class="name">Wasim Mahmood</div>
-          <div class="badge">✔</div>
-        </div>
-        <div class="tagline">Creative Developer & Tech Enthusiast</div>
-        <div class="location-line">
-          <i class="fa-solid fa-location-dot"></i>
-          Dhaka, Kishoreganj, Bhairab Bazar
-        </div>
-        <div class="visitor-counter">
-          <i class="fas fa-chart-line"></i> Visitors: <span id="visitCount">Loading...</span>
-        </div>
+        <h3 data-i18n="tipOfDay.title">আজকের টিপ</h3>
+        <p id="tipOfDayText">—</p>
       </div>
-      
-      <button id="hireMeBtn" class="hire-me-btn">
-        <i class="fas fa-rocket"></i> Hire Me
+    </div>
+  </div>
+</section>
+
+<!-- Categories -->
+<section id="categories">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2 data-i18n="categories.title">ক্যাটাগরি</h2>
+        <p data-i18n="categories.subtitle">আপনার দরকার অনুযায়ী টিপস বেছে নিন</p>
+      </div>
+    </div>
+    <div class="tiles" id="tilesGrid"></div>
+  </div>
+</section>
+
+<!-- Shortcuts -->
+<section id="shortcuts">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2 data-i18n="shortcuts.title">কীবোর্ড শর্টকাট</h2>
+        <p data-i18n="shortcuts.subtitle">সব Windows কীবোর্ড শর্টকাট এক জায়গায়</p>
+      </div>
+      <button class="btn btn-ghost" id="printBtn">
+        <svg class="icon"><use href="#i-print"/></svg>
+        <span data-i18n="shortcuts.print">প্রিন্ট</span>
       </button>
     </div>
+    <div id="shortcutsWrap"></div>
+  </div>
+</section>
 
-    <div class="social reveal">
-      <a class="fb" href="https://www.facebook.com/share/1DMBocK6Ff/" target="_blank"><i class="fa-brands fa-facebook"></i>Facebook</a>
-      <a class="ig" href="https://www.instagram.com/zaynmahin_?igsh=MW56OHVsNmo5anlxag==" target="_blank"><i class="fa-brands fa-instagram"></i>Instagram</a>
-      <a class="tt" href="https://www.tiktok.com/@zaynmahin__?_r=1&_t=ZS-92akIXzWl8s" target="_blank"><i class="fa-brands fa-tiktok"></i>TikTok</a>
-      <a class="tg" href="https://t.me/+8801772447277" target="_blank"><i class="fa-brands fa-telegram"></i>Telegram</a>
-      <a class="wa" href="https://wa.me/+8801772447277" target="_blank"><i class="fa-brands fa-whatsapp"></i>WhatsApp</a>
-      <a class="tw" href="https://x.com/zaynmahin?fbclid=..." target="_blank"><i class="fa-brands fa-x-twitter"></i>X (Twitter)</a>
-      <a class="th" href="https://www.threads.com/@zaynmahin_" target="_blank"><i class="fa-brands fa-threads"></i>Threads</a>
-      <a class="pi" href="YOUR_LINK" target="_blank"><i class="fa-brands fa-pinterest"></i>Pinterest</a>
-      <a class="gi" href="YOUR_LINK" target="_blank"><i class="fa-brands fa-github"></i>GitHub</a>
-      <a class="sc" href="YOUR_LINK" target="_blank"><i class="fa-brands fa fa-snapchat"></i>Snapchat</a>
-      <a class="lk" href="YOUR_LINK" target="_blank"><i class="fa-brands fa-linkedin"></i>LinkedIn</a>
-      <a class="yt" href="YOUR_LINK" target="_blank"><i class="fa-brands fa-youtube"></i>YouTube</a>
-      <a class="rd" href="YOUR_LINK" target="_blank"><i class="fa-brands fa-reddit"></i>Reddit</a>
-      <a class="dc" href="YOUR_LINK" target="_blank"><i class="fa-brands fa-discord"></i>Discord</a>
-      <a class="tw" href="YOUR_LINK" target="_blank"><i class="fa-brands fa-twitch"></i>Twitch</a>
-      <a class="ve" href="YOUR_LINK" target="_blank"><i class="fa-brands fa-vimeo"></i>Vimeo</a>
-      <a class="li" href="YOUR_LINK" target="_blank"><i class="fa-brands fa-line"></i>Line</a>
-      <a class="we" href="YOUR_LINK" target="_blank"><i class="fa-brands fa-weixin"></i>WeChat</a>
-      <a class="vi" href="YOUR_LINK" target="_blank"><i class="fa-brands fa-viber"></i>Viber</a>
-      <a class="sk" href="YOUR_LINK" target="_blank"><i class="fa-brands fa-skype"></i>Skype</a>
-    </div>
-
-    <div class="section reveal">
-      <strong>Contact</strong>
-      <div class="info-line"><i class="fa-solid fa-phone"></i><a href="tel:01620434794" style="color:inherit;text-decoration:none">01620434794</a></div>
-      <div class="info-line"><i class="fa-solid fa-envelope"></i><span>wasimmahmoodmia@hotmail.com</span></div>
-    </div>
-
-    <div class="section reveal">
-      <strong>Technical Skills</strong>
-      <div class="skill">
-        <div class="skill-name"><span>Web Development</span><span>90%</span></div>
-        <div class="progress-bar"><div style="width: 90%"></div></div>
-      </div>
-      <div class="skill">
-        <div class="skill-name"><span>UI/UX Design</span><span>75%</span></div>
-        <div class="progress-bar"><div style="width: 75%"></div></div>
-      </div>
-      <div class="skill">
-        <div class="skill-name"><span>Communication</span><span>95%</span></div>
-        <div class="progress-bar"><div style="width: 95%"></div></div>
+<!-- Featured tips -->
+<section id="tips">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2 data-i18n="tips.title">ফিচার্ড টিপস</h2>
+        <p data-i18n="tips.subtitle">হোমপেজে শুধু দরকারি কিছু টিপস দেখানো হচ্ছে</p>
       </div>
     </div>
+    <div class="tips-grid" id="tipsGrid"></div>
+  </div>
+</section>
 
-    <div class="section reveal">
-      <strong>What I'm Good At</strong>
-      <div class="skills-grid">
-        <div class="skill-item">Communication</div>
-        <div class="skill-item">Social Networking</div>
-        <div class="skill-item">Fast Learning</div>
-        <div class="skill-item">Creative Thinking</div>
-        <div class="skill-item">Problem Solving</div>
-        <div class="skill-item">Team Leadership</div>
+<!-- Recent tips -->
+<section id="recent">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2 data-i18n="recent.title">সাম্প্রতিক টিপস</h2>
+        <p data-i18n="recent.subtitle">আপনি সম্প্রতি যেসব টিপ খুলেছেন</p>
       </div>
     </div>
+    <div id="recentWrap"></div>
+  </div>
+</section>
 
-    <div class="section reveal">
-      <strong>About Me</strong>
-      <p>A creative mind always eager to learn something new. I find joy in small moments and constantly strive to improve my skills and reach my goals. Passionate about technology, new experiences, and embracing challenges.</p>
-    </div>
-
-    <div class="section reveal">
-      <strong>Hobbies / Interests</strong>
-      <p>
-        • 🎵 Listening to Music<br>
-        • 💻 Programming & Web/Game Development<br>
-        • 🚗 Driving<br>
-        • 🔧 Tech & Gadgets<br>
-        • 📚 Learning New Skills<br>
-        • 🖥️ Learning About Tech & Hardware<br>
-        • ⚽ Following Football Highlights & Analysis<br>
-        • 🍽️ Trying New Foods<br>
-        • 📱 Exploring New Apps & Tools<br>
-        • 🎬 Watching Movies & Series
-      </p>
-    </div>
-
-    <div class="section reveal" id="contactSection">
-      <div style="display:flex; justify-content:center; margin-bottom: 10px;">
-        <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_u25cckyh.json" background="transparent" speed="1" style="width: 150px; height: 150px;" loop autoplay></lottie-player>
+<!-- Problem solver -->
+<section id="solver">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2 data-i18n="solver.title">সমস্যা সমাধান টুল</h2>
+        <p data-i18n="solver.subtitle">আপনার সমস্যা বেছে নিন, ধাপে ধাপে সমাধান দেখুন</p>
       </div>
-      <strong style="text-align:center; font-size:20px;">Let's Work Together</strong>
-      <form id="contactForm">
-        <input class="glass-input" placeholder="Your Name" id="name" required>
-        <input class="glass-input" placeholder="Your Email" type="email" id="email" required>
-        <textarea class="glass-input" rows="4" placeholder="Type your message here..." id="message" required></textarea>
-        <button class="glass-btn" type="submit">Send Message <i class="fas fa-paper-plane"></i></button>
-      </form>
-      <p style="text-align: center; margin-top: 10px; font-size: 14px;" id="formMessage"></p>
     </div>
+    <div class="solver-wrap">
+      <div class="solver-list" id="solverList"></div>
+      <div class="solver-detail" id="solverDetail"></div>
+    </div>
+  </div>
+</section>
 
-    <footer class="reveal">
-      ©️ <span id="year"></span> Wasim Mahmood Mia — All Rights Reserved
-    </footer>
+<!-- Run commands -->
+<section id="commands">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2 data-i18n="commands.title">Run কমান্ড রেফারেন্স</h2>
+        <p data-i18n="commands.subtitle"><span class="kbd">Win</span> + <span class="kbd">R</span> চাপুন, এই কমান্ডগুলো লিখুন</p>
+      </div>
+    </div>
+    <div class="cmd-table">
+      <table>
+        <thead>
+          <tr>
+            <th data-i18n="commands.col1">কমান্ড</th>
+            <th data-i18n="commands.col2">কাজ</th>
+          </tr>
+        </thead>
+        <tbody id="cmdBody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- Favorites -->
+<section id="favorites">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2 data-i18n="favorites.title">প্রিয় টিপস</h2>
+        <p data-i18n="favorites.subtitle">আপনি যেগুলো সংরক্ষণ করেছেন</p>
+      </div>
+    </div>
+    <div id="favWrap"></div>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2 data-i18n="about.title">সম্পর্কে</h2>
+      </div>
+    </div>
+    <div class="about-card">
+      <p data-i18n="about.p1">PC Doctor BD হচ্ছে বাংলা ভাষায় Windows PC এর সমস্যা সমাধান, টিপস এবং কীবোর্ড শর্টকাটের একটি পূর্ণাঙ্গ গাইড।</p>
+      <p data-i18n="about.p2">এখানে রয়েছে A থেকে Z পর্যন্ত সব ধরনের PC টিপস, ৩০০+ কীবোর্ড শর্টকাট এবং ইন্টার‍্যাক্টিভ সমস্যা সমাধান টুল।</p>
+      <p data-i18n="about.p3">সব বিষয়বস্তু বাংলা ও ইংরেজি — দুই ভাষাতেই পাওয়া যায়। উপরে ভাষা বাটনে ক্লিক করে আপনার পছন্দ মতো ভাষায় ব্যবহার করুন।</p>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <h4 data-i18n="footer.col1">PC Doctor BD</h4>
+        <p style="color:var(--text-2);font-size:14px;margin:0 0 8px" data-i18n="footer.tag">Windows PC এর সম্পূর্ণ গাইড — বাংলায়।</p>
+      </div>
+      <div>
+        <h4 data-i18n="footer.col2">লিংক</h4>
+        <a href="#home" data-i18n="nav.home">হোম</a>
+        <a href="#categories" data-i18n="nav.categories">ক্যাটাগরি</a>
+        <a href="#shortcuts" data-i18n="nav.shortcuts">শর্টকাট</a>
+        <a href="#favorites" data-i18n="nav.favorites">ফেভারিটস</a>
+      </div>
+      <div>
+        <h4 data-i18n="footer.col3">সোশ্যাল</h4>
+        <div class="social-links">
+          <a href="#" aria-label="Facebook"><svg class="icon"><use href="#i-fb"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg class="icon"><use href="#i-yt"/></svg></a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>&copy; 2025 PC Doctor BD</span>
+      <span data-i18n="footer.made">Made with love in Bangladesh</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Scroll to top -->
+<button id="scrollTop" aria-label="Scroll to top">
+  <svg class="icon"><use href="#i-arrow-up"/></svg>
+</button>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Category details modal -->
+<div class="modal-backdrop" id="categoryModal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="category-panel" role="document">
+    <div class="category-sidebar">
+      <button class="icon-btn modal-close" id="modalClose" aria-label="Close">
+        <svg class="icon"><use href="#i-x"/></svg>
+      </button>
+      <div class="icon-wrap large" id="modalIcon"><svg class="icon"><use href="#i-pc"/></svg></div>
+      <h2 id="modalTitle">PC Doctor BD</h2>
+      <p id="modalSubtitle"></p>
+      <label class="search modal-search">
+        <svg class="icon"><use href="#i-search"/></svg>
+        <input type="search" id="categorySearch" placeholder="এই ক্যাটাগরিতে খুঁজুন" data-i18n-placeholder="category.search" />
+      </label>
+    </div>
+    <div class="category-content" id="categoryTips"></div>
   </div>
 </div>
 
-<button class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></button>
-
 <script>
-document.getElementById('year').textContent = new Date().getFullYear();
-
-// =================== 1. SCROLL PROGRESS BAR ===================
-window.onscroll = function() {
-  let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-  let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-  let scrolled = (winScroll / height) * 100;
-  document.getElementById("progressBar").style.width = scrolled + "%";
-  
-  // Back to top button logic
-  const backToTop = document.getElementById('backToTop');
-  if (window.pageYOffset > 300) {
-    backToTop.classList.add('visible');
-  } else {
-    backToTop.classList.remove('visible');
+/* ========= i18n ========= */
+const I18N = {
+  bn: {
+    "nav.home":"হোম","nav.categories":"ক্যাটাগরি","nav.tips":"টিপস","nav.shortcuts":"শর্টকাট","nav.solver":"সমস্যা সমাধান",
+    "nav.favorites":"ফেভারিটস","nav.about":"সম্পর্কে","nav.search":"খুঁজুন..." ,
+    "hero.title":"আপনার PC এর ডাক্তার","hero.subtitle":"PC সমস্যার সহজ সমাধান বাংলায়",
+    "hero.cta1":"টিপস দেখুন","hero.cta2":"শর্টকাট দেখুন",
+    "tipOfDay.title":"আজকের টিপ",
+    "categories.title":"ক্যাটাগরি","categories.subtitle":"আপনার দরকার অনুযায়ী টিপস বেছে নিন",
+    "shortcuts.title":"কীবোর্ড শর্টকাট","shortcuts.subtitle":"সব Windows কীবোর্ড শর্টকাট এক জায়গায়",
+    "shortcuts.print":"প্রিন্ট",
+    "tips.title":"ফিচার্ড টিপস","tips.subtitle":"হোমপেজ পরিষ্কার রাখতে শুধু দরকারি কিছু টিপস দেখানো হচ্ছে",
+    "recent.title":"সাম্প্রতিক টিপস","recent.subtitle":"আপনি সম্প্রতি যেসব টিপ খুলেছেন",
+    "category.search":"এই ক্যাটাগরিতে খুঁজুন","category.subtitle":"এই ক্যাটাগরির সহজ ধাপে ধাপে টিপস",
+    "category.open":"টিপস খুলুন","category.steps":"ধাপে ধাপে করুন","category.noTips":"এই ক্যাটাগরিতে কিছু পাওয়া যায়নি",
+    "tip.share":"শেয়ার","tip.details":"বিস্তারিত দেখুন",
+    "solver.title":"সমস্যা সমাধান টুল","solver.subtitle":"আপনার সমস্যা বেছে নিন, ধাপে ধাপে সমাধান দেখুন",
+    "commands.title":"Run কমান্ড রেফারেন্স","commands.subtitle":"Win + R চাপুন, এই কমান্ডগুলো লিখুন",
+    "commands.col1":"কমান্ড","commands.col2":"কাজ",
+    "favorites.title":"প্রিয় টিপস","favorites.subtitle":"আপনি যেগুলো সংরক্ষণ করেছেন",
+    "favorites.empty":"কোনো প্রিয় টিপ নেই। যেকোনো টিপের পাশে star আইকনে ক্লিক করে সংরক্ষণ করুন।",
+    "about.title":"সম্পর্কে",
+    "about.p1":"PC Doctor BD হচ্ছে বাংলা ভাষায় Windows PC এর সমস্যা সমাধান, টিপস এবং কীবোর্ড শর্টকাটের একটি পূর্ণাঙ্গ গাইড।",
+    "about.p2":"এখানে রয়েছে A থেকে Z পর্যন্ত সব ধরনের PC টিপস, ৩০০+ কীবোর্ড শর্টকাট এবং ইন্টার‍্যাক্টিভ সমস্যা সমাধান টুল।",
+    "about.p3":"সব বিষয়বস্তু বাংলা ও ইংরেজি — দুই ভাষাতেই পাওয়া যায়। উপরে ভাষা বাটনে ক্লিক করে আপনার পছন্দ মতো ভাষায় ব্যবহার করুন।",
+    "footer.col1":"PC Doctor BD","footer.col2":"লিংক","footer.col3":"সোশ্যাল",
+    "footer.privacy":"Privacy Policy","footer.tag":"Windows PC এর সম্পূর্ণ গাইড — বাংলায়।",
+    "footer.made":"Made with love in Bangladesh",
+    "loader.text":"PC Doctor BD লোড হচ্ছে...",
+    "page.title":"PC Doctor BD — Windows PC গাইড",
+    "tip.copy":"কপি","tip.fav":"সংরক্ষণ","tip.unfav":"সরান",
+    "toast.copied":"কপি হয়েছে","toast.copyFail":"কপি করা যায়নি",
+    "toast.fav":"প্রিয় তালিকায় যোগ হয়েছে","toast.unfav":"প্রিয় তালিকা থেকে সরানো হয়েছে",
+    "search.empty":"কিছু পাওয়া যায়নি",
+    "solver.empty":"বাম পাশ থেকে একটি সমস্যা বেছে নিন।"
+  },
+  en: {
+    "nav.home":"Home","nav.categories":"Categories","nav.tips":"Tips","nav.shortcuts":"Shortcuts","nav.solver":"Troubleshoot",
+    "nav.favorites":"Favorites","nav.about":"About","nav.search":"Search...",
+    "hero.title":"Your PC's Doctor","hero.subtitle":"Simple Windows PC solutions in Bengali & English",
+    "hero.cta1":"View Tips","hero.cta2":"View Shortcuts",
+    "tipOfDay.title":"Tip of the Day",
+    "categories.title":"Categories","categories.subtitle":"Pick a topic that matches your need",
+    "shortcuts.title":"Keyboard Shortcuts","shortcuts.subtitle":"All Windows keyboard shortcuts in one place",
+    "shortcuts.print":"Print",
+    "tips.title":"Featured Tips","tips.subtitle":"Only a few useful tips are shown here to keep the homepage clean",
+    "recent.title":"Recent Tips","recent.subtitle":"Tips you opened recently",
+    "category.search":"Search this category","category.subtitle":"Simple step-by-step tips for this category",
+    "category.open":"Open tips","category.steps":"Step by step","category.noTips":"No tips found in this category",
+    "tip.share":"Share","tip.details":"View details",
+    "solver.title":"Problem Solver","solver.subtitle":"Choose your problem, follow the steps",
+    "commands.title":"Run Command Reference","commands.subtitle":"Press Win + R, then type these commands",
+    "commands.col1":"Command","commands.col2":"What it does",
+    "favorites.title":"Favorite Tips","favorites.subtitle":"Tips you've saved",
+    "favorites.empty":"No favorites yet. Click the star icon next to any tip to save it.",
+    "about.title":"About",
+    "about.p1":"PC Doctor BD is a complete Bengali-language guide for Windows PC troubleshooting, tips, and keyboard shortcuts.",
+    "about.p2":"It covers A-to-Z PC tips, 300+ keyboard shortcuts, and an interactive problem-solver tool.",
+    "about.p3":"Every piece of content is available in both Bengali and English. Use the language button at the top to switch.",
+    "footer.col1":"PC Doctor BD","footer.col2":"Links","footer.col3":"Social",
+    "footer.privacy":"Privacy Policy","footer.tag":"Complete Windows PC guide — in Bengali.",
+    "footer.made":"Made with love in Bangladesh",
+    "loader.text":"Loading PC Doctor BD...",
+    "page.title":"PC Doctor BD — Windows PC Guide",
+    "tip.copy":"Copy","tip.fav":"Save","tip.unfav":"Remove",
+    "toast.copied":"Copied","toast.copyFail":"Copy failed",
+    "toast.fav":"Added to favorites","toast.unfav":"Removed from favorites",
+    "search.empty":"No results found",
+    "solver.empty":"Select a problem from the left."
   }
 };
 
-// =================== 2. REAL VISITOR COUNTER ===================
-// Using counterapi.dev for free reliable counting
-fetch('https://api.counterapi.dev/v1/wasim_portfolio/visits/up')
-  .then(res => res.json())
-  .then(data => {
-    document.getElementById('visitCount').innerText = data.count;
-  })
-  .catch(err => {
-    // Fallback if API is blocked by browser adblockers
-    document.getElementById('visitCount').innerText = "1,204+";
-  });
+let LANG = localStorage.getItem("pcdr.lang") || "bn";
+let THEME = localStorage.getItem("pcdr.theme") || "light";
+let FAVS = JSON.parse(localStorage.getItem("pcdr.favs") || "[]");
+let RECENTS = JSON.parse(localStorage.getItem("pcdr.recents") || "[]");
 
+function t(key){return (I18N[LANG] && I18N[LANG][key]) || key}
+function pick(o){return o && (o[LANG] || o.bn || o.en)}
 
-// =================== 3. HIRE ME CONFETTI EFFECT ===================
-document.getElementById('hireMeBtn').addEventListener('click', function() {
-  confetti({
-    particleCount: 150,
-    spread: 70,
-    origin: { y: 0.6 },
-    colors: ['#00f2fe', '#4facfe', '#6b4bff', '#ff8a4b']
-  });
-  
-  // Scroll to contact form
-  document.getElementById('contactSection').scrollIntoView({ behavior: 'smooth' });
-});
+/* ========= Data: Categories (12 tiles) ========= */
+const CATEGORIES = [
+  {bn:"PC স্পিড বাড়ান",en:"Boost PC Speed",icon:"i-speed",section:"A"},
+  {bn:"সিকিউরিটি টিপস",en:"Security Tips",icon:"i-shield",section:"B"},
+  {bn:"কীবোর্ড শর্টকাট",en:"Keyboard Shortcuts",icon:"i-keyboard",section:"shortcuts"},
+  {bn:"ইন্টারনেট টিপস",en:"Internet Tips",icon:"i-globe2",section:"C"},
+  {bn:"সমস্যা সমাধান",en:"Troubleshooting",icon:"i-wrench",section:"D"},
+  {bn:"ফাইল ম্যানেজমেন্ট",en:"File Management",icon:"i-folder",section:"E"},
+  {bn:"হার্ডওয়্যার গাইড",en:"Hardware Guide",icon:"i-cpu",section:"F"},
+  {bn:"সফটওয়্যার টিপস",en:"Software Tips",icon:"i-app",section:"G"},
+  {bn:"ব্যাটারি ও পাওয়ার",en:"Battery & Power",icon:"i-battery",section:"H"},
+  {bn:"প্রাইভেসি সেটিংস",en:"Privacy Settings",icon:"i-lock",section:"I"},
+  {bn:"ব্যাকআপ ও রিকভারি",en:"Backup & Recovery",icon:"i-cloud",section:"J"},
+  {bn:"নেটওয়ার্ক ও WiFi",en:"Network & WiFi",icon:"i-wifi",section:"W"}
+];
 
+/* ========= Data: Shortcuts ========= */
+const SHORTCUTS = [
+  {
+    bn:"মৌলিক শর্টকাট",en:"Basic Shortcuts",icon:"i-keyboard",
+    items:[
+      {keys:["Ctrl","C"],bn:"কপি করুন",en:"Copy"},
+      {keys:["Ctrl","V"],bn:"পেস্ট করুন",en:"Paste"},
+      {keys:["Ctrl","X"],bn:"কাট করুন",en:"Cut"},
+      {keys:["Ctrl","Z"],bn:"আনডু (পূর্বের অবস্থায়)",en:"Undo"},
+      {keys:["Ctrl","Y"],bn:"রিডু (আবার করুন)",en:"Redo"},
+      {keys:["Ctrl","A"],bn:"সব নির্বাচন",en:"Select all"},
+      {keys:["Ctrl","S"],bn:"সেভ করুন",en:"Save"},
+      {keys:["Ctrl","P"],bn:"প্রিন্ট করুন",en:"Print"},
+      {keys:["Ctrl","F"],bn:"খুঁজুন (Find)",en:"Find"},
+      {keys:["Ctrl","H"],bn:"Find & Replace",en:"Find & Replace"},
+      {keys:["Alt","F4"],bn:"অ্যাপ বন্ধ করুন",en:"Close active window"},
+      {keys:["F1"],bn:"হেল্প খুলুন",en:"Open Help"},
+      {keys:["F2"],bn:"ফাইল রিনেম করুন",en:"Rename selected item"},
+      {keys:["F3"],bn:"ফাইল এক্সপ্লোরারে খুঁজুন",en:"Search in File Explorer"},
+      {keys:["F4"],bn:"Address bar list",en:"Show Address bar list"},
+      {keys:["F5"],bn:"Refresh",en:"Refresh"},
+      {keys:["F6"],bn:"স্ক্রিন এলিমেন্টে cycle",en:"Cycle through screen elements"},
+      {keys:["F7"],bn:"Spell check (Office)",en:"Spell check (Office apps)"},
+      {keys:["F8"],bn:"Boot menu (boot এ)",en:"Boot menu on startup"},
+      {keys:["F9"],bn:"Send/Receive (Outlook)",en:"Refresh email (Outlook)"},
+      {keys:["F10"],bn:"মেনু বার অ্যাক্টিভ",en:"Activate menu bar"},
+      {keys:["F11"],bn:"ফুল-স্ক্রিন টগল",en:"Toggle full-screen"},
+      {keys:["F12"],bn:"Save As (Office) / DevTools (browser)",en:"Save As / Open DevTools"}
+    ]
+  },
+  {
+    bn:"Windows কী শর্টকাট",en:"Windows Key Shortcuts",icon:"i-pc",
+    items:[
+      {keys:["Win","D"],bn:"ডেস্কটপ দেখান/লুকান",en:"Show/hide desktop"},
+      {keys:["Win","E"],bn:"File Explorer খুলুন",en:"Open File Explorer"},
+      {keys:["Win","L"],bn:"PC লক করুন",en:"Lock PC"},
+      {keys:["Win","R"],bn:"Run ডায়ালগ",en:"Open Run dialog"},
+      {keys:["Win","I"],bn:"সেটিংস খুলুন",en:"Open Settings"},
+      {keys:["Win","Tab"],bn:"Task View",en:"Open Task View"},
+      {keys:["Win","PrtScr"],bn:"স্ক্রিনশট সেভ করুন",en:"Save screenshot to Pictures"},
+      {keys:["Win","V"],bn:"Clipboard History",en:"Open Clipboard History"},
+      {keys:["Win","."],bn:"Emoji panel",en:"Open Emoji & symbol panel"},
+      {keys:["Win","Shift","S"],bn:"Snipping Tool",en:"Open Snipping Tool"},
+      {keys:["Win","K"],bn:"Cast / Connect",en:"Open Cast device list"},
+      {keys:["Win","P"],bn:"Project / মনিটর সিলেক্ট",en:"Project / second-screen options"},
+      {keys:["Win","G"],bn:"Xbox Game Bar",en:"Open Xbox Game Bar"},
+      {keys:["Win","H"],bn:"Voice Typing",en:"Open Voice Typing"},
+      {keys:["Win","A"],bn:"Quick Settings",en:"Open Quick Settings"},
+      {keys:["Win","N"],bn:"Notification Center",en:"Open Notification Center"},
+      {keys:["Win","X"],bn:"Power User Menu",en:"Open Power User Menu"},
+      {keys:["Win","Pause"],bn:"System properties",en:"Open System properties"},
+      {keys:["Win","Z"],bn:"Snap Layouts",en:"Open Snap Layouts"},
+      {keys:["Win","W"],bn:"Widgets",en:"Open Widgets"}
+    ]
+  },
+  {
+    bn:"File Explorer শর্টকাট",en:"File Explorer Shortcuts",icon:"i-folder",
+    items:[
+      {keys:["Alt","Enter"],bn:"Properties দেখান",en:"Show Properties"},
+      {keys:["F2"],bn:"রিনেম",en:"Rename"},
+      {keys:["F5"],bn:"Refresh",en:"Refresh"},
+      {keys:["F11"],bn:"ফুল-স্ক্রিন",en:"Full screen"},
+      {keys:["Ctrl","N"],bn:"নতুন উইন্ডো",en:"New window"},
+      {keys:["Ctrl","W"],bn:"উইন্ডো বন্ধ করুন",en:"Close window"},
+      {keys:["Alt","↑"],bn:"প্যারেন্ট ফোল্ডার",en:"Go to parent folder"},
+      {keys:["Alt","←"],bn:"আগের ফোল্ডার",en:"Go back"},
+      {keys:["Alt","→"],bn:"পরের ফোল্ডার",en:"Go forward"},
+      {keys:["Ctrl","Shift","N"],bn:"নতুন ফোল্ডার",en:"New folder"},
+      {keys:["Ctrl","E"],bn:"Search box-এ ফোকাস",en:"Focus search box"},
+      {keys:["Ctrl","L"],bn:"Address bar-এ ফোকাস",en:"Focus address bar"},
+      {keys:["Shift","Delete"],bn:"স্থায়ীভাবে ডিলিট",en:"Permanently delete"},
+      {keys:["Ctrl","Shift","E"],bn:"নির্বাচিত ফোল্ডারের সব sub-folder",en:"Expand all subfolders"}
+    ]
+  },
+  {
+    bn:"ব্রাউজার শর্টকাট",en:"Browser Shortcuts",icon:"i-globe2",
+    items:[
+      {keys:["Ctrl","T"],bn:"নতুন ট্যাব",en:"New tab"},
+      {keys:["Ctrl","W"],bn:"ট্যাব বন্ধ",en:"Close tab"},
+      {keys:["Ctrl","Shift","T"],bn:"বন্ধ ট্যাব ফেরত",en:"Reopen closed tab"},
+      {keys:["F5"],bn:"রিলোড",en:"Reload"},
+      {keys:["Ctrl","R"],bn:"রিলোড",en:"Reload"},
+      {keys:["Ctrl","L"],bn:"Address bar",en:"Focus address bar"},
+      {keys:["Ctrl","D"],bn:"বুকমার্ক",en:"Bookmark page"},
+      {keys:["Ctrl","Shift","Delete"],bn:"History clear",en:"Clear browsing data"},
+      {keys:["Ctrl","U"],bn:"সোর্স কোড দেখান",en:"View page source"},
+      {keys:["F12"],bn:"DevTools",en:"Open DevTools"},
+      {keys:["Ctrl","Tab"],bn:"পরের ট্যাব",en:"Next tab"},
+      {keys:["Ctrl","Shift","Tab"],bn:"আগের ট্যাব",en:"Previous tab"},
+      {keys:["Ctrl","+"],bn:"Zoom in",en:"Zoom in"},
+      {keys:["Ctrl","-"],bn:"Zoom out",en:"Zoom out"},
+      {keys:["Ctrl","0"],bn:"Zoom reset",en:"Zoom reset"},
+      {keys:["Ctrl","Shift","N"],bn:"Incognito window",en:"Open incognito window"}
+    ]
+  },
+  {
+    bn:"টাস্কবার ও ডেস্কটপ",en:"Taskbar & Desktop",icon:"i-app",
+    items:[
+      {keys:["Win","1"],bn:"১ নম্বর pinned অ্যাপ",en:"Open 1st pinned app"},
+      {keys:["Win","2"],bn:"২ নম্বর pinned অ্যাপ",en:"Open 2nd pinned app"},
+      {keys:["Win","3-9"],bn:"৩-৯ নম্বর pinned অ্যাপ",en:"Open 3rd-9th pinned app"},
+      {keys:["Win","T"],bn:"টাস্কবারে cycle",en:"Cycle through taskbar"},
+      {keys:["Win","M"],bn:"সব উইন্ডো minimize",en:"Minimize all windows"},
+      {keys:["Win","Shift","M"],bn:"Minimize undo",en:"Restore minimized windows"},
+      {keys:["Win","Home"],bn:"একটিভ ছাড়া সব minimize",en:"Minimize all except active"},
+      {keys:["Win","↑"],bn:"Maximize",en:"Maximize window"},
+      {keys:["Win","↓"],bn:"Minimize / Restore",en:"Minimize / Restore"},
+      {keys:["Win","←"],bn:"বামে snap",en:"Snap to left"},
+      {keys:["Win","→"],bn:"ডানে snap",en:"Snap to right"}
+    ]
+  },
+  {
+    bn:"টেক্সট এডিটিং",en:"Text Editing",icon:"i-terminal",
+    items:[
+      {keys:["Home"],bn:"লাইনের শুরুতে",en:"Beginning of line"},
+      {keys:["End"],bn:"লাইনের শেষে",en:"End of line"},
+      {keys:["Ctrl","Home"],bn:"ডকুমেন্টের শুরু",en:"Top of document"},
+      {keys:["Ctrl","End"],bn:"ডকুমেন্টের শেষ",en:"End of document"},
+      {keys:["Shift","←"],bn:"বামে এক character সিলেক্ট",en:"Select left char"},
+      {keys:["Shift","→"],bn:"ডানে এক character সিলেক্ট",en:"Select right char"},
+      {keys:["Ctrl","Shift","←"],bn:"বামে এক শব্দ সিলেক্ট",en:"Select left word"},
+      {keys:["Ctrl","Shift","→"],bn:"ডানে এক শব্দ সিলেক্ট",en:"Select right word"},
+      {keys:["Ctrl","Backspace"],bn:"আগের শব্দ মুছুন",en:"Delete previous word"},
+      {keys:["Ctrl","Delete"],bn:"পরের শব্দ মুছুন",en:"Delete next word"}
+    ]
+  },
+  {
+    bn:"স্ক্রিনশট",en:"Screenshot",icon:"i-screen",
+    items:[
+      {keys:["PrtScr"],bn:"পুরো স্ক্রিন কপি",en:"Copy full screen to clipboard"},
+      {keys:["Alt","PrtScr"],bn:"একটিভ উইন্ডো কপি",en:"Copy active window"},
+      {keys:["Win","PrtScr"],bn:"সেভ করুন Pictures > Screenshots",en:"Save to Pictures > Screenshots"},
+      {keys:["Win","Shift","S"],bn:"Snipping tool",en:"Open Snipping tool"},
+      {keys:["Win","G"],bn:"Game Bar (recording)",en:"Open Game Bar (recording)"}
+    ]
+  },
+  {
+    bn:"ভার্চুয়াল ডেস্কটপ",en:"Virtual Desktop",icon:"i-monitor",
+    items:[
+      {keys:["Win","Ctrl","D"],bn:"নতুন virtual desktop",en:"Create new virtual desktop"},
+      {keys:["Win","Ctrl","←"],bn:"আগের desktop",en:"Switch to previous desktop"},
+      {keys:["Win","Ctrl","→"],bn:"পরের desktop",en:"Switch to next desktop"},
+      {keys:["Win","Ctrl","F4"],bn:"current desktop বন্ধ",en:"Close current desktop"},
+      {keys:["Win","Tab"],bn:"Task View",en:"Open Task View"}
+    ]
+  },
+  {
+    bn:"অ্যাডভান্সড / পাওয়ার ইউজার",en:"Advanced / Power User",icon:"i-tools",
+    items:[
+      {keys:["Ctrl","Shift","Esc"],bn:"Task Manager খুলুন",en:"Open Task Manager"},
+      {keys:["Ctrl","Alt","Del"],bn:"Security Options",en:"Open security options"},
+      {keys:["Win","X"],bn:"Power User Menu",en:"Open Power User Menu"},
+      {keys:["Win","Pause"],bn:"System properties",en:"Open System properties"},
+      {keys:["Alt","Tab"],bn:"অ্যাপ switch",en:"Switch between apps"},
+      {keys:["Ctrl","Alt","Tab"],bn:"Persistent Alt+Tab",en:"Persistent Alt+Tab"},
+      {keys:["Win","Tab"],bn:"Task View",en:"Open Task View"},
+      {keys:["Shift","F10"],bn:"Right-click menu",en:"Open right-click menu"}
+    ]
+  }
+];
 
-// =================== 4. SMART VOICE COMMANDS ===================
-const voiceBtn = document.getElementById('voiceToggle');
-const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+/* ========= Data: A-Z Tips ========= */
+const TIPS_A_G = [
+  {
+    id:"A",icon:"i-speed",
+    bn:"A — স্পিড ও পারফরম্যান্স",en:"A — Speed & Performance",
+    items:[
+      {bn:"Startup programs বন্ধ করুন: Task Manager (Ctrl+Shift+Esc) > Startup tab থেকে অপ্রয়োজনীয় অ্যাপ Disable করুন।",en:"Disable startup apps: open Task Manager (Ctrl+Shift+Esc) > Startup tab and disable apps you don't need."},
+      {bn:"RAM খালি করার জন্য 'RAM cleaner' সফটওয়্যার ব্যবহার এড়িয়ে চলুন; PC restart করাই সবচেয়ে নিরাপদ।",en:"Avoid 'RAM cleaner' apps; a simple restart is safer and more effective."},
+      {bn:"Disk Cleanup চালান: Win+R > cleanmgr > drive বেছে নিন > Clean up system files।",en:"Run Disk Cleanup: Win+R, type cleanmgr, pick a drive, then click Clean up system files."},
+      {bn:"Storage Sense চালু করুন: Settings > System > Storage > Storage Sense ON করুন।",en:"Enable Storage Sense: Settings > System > Storage > turn Storage Sense ON."},
+      {bn:"Visual effects কমান: sysdm.cpl > Advanced > Performance > Adjust for best performance।",en:"Reduce visual effects: run sysdm.cpl > Advanced > Performance > Adjust for best performance."},
+      {bn:"Power Plan: High Performance বেছে নিন (Settings > System > Power বা powercfg.cpl)।",en:"Set Power Plan to High Performance (Settings > Power or powercfg.cpl)."},
+      {bn:"Paging File সঠিকভাবে সেট করুন: System Properties > Advanced > Performance > Virtual Memory; RAM × 1.5–2 রাখুন।",en:"Configure Paging File: set custom size around 1.5–2× your RAM."},
+      {bn:"OS SSD-এ ইন্সটল করলে boot ও app launch ৩-৫ গুণ দ্রুত হয়।",en:"Installing the OS on an SSD makes boot and app launches 3–5× faster."},
+      {bn:"HDD-তে Defragment, SSD-তে Optimize: Defragment and Optimize Drives টুল ব্যবহার করুন।",en:"For HDDs run Defragment, for SSDs run Optimize via 'Defragment and Optimize Drives'."},
+      {bn:"Background apps বন্ধ করুন: Settings > Apps > Installed apps > 3-dots > Advanced > Background permissions = Never।",en:"Stop background apps: Settings > Apps > Installed apps > Advanced > set Background permissions to Never."},
+      {bn:"Windows Search Indexing কমান: indexingoptions কমান্ড দিয়ে শুধু দরকারি ফোল্ডার include করুন।",en:"Trim Windows Search Indexing: run indexingoptions and include only necessary folders."},
+      {bn:"SysMain (Superfetch) নিয়ে প্রয়োজনে পরীক্ষা করুন: services.msc > SysMain > Disabled (পুরনো HDD তে কাজে লাগে)।",en:"On older HDDs, try disabling SysMain (Superfetch) via services.msc to test impact."},
+      {bn:"GPU Driver সবসময় আপডেট রাখুন (NVIDIA GeForce Experience / AMD Adrenalin / Intel Driver Assistant)।",en:"Keep GPU drivers updated via NVIDIA GeForce Experience / AMD Adrenalin / Intel Driver Assistant."},
+      {bn:"Bloatware সরান: Settings > Apps > Installed apps থেকে অপ্রয়োজনীয় preinstalled অ্যাপ Uninstall করুন।",en:"Remove bloatware: uninstall unused preinstalled apps from Settings > Apps > Installed apps."},
+      {bn:"ReadyBoost ব্যবহার করুন (পুরনো HDD-তে): USB drive > Properties > ReadyBoost tab।",en:"Use ReadyBoost on older HDD systems: USB drive > Properties > ReadyBoost tab."},
+      {bn:"BIOS-এ XMP/EXPO চালু করুন যাতে RAM rated speed-এ চলে।",en:"Enable XMP/EXPO in BIOS so RAM runs at its rated speed."},
+      {bn:"Temp ফাইল মুছুন: Win+R > %temp% > সব select করে Delete।",en:"Delete temp files: Win+R, type %temp%, select all, and delete."}
+    ]
+  },
+  {
+    id:"B",icon:"i-shield",
+    bn:"B — সিকিউরিটি টিপস",en:"B — Security Tips",
+    items:[
+      {bn:"Strong password ব্যবহার করুন: কমপক্ষে ১২ character, বড়+ছোট হাতের অক্ষর, সংখ্যা ও symbol মিশিয়ে।",en:"Use strong passwords: at least 12 chars with upper, lower, numbers, and symbols."},
+      {bn:"Windows Defender / Microsoft Defender Real-time protection সবসময় চালু রাখুন।",en:"Keep Microsoft Defender Real-time protection always ON."},
+      {bn:"Windows Firewall চালু রাখুন (Public network-এ অবশ্যই)।",en:"Keep Windows Firewall ON, especially on Public networks."},
+      {bn:"অপরিচিত উৎস থেকে সফটওয়্যার ইন্সটল না করা; SmartScreen warning দেখলে থামুন।",en:"Don't install software from unknown sources; pay attention to SmartScreen warnings."},
+      {bn:"Windows Update নিয়মিত করুন: Settings > Windows Update > Check for updates।",en:"Run Windows Update regularly: Settings > Windows Update > Check for updates."},
+      {bn:"2-Factor Authentication (2FA) সব গুরুত্বপূর্ণ অ্যাকাউন্টে চালু করুন (Microsoft, Google, Facebook)।",en:"Enable 2-Factor Authentication on Microsoft, Google, Facebook, and key accounts."},
+      {bn:"Phishing email চিনুন: sender address যাচাই করুন, link hover করে URL দেখুন, attachment সাবধানে।",en:"Spot phishing: verify sender, hover links to see URLs, be cautious with attachments."},
+      {bn:"Public WiFi-তে VPN ব্যবহার করুন (CloudFlare WARP, ProtonVPN ইত্যাদি)।",en:"Use a VPN on public Wi-Fi (Cloudflare WARP, ProtonVPN, etc.)."},
+      {bn:"BitLocker চালু করুন: Control Panel > BitLocker Drive Encryption (Windows Pro)।",en:"Enable BitLocker drive encryption (Windows Pro): Control Panel > BitLocker Drive Encryption."},
+      {bn:"User Account Control (UAC) চালু রাখুন: Win+R > useraccountcontrolsettings।",en:"Keep UAC enabled: Win+R, type useraccountcontrolsettings."},
+      {bn:"অপরিচিতদের জন্য Standard / Guest account রাখুন; Admin account দৈনন্দিন কাজে নয়।",en:"Use Standard accounts for daily work; reserve Admin for setup tasks."},
+      {bn:"Ransomware প্রতিরোধ: Controlled Folder Access চালু করুন (Defender > Ransomware protection)।",en:"Mitigate ransomware: enable Controlled Folder Access (Defender > Ransomware protection)."},
+      {bn:"Secure DNS ব্যবহার করুন: 1.1.1.1 (Cloudflare) বা 8.8.8.8 (Google)।",en:"Use Secure DNS: 1.1.1.1 (Cloudflare) or 8.8.8.8 (Google)."},
+      {bn:"Browser extension সাবধানে ইন্সটল করুন; কম permission চাওয়া বিশ্বস্ত extension বেছে নিন।",en:"Install browser extensions carefully; prefer trusted ones with minimal permissions."},
+      {bn:"Password Manager ব্যবহার করুন: Bitwarden, KeePassXC, 1Password।",en:"Use a password manager: Bitwarden, KeePassXC, or 1Password."},
+      {bn:"USB Autorun বন্ধ রাখুন: Settings > Bluetooth & devices > AutoPlay > Off।",en:"Disable AutoPlay for USB drives: Settings > Bluetooth & devices > AutoPlay."},
+      {bn:"Suspicious file ভাইরাস টেস্ট করুন VirusTotal.com-এ।",en:"Test suspicious files with VirusTotal.com before opening."}
+    ]
+  },
+  {
+    id:"C",icon:"i-globe2",
+    bn:"C — ইন্টারনেট ও নেটওয়ার্ক",en:"C — Internet & Network",
+    items:[
+      {bn:"WiFi স্পিড বাড়ান: Router-কে খোলা জায়গায় উঁচুতে রাখুন, কম-জনাকীর্ণ channel বেছে নিন।",en:"Boost Wi-Fi speed: place router in an open elevated spot, pick a less-crowded channel."},
+      {bn:"DNS পরিবর্তন করুন (8.8.8.8 / 1.1.1.1): ncpa.cpl > adapter > IPv4 > Properties।",en:"Change DNS (8.8.8.8 / 1.1.1.1) via ncpa.cpl > adapter > IPv4 > Properties."},
+      {bn:"Browser cache ও cookies clear করুন: Ctrl+Shift+Delete।",en:"Clear browser cache and cookies with Ctrl+Shift+Delete."},
+      {bn:"Bandwidth-heavy অ্যাপ বন্ধ করুন (cloud sync, updates) যখন slow internet থাকে।",en:"Pause bandwidth-heavy apps (cloud sync, updates) when internet is slow."},
+      {bn:"Metered Connection সেট করুন: Settings > Network & Internet > WiFi > Properties > Metered connection।",en:"Set Metered Connection in Settings > Network & Internet > Wi-Fi > Properties."},
+      {bn:"Network reset: cmd (admin) > netsh winsock reset > restart।",en:"Network reset: open cmd as admin, run netsh winsock reset, then restart."},
+      {bn:"IP release/renew: ipconfig /release তারপর ipconfig /renew।",en:"Release/renew IP: ipconfig /release then ipconfig /renew."},
+      {bn:"WiFi driver update করুন: Device Manager > Network adapters > Update driver।",en:"Update Wi-Fi driver: Device Manager > Network adapters > Update driver."},
+      {bn:"5GHz ব্যান্ড দ্রুত কিন্তু সংক্ষিপ্ত range; 2.4GHz দূরত্বে ভাল।",en:"5GHz is faster but short-range; 2.4GHz reaches further."},
+      {bn:"Ethernet WiFi-এর চেয়ে stable; gaming/streaming-এ ভাল।",en:"Ethernet is more stable than Wi-Fi; better for gaming/streaming."},
+      {bn:"Network Adapter সেটিংস: Power Management > 'Allow computer to turn off this device' আনচেক করুন।",en:"In Network Adapter > Power Management, uncheck 'Allow computer to turn off this device'."},
+      {bn:"Hosts file দিয়ে বিজ্ঞাপন/ম্যালওয়্যার domain block: C:\\Windows\\System32\\drivers\\etc\\hosts।",en:"Block ad/malware domains via the hosts file at C:\\Windows\\System32\\drivers\\etc\\hosts."},
+      {bn:"Router-এ QoS সেটিং চালু করে গুরুত্বপূর্ণ অ্যাপের priority বাড়ান।",en:"Enable QoS in your router to prioritize important apps."},
+      {bn:"VPN ব্যবহার করুন privacy, geo-block বা public WiFi-এ।",en:"Use VPN for privacy, geo-blocked content, or public Wi-Fi."},
+      {bn:"Internet test: ping 8.8.8.8 (latency), tracert google.com (path), speedtest.net।",en:"Test internet: ping 8.8.8.8 (latency), tracert google.com (path), or speedtest.net."},
+      {bn:"WiFi password দেখুন: netsh wlan show profile name=\"YourWiFi\" key=clear।",en:"Show Wi-Fi password: netsh wlan show profile name=\"YourWiFi\" key=clear."}
+    ]
+  },
+  {
+    id:"D",icon:"i-wrench",
+    bn:"D — ট্রাবলশুটিং",en:"D — Troubleshooting",
+    items:[
+      {bn:"PC slow হলে: Task Manager দেখুন কোন process CPU/Disk বেশি ব্যবহার করছে; তারপর সেটি বন্ধ করুন।",en:"PC slow: open Task Manager, identify high-CPU/disk processes, end them."},
+      {bn:"Blue Screen (BSOD) এলে error code লিখুন; Settings > System > Recovery > Reset PC ভাবার আগে driver/Windows update করুন।",en:"On BSOD note the stop code; update drivers/Windows before considering Reset PC."},
+      {bn:"PC হঠাৎ বন্ধ হলে temperature, PSU, RAM চেক করুন; Event Viewer থেকে log দেখুন।",en:"If PC shuts down suddenly check temperature, PSU, RAM and review Event Viewer logs."},
+      {bn:"WiFi connect না হলে: Airplane mode toggle, restart router, network reset।",en:"Wi-Fi won't connect: toggle Airplane mode, restart router, run network reset."},
+      {bn:"Sound কাজ না করলে: Volume mixer > app সঠিক device-এ আছে কিনা দেখুন; troubleshooter চালান।",en:"No sound: check Volume mixer device assignment and run the audio troubleshooter."},
+      {bn:"Display সমস্যা: cable বদলান, refresh rate / resolution রিসেট করুন, GPU driver রিইন্সটল।",en:"Display issues: try a different cable, reset refresh rate/resolution, reinstall GPU driver."},
+      {bn:"Keyboard কাজ না করলে: USB port বদলান, driver uninstall + restart, On-Screen Keyboard (osk) দিয়ে কাজ চালান।",en:"Keyboard not working: try another USB port, uninstall driver + restart, use On-Screen Keyboard (osk)."},
+      {bn:"Mouse কাজ না করলে: ব্যাটারি/USB চেক, Bluetooth re-pair, alternate mouse দিয়ে test।",en:"Mouse not working: check battery/USB, re-pair Bluetooth, test with another mouse."},
+      {bn:"USB device detect না হলে: অন্য port try করুন, Device Manager > Universal Serial Bus controllers > Uninstall + Scan।",en:"USB not detected: try another port, then Device Manager > USB controllers > Uninstall + Scan for hardware changes."},
+      {bn:"Printer সমস্যা: Spooler service restart (services.msc > Print Spooler > Restart)।",en:"Printer issues: restart Print Spooler from services.msc."},
+      {bn:"PC overheating: dust পরিষ্কার, fan profile, thermal paste replace, undervolt।",en:"Overheating: clean dust, adjust fan profile, replace thermal paste, consider undervolting."},
+      {bn:"Black screen on startup: Safe Mode-এ boot করে recent driver uninstall করুন।",en:"Black screen on startup: boot into Safe Mode and uninstall the most recent driver."},
+      {bn:"Windows Update stuck: Troubleshooter চালান, SoftwareDistribution ফোল্ডার rename করে retry।",en:"Update stuck: run Update troubleshooter, rename SoftwareDistribution folder, retry."},
+      {bn:"App crash হলে: app ডাটা/cache clear, latest version install, Event Viewer-এ log দেখুন।",en:"App crash: clear data/cache, install latest version, check Event Viewer logs."},
+      {bn:"DLL missing error: System File Checker চালান (sfc /scannow); concerned redistributable পুনরায় install।",en:"DLL missing: run sfc /scannow and reinstall the related Visual C++ redistributable."},
+      {bn:"\"Not enough memory\" error: ব্যাকগ্রাউন্ড অ্যাপ বন্ধ, Virtual Memory বাড়ান, RAM upgrade ভাবুন।",en:"'Not enough memory': close background apps, increase Virtual Memory, consider RAM upgrade."},
+      {bn:"Corrupted system files: cmd (admin) > sfc /scannow।",en:"Repair corrupted system files: open admin cmd and run sfc /scannow."},
+      {bn:"DISM দিয়ে repair: DISM /Online /Cleanup-Image /RestoreHealth।",en:"Deeper repair: run DISM /Online /Cleanup-Image /RestoreHealth."},
+      {bn:"Boot loop: Advanced Startup > Startup Repair; প্রয়োজন হলে System Restore।",en:"Boot loop: Advanced Startup > Startup Repair; or roll back via System Restore."},
+      {bn:"PC restart না করলে cmd (admin) > shutdown /r /t 0 চালান।",en:"PC won't restart from menu: run shutdown /r /t 0 in admin cmd."},
+      {bn:"Frequent freezes: RAM (MemTest86), HDD/SSD health (CrystalDiskInfo) পরীক্ষা করুন।",en:"Frequent freezes: check RAM (MemTest86) and drive health (CrystalDiskInfo)."}
+    ]
+  },
+  {
+    id:"E",icon:"i-folder",
+    bn:"E — ফাইল ম্যানেজমেন্ট",en:"E — File Management",
+    items:[
+      {bn:"Everything সফটওয়্যার ব্যবহার করে যেকোনো ফাইল মিলিসেকেন্ডে খুঁজুন।",en:"Use 'Everything' to search any file in milliseconds."},
+      {bn:"Shift+Delete চাপলে Recycle Bin বাদ দিয়ে স্থায়ীভাবে delete হয়।",en:"Shift+Delete bypasses Recycle Bin and deletes permanently."},
+      {bn:"File extension দেখান: File Explorer > View > Show > File name extensions।",en:"Show file extensions: File Explorer > View > Show > File name extensions."},
+      {bn:"Hidden files দেখান: View > Show > Hidden items।",en:"Show hidden files: View > Show > Hidden items."},
+      {bn:"Folder shortcut: Right-click > Send to > Desktop (create shortcut)।",en:"Create a folder shortcut via Right-click > Send to > Desktop."},
+      {bn:"Quick Access customize: ফোল্ডার pin করতে Right-click > Pin to Quick Access।",en:"Customize Quick Access by right-clicking a folder and choosing Pin to Quick Access."},
+      {bn:"ZIP করতে: ফাইল select > Right-click > Compress to ZIP file।",en:"Compress files: right-click selection > Compress to ZIP file."},
+      {bn:"Long path enable: gpedit.msc > Computer Config > Filesystem > Enable Win32 long paths।",en:"Enable long paths via gpedit.msc > Filesystem > Enable Win32 long paths."},
+      {bn:"Symbolic link: cmd (admin) > mklink /D linkName targetPath।",en:"Create a symbolic link: in admin cmd, run mklink /D linkName targetPath."},
+      {bn:"File permission: Right-click > Properties > Security tab।",en:"File permissions: right-click > Properties > Security tab."},
+      {bn:"Recycle Bin সাইজ পরিবর্তন: Right-click Recycle Bin > Properties।",en:"Change Recycle Bin size via right-click > Properties."},
+      {bn:"Duplicate file খুঁজতে: dupeGuru / Auslogics Duplicate File Finder।",en:"Find duplicate files with dupeGuru or Auslogics Duplicate File Finder."},
+      {bn:"Large file খুঁজতে: WinDirStat / TreeSize দিয়ে disk usage ভিজ্যুয়াল করুন।",en:"Locate large files with WinDirStat or TreeSize for visual disk usage."},
+      {bn:"Robocopy: cmd > robocopy src dst /MIR /Z /R:3 /W:5 — দ্রুত ও resume-able copy।",en:"Use robocopy src dst /MIR /Z /R:3 /W:5 for fast, resumable copies."},
+      {bn:"OneDrive sync সমস্যা: Pause + Resume, account sign-out & sign-in, repair via Settings > Apps।",en:"Fix OneDrive sync: pause + resume, sign-out + sign-in, or repair via Settings > Apps."},
+      {bn:"File extension batch পরিবর্তন: PowerShell > Get-ChildItem *.txt | Rename-Item -NewName { $_.Name -replace '.txt','.md' }।",en:"Batch rename extensions: in PowerShell, Get-ChildItem *.txt | Rename-Item -NewName { $_.Name -replace '.txt','.md' }."}
+    ]
+  },
+  {
+    id:"F",icon:"i-cpu",
+    bn:"F — হার্ডওয়্যার গাইড",en:"F — Hardware Guide",
+    items:[
+      {bn:"RAM: 4GB মৌলিক কাজে, 8GB স্বাচ্ছন্দ, 16GB+ multitasking ও gaming-এ ভাল।",en:"RAM: 4GB basic, 8GB comfortable, 16GB+ ideal for multitasking and gaming."},
+      {bn:"HDD ক্যাপাসিটিতে সস্তা, SSD গতিতে বহুগুণ এগিয়ে; OS অবশ্যই SSD-এ।",en:"HDDs are cheap per GB; SSDs are far faster — install the OS on SSD."},
+      {bn:"CPU temperature monitor: HWMonitor / Core Temp; idle 30–50°C, load 60–80°C ভাল।",en:"Monitor CPU temp with HWMonitor / Core Temp: idle 30–50°C, load 60–80°C is healthy."},
+      {bn:"GPU temperature: idle 30–50°C, gaming load 60–85°C; 90°C+ দীর্ঘসময় ক্ষতিকর।",en:"GPU temp: idle 30–50°C, gaming 60–85°C; sustained 90°C+ is harmful."},
+      {bn:"Thermal paste সাধারণত ২-৩ বছর পরপর পরিবর্তন করতে হয়।",en:"Replace thermal paste roughly every 2–3 years."},
+      {bn:"PC cleaning: compressed air দিয়ে dust পরিষ্কার, ৬ মাস পরপর; PC বন্ধ ও আনপ্লাগড অবস্থায়।",en:"Clean dust with compressed air every ~6 months while PC is off and unplugged."},
+      {bn:"PSU ক্ষমতা: total system ক্ষেত্রে 30-40% headroom রেখে বেছে নিন; 80+ certified ভাল।",en:"PSU: pick a unit with 30–40% headroom over your total draw; 80+ certified is preferred."},
+      {bn:"Monitor refresh rate: Settings > System > Display > Advanced display > Refresh rate।",en:"Set monitor refresh rate via Settings > System > Display > Advanced display."},
+      {bn:"External HDD eject: taskbar > Safely Remove Hardware (data corruption এড়াতে)।",en:"Safely eject external drives via the taskbar Safely Remove Hardware icon."},
+      {bn:"USB 3.0 (নীল port) USB 2.0 থেকে ১০ গুণ দ্রুত।",en:"USB 3.0 (blue ports) is roughly 10× faster than USB 2.0."},
+      {bn:"Laptop battery calibration: 100% > 0% > 100% (3-4 মাসে একবার)।",en:"Calibrate laptop battery: full charge to 0% to 100% every 3–4 months."},
+      {bn:"SMART দিয়ে drive health: CrystalDiskInfo দিয়ে চেক করুন।",en:"Check drive health via SMART using CrystalDiskInfo."},
+      {bn:"RAM test: Windows Memory Diagnostic বা MemTest86 (USB থেকে boot)।",en:"Test RAM with Windows Memory Diagnostic or MemTest86 from USB boot."},
+      {bn:"Laptop cooling pad গরম-আবহাওয়ায় তাপমাত্রা ৫-১০°C কমাতে পারে।",en:"A laptop cooling pad can reduce temps by 5–10°C in hot weather."},
+      {bn:"Eye strain কমান: 20-20-20 rule (২০ মিনিট পর ২০ ফুট দূরে ২০ সেকেন্ড দেখুন), Night Light ON করুন।",en:"Reduce eye strain: 20-20-20 rule and enable Night Light."}
+    ]
+  },
+  {
+    id:"G",icon:"i-app",
+    bn:"G — সফটওয়্যার টিপস",en:"G — Software Tips",
+    items:[
+      {bn:"Uninstall: Revo Uninstaller / BCUninstaller leftover registry & file পরিষ্কার করে।",en:"Use Revo Uninstaller or BCUninstaller to remove leftover files & registry entries."},
+      {bn:"Portable software ব্যবহার করুন (PortableApps.com) — install ছাড়া USB থেকে চলে।",en:"Use portable software (PortableApps.com) that runs from USB without installing."},
+      {bn:"32-bit বনাম 64-bit: 64-bit বেশি RAM ব্যবহার করতে পারে, আজকাল default।",en:"32 vs 64-bit: 64-bit uses more RAM and is the default today."},
+      {bn:"Cracked software ম্যালওয়্যার ও আইনগত ঝুঁকি — এড়িয়ে চলুন।",en:"Cracked software brings malware and legal risk — avoid it."},
+      {bn:"Free FOSS list: VLC, LibreOffice, 7-Zip, Notepad++, GIMP, Inkscape, Audacity, OBS Studio।",en:"Free open-source picks: VLC, LibreOffice, 7-Zip, Notepad++, GIMP, Inkscape, Audacity, OBS."},
+      {bn:"MS Office বিকল্প: LibreOffice, WPS Office, OnlyOffice।",en:"MS Office alternatives: LibreOffice, WPS Office, OnlyOffice."},
+      {bn:"একসাথে দুটি antivirus রাখবেন না (conflict); Defender + একটি secondary scanner যথেষ্ট।",en:"Don't run two antivirus apps; Defender + a secondary scanner is enough."},
+      {bn:"Software auto-update বন্ধ যদি bandwidth সীমিত: app settings থেকে।",en:"Disable software auto-update on metered connections via app settings."},
+      {bn:"Default apps: Settings > Apps > Default apps থেকে file type অনুযায়ী বদলান।",en:"Set Default apps in Settings > Apps > Default apps for each file type."},
+      {bn:"Microsoft Store app সমস্যা: wsreset.exe চালান।",en:"Fix Microsoft Store apps with wsreset.exe."},
+      {bn:".NET Framework error: Microsoft .NET Framework Repair Tool।",en:".NET errors: run the Microsoft .NET Framework Repair Tool."},
+      {bn:"Visual C++ Redistributable অনেক game/app চালানোর জন্য দরকার।",en:"Visual C++ Redistributable is required by many games/apps."},
+      {bn:"Compatibility mode: app properties > Compatibility tab > older Windows version।",en:"Compatibility mode: app properties > Compatibility tab > older Windows version."},
+      {bn:"Task Scheduler: taskschd.msc দিয়ে নির্দিষ্ট সময়ে script/অ্যাপ auto-চালান।",en:"Schedule scripts/apps with Task Scheduler (taskschd.msc)."},
+      {bn:"Winget: command-line install — winget install Microsoft.PowerToys।",en:"Use winget for CLI installs — e.g. winget install Microsoft.PowerToys."},
+      {bn:"PowerToys (Microsoft) ফ্রি ও অসাধারণ productivity tools দেয়।",en:"Microsoft PowerToys is free and adds excellent productivity tools."}
+    ]
+  }
+];
 
-if(SpeechRecognition) {
-  const recognition = new SpeechRecognition();
-  recognition.continuous = false;
-  
-  voiceBtn.addEventListener('click', () => {
-    voiceBtn.classList.add('voice-active');
-    recognition.start();
-  });
+const TIPS_H_N = [
+  {
+    id:"H",icon:"i-battery",
+    bn:"H — ব্যাটারি ও পাওয়ার",en:"H — Battery & Power",
+    items:[
+      {bn:"Battery Saver: Settings > System > Power & battery > Battery saver auto-on at 20%।",en:"Battery Saver: Settings > Power & battery > Battery saver auto-on at 20%."},
+      {bn:"Battery report: cmd > powercfg /batteryreport — design vs full charge capacity দেখুন।",en:"Battery report: run powercfg /batteryreport in cmd to see design vs current capacity."},
+      {bn:"Sleep মেমোরিতে session রাখে; Hibernate disk-এ; Shutdown সম্পূর্ণ বন্ধ।",en:"Sleep keeps session in RAM; Hibernate saves to disk; Shutdown closes everything."},
+      {bn:"Fast Startup: Control Panel > Power Options > Choose what power buttons do।",en:"Fast Startup: Control Panel > Power Options > Choose what power buttons do."},
+      {bn:"Screen brightness ৭০-৮০% রাখলে battery অনেকটা বাঁচে।",en:"Keeping screen brightness at 70–80% saves significant battery."},
+      {bn:"Background apps বন্ধ করুন battery বাঁচাতে।",en:"Disable background apps to save battery."},
+      {bn:"Battery health: powercfg /batteryreport-এ Cycle Count দেখুন।",en:"Check battery health and cycle count via powercfg /batteryreport."},
+      {bn:"Laptop charge: ২০-৮০% range-এ রাখলে battery দীর্ঘস্থায়ী হয়।",en:"Keeping laptop battery between 20–80% extends lifespan."},
+      {bn:"Power Plan customize: powercfg.cpl > Change plan settings > Advanced।",en:"Customize Power Plan via powercfg.cpl > Change plan settings > Advanced."},
+      {bn:"USB charging বন্ধ অবস্থায়: BIOS-এ 'USB Power Sharing' / 'Always On USB' চালু করুন।",en:"USB charging when off: enable 'USB Power Sharing' / 'Always On USB' in BIOS."},
+      {bn:"Hybrid sleep: Power Options > Advanced > Sleep > Allow hybrid sleep।",en:"Hybrid sleep: Power Options > Advanced > Sleep > Allow hybrid sleep."},
+      {bn:"Lid close action: powercfg.cpl > Choose what closing the lid does।",en:"Set lid-close action via powercfg.cpl > 'Choose what closing the lid does'."}
+    ]
+  },
+  {
+    id:"I",icon:"i-lock",
+    bn:"I — প্রাইভেসি সেটিংস",en:"I — Privacy Settings",
+    items:[
+      {bn:"App permissions: Settings > Privacy & security > Camera/Microphone/Location।",en:"Manage app permissions in Settings > Privacy & security."},
+      {bn:"Activity History বন্ধ: Settings > Privacy & security > Activity history।",en:"Disable Activity History in Settings > Privacy & security > Activity history."},
+      {bn:"Diagnostic data: Settings > Privacy & security > Diagnostics & feedback > Required only।",en:"Set Diagnostic data to Required only."},
+      {bn:"Advertising ID: Settings > Privacy > General > Off।",en:"Turn off the advertising ID in Settings > Privacy > General."},
+      {bn:"Cortana বন্ধ: Settings > Apps > Apps & features > Cortana > Advanced > Off।",en:"Disable Cortana via Settings > Apps > Cortana > Advanced."},
+      {bn:"Telemetry কমান: Group Policy / Registry-এ Telemetry = Security/Basic।",en:"Reduce telemetry to Security/Basic via Group Policy or Registry."},
+      {bn:"Browser tracking বন্ধ: 'Do Not Track' enable করুন; uBlock Origin ব্যবহার করুন।",en:"Disable browser tracking with 'Do Not Track' and uBlock Origin."},
+      {bn:"Search history clear: ব্রাউজার history ও Microsoft account থেকে।",en:"Clear search history from browser and your Microsoft account."},
+      {bn:"Webcam cover ব্যবহার করুন (ভৌত বাধা সবচেয়ে নিরাপদ)।",en:"Use a webcam cover — physical blocking is the most reliable privacy guard."},
+      {bn:"Private browsing (Incognito): cookies/history সেভ হয় না; কিন্তু network/ISP দেখতে পারে।",en:"Incognito doesn't save cookies/history but ISP/network can still see traffic."},
+      {bn:"Microphone access tray-icon দেখলে কোন app ব্যবহার করছে check করুন।",en:"If the mic tray icon appears, click it to see which app is using your microphone."},
+      {bn:"Find My Device বন্ধ/চালু: Settings > Privacy & security > Find my device।",en:"Toggle 'Find my device' under Settings > Privacy & security."}
+    ]
+  },
+  {
+    id:"J",icon:"i-cloud",
+    bn:"J — ব্যাকআপ ও রিকভারি",en:"J — Backup & Recovery",
+    items:[
+      {bn:"File History চালু: Settings > System > Storage > Advanced > Backup options।",en:"Enable File History via Settings > Storage > Advanced > Backup options."},
+      {bn:"System Restore Point তৈরি: sysdm.cpl > System Protection > Create।",en:"Create a System Restore Point via sysdm.cpl > System Protection > Create."},
+      {bn:"Recovery Drive: Win+R > recoverydrive.exe (USB 16GB+ লাগবে)।",en:"Create a Recovery Drive with recoverydrive.exe (16GB+ USB)."},
+      {bn:"Cloud backup: OneDrive, Google Drive, Dropbox automatic sync ব্যবহার করুন।",en:"Use OneDrive, Google Drive, or Dropbox for automatic cloud backup."},
+      {bn:"3-2-1 rule: ৩ কপি, ২ media, ১ off-site।",en:"Follow the 3-2-1 backup rule: 3 copies, 2 media types, 1 off-site."},
+      {bn:"Bootable USB তৈরি: Rufus + Windows ISO।",en:"Create a bootable USB with Rufus and a Windows ISO."},
+      {bn:"Reset PC: Settings > System > Recovery > Reset this PC > Keep my files / Remove everything।",en:"Reset PC: Settings > Recovery > Reset this PC > Keep files / Remove everything."},
+      {bn:"DISM image backup: dism /Capture-Image /ImageFile:C:\\backup.wim /CaptureDir:C:\\ /Name:\"Backup\"।",en:"DISM image backup: dism /Capture-Image /ImageFile:C:\\backup.wim /CaptureDir:C:\\ /Name:\"Backup\"."},
+      {bn:"Recuva দিয়ে deleted file recover করা যায়।",en:"Recover deleted files with Recuva."},
+      {bn:"BIOS update আগে current settings/profile screenshot নিন।",en:"Before BIOS update, take screenshots of current settings/profiles."},
+      {bn:"Windows.old folder: clean install এর পর ৩০ দিন rollback option থাকে।",en:"Windows.old folder retains a 30-day rollback option after a clean install."},
+      {bn:"Drivers backup: DISM / Double Driver / Snappy Driver Installer।",en:"Back up drivers with DISM, Double Driver, or Snappy Driver Installer."}
+    ]
+  },
+  {
+    id:"K",icon:"i-eye",
+    bn:"K — ডিসপ্লে ও অ্যাক্সেসিবিলিটি",en:"K — Display & Accessibility",
+    items:[
+      {bn:"DPI Scaling: Settings > System > Display > Scale (4K-এ 150% সাধারণ)।",en:"DPI Scaling via Settings > Display > Scale (150% common at 4K)."},
+      {bn:"Night Light: Settings > System > Display > Night light (চোখের জন্য)।",en:"Night Light: Settings > Display > Night light (eye-friendly)."},
+      {bn:"Multiple monitor: Win+P দিয়ে Extend / Duplicate / Second screen only।",en:"Multiple monitors: press Win+P to Extend / Duplicate / Second screen only."},
+      {bn:"Color calibration: Win+R > dccw।",en:"Run color calibration with Win+R > dccw."},
+      {bn:"Font size: Settings > Accessibility > Text size।",en:"Change font size in Settings > Accessibility > Text size."},
+      {bn:"Magnifier: Win+Plus / Win+Minus।",en:"Magnifier shortcuts: Win+Plus / Win+Minus."},
+      {bn:"High Contrast: Win+Ctrl+C (theme অনুযায়ী)।",en:"High Contrast theme: Win+Ctrl+C (depending on theme)."},
+      {bn:"Narrator: Win+Ctrl+Enter।",en:"Narrator: Win+Ctrl+Enter."},
+      {bn:"Keyboard accessibility: Sticky Keys, Filter Keys (Settings > Accessibility > Keyboard)।",en:"Keyboard accessibility: Sticky Keys, Filter Keys (Settings > Accessibility > Keyboard)."},
+      {bn:"ClearType text tuning: Win+R > cttune।",en:"Tune ClearType: Win+R > cttune."}
+    ]
+  },
+  {
+    id:"L",icon:"i-terminal",
+    bn:"L — Command Line টিপস",en:"L — Command Line Tips",
+    items:[
+      {bn:"ipconfig — IP address ও network info দেখুন।",en:"ipconfig — show IP and network info."},
+      {bn:"ping — connection test (ping 8.8.8.8)।",en:"ping — connectivity test (ping 8.8.8.8)."},
+      {bn:"sfc /scannow — system file check ও repair।",en:"sfc /scannow — check and repair system files."},
+      {bn:"DISM /Online /Cleanup-Image /RestoreHealth — Windows image repair।",en:"DISM /Online /Cleanup-Image /RestoreHealth — repair Windows image."},
+      {bn:"netstat -ano — কোন port-এ কোন process চলছে দেখুন।",en:"netstat -ano — see which process listens on which port."},
+      {bn:"tasklist / taskkill /PID 1234 /F — process list ও kill।",en:"tasklist / taskkill /PID 1234 /F — list & kill processes."},
+      {bn:"chkdsk C: /f /r — disk error scan ও repair।",en:"chkdsk C: /f /r — scan & fix disk errors."},
+      {bn:"diskpart — partition manage।",en:"diskpart — manage partitions from CLI."},
+      {bn:"gpupdate /force — Group Policy এখনই apply।",en:"gpupdate /force — apply Group Policy immediately."},
+      {bn:"shutdown /s /t 0 — instantly shutdown; /r restart, /h hibernate।",en:"shutdown /s /t 0 — instant shutdown; /r restart, /h hibernate."},
+      {bn:"systeminfo — system overview।",en:"systeminfo — full system overview."},
+      {bn:"powercfg /energy — energy efficiency report।",en:"powercfg /energy — generate energy efficiency report."},
+      {bn:"wmic — system info CLI (e.g. wmic cpu get name)।",en:"wmic — system info CLI (e.g. wmic cpu get name)."}
+    ]
+  },
+  {
+    id:"M",icon:"i-settings",
+    bn:"M — সেটিংস ও কাস্টমাইজেশন",en:"M — Settings & Customization",
+    items:[
+      {bn:"Start Menu pin/unpin: Right-click app > Pin to Start / Unpin।",en:"Pin/unpin Start Menu apps via right-click > Pin to Start / Unpin."},
+      {bn:"Taskbar position/size: Settings > Personalization > Taskbar (Windows 11 limited)।",en:"Taskbar position/size: Settings > Personalization > Taskbar (limited in Windows 11)."},
+      {bn:"Desktop icon size: Ctrl + scroll wheel।",en:"Desktop icon size: Ctrl + scroll wheel."},
+      {bn:"Wallpaper slideshow: Settings > Personalization > Background > Slideshow।",en:"Wallpaper slideshow: Settings > Personalization > Background > Slideshow."},
+      {bn:"Virtual Desktop: Win+Ctrl+D, Win+Ctrl+←/→ দিয়ে switch।",en:"Virtual Desktops: Win+Ctrl+D, Win+Ctrl+←/→ to switch."},
+      {bn:"Snap Layout: Win+Z দিয়ে preset layouts (Windows 11)।",en:"Snap Layouts: Win+Z opens preset layouts (Windows 11)."},
+      {bn:"Quick Settings (Win+A) customize করুন pencil icon দিয়ে।",en:"Customize Quick Settings (Win+A) using the pencil/edit icon."},
+      {bn:"Notification বন্ধ: Settings > System > Notifications > app-wise off।",en:"Disable per-app notifications: Settings > System > Notifications."},
+      {bn:"Focus Assist / Do Not Disturb: Settings > System > Focus।",en:"Focus / Do Not Disturb: Settings > System > Focus."},
+      {bn:"Dark / Light mode: Settings > Personalization > Colors।",en:"Dark / Light mode: Settings > Personalization > Colors."},
+      {bn:"Custom keyboard layout: Settings > Time & language > Language > Add input method।",en:"Custom keyboard layout: Settings > Time & language > Language > Add input method."},
+      {bn:"Mouse pointer speed/size: Settings > Bluetooth & devices > Mouse।",en:"Adjust mouse pointer speed/size: Settings > Bluetooth & devices > Mouse."},
+      {bn:"Touchpad gestures: Settings > Bluetooth & devices > Touchpad।",en:"Touchpad gestures: Settings > Bluetooth & devices > Touchpad."},
+      {bn:"Font install: Right-click .ttf > Install for all users।",en:"Install fonts: right-click .ttf > Install for all users."},
+      {bn:"Accent color: Settings > Personalization > Colors > Accent color।",en:"Accent color: Settings > Personalization > Colors > Accent color."}
+    ]
+  },
+  {
+    id:"N",icon:"i-tools",
+    bn:"N — সিস্টেম অ্যাডমিন",en:"N — System Administration",
+    items:[
+      {bn:"Task Manager (Ctrl+Shift+Esc): CPU, RAM, Disk, Network monitor।",en:"Task Manager (Ctrl+Shift+Esc): monitor CPU, RAM, Disk, Network."},
+      {bn:"Resource Monitor (resmon): per-process detail।",en:"Resource Monitor (resmon): per-process details."},
+      {bn:"Event Viewer: error log দেখা — Application/System log।",en:"Event Viewer: review Application/System error logs."},
+      {bn:"services.msc: অপ্রয়োজনীয় service Disable (সতর্কতার সাথে)।",en:"services.msc: disable unnecessary services (carefully)."},
+      {bn:"gpedit.msc (Group Policy Editor) — Pro/Enterprise-এ available।",en:"gpedit.msc (Group Policy Editor) — Pro/Enterprise only."},
+      {bn:"regedit সতর্কতার সাথে; পরিবর্তনের আগে Export দিয়ে backup নিন।",en:"regedit: always export a backup before changes."},
+      {bn:"lusrmgr.msc: Local Users and Groups manage।",en:"lusrmgr.msc: manage Local Users and Groups."},
+      {bn:"Disk Management (diskmgmt.msc) দিয়ে partition তৈরি/extend/shrink।",en:"Disk Management (diskmgmt.msc): create/extend/shrink partitions."},
+      {bn:"Device Manager (devmgmt.msc): driver enable/disable/update।",en:"Device Manager (devmgmt.msc): driver enable/disable/update."},
+      {bn:"Reliability Monitor: Control Panel > Security and Maintenance > Reliability।",en:"Reliability Monitor: Control Panel > Security and Maintenance > Reliability."},
+      {bn:"perfmon: detailed performance counters।",en:"perfmon: view detailed performance counters."},
+      {bn:"taskschd.msc: scheduled task তৈরি।",en:"taskschd.msc: create scheduled tasks."},
+      {bn:"msconfig: System Configuration (boot, services, startup)।",en:"msconfig: System Configuration for boot, services, startup."},
+      {bn:"Environment Variables: sysdm.cpl > Advanced > Environment Variables।",en:"Environment Variables: sysdm.cpl > Advanced > Environment Variables."},
+      {bn:"Windows Sandbox: Optional Features-এ Enable; নিরাপদ disposable env।",en:"Windows Sandbox: enable in Optional Features for safe, disposable testing."}
+    ]
+  }
+];
 
-  recognition.onresult = (event) => {
-    const command = event.results[0][0].transcript.toLowerCase();
-    voiceBtn.classList.remove('voice-active');
-    
-    if(command.includes('dark') || command.includes('night')) {
-      document.body.classList.add('dark-mode');
-      themeIcon.className = 'fas fa-sun';
-      localStorage.setItem('theme', 'dark');
-    } 
-    else if(command.includes('light') || command.includes('day')) {
-      document.body.classList.remove('dark-mode');
-      themeIcon.className = 'fas fa-moon';
-      localStorage.setItem('theme', 'light');
+const TIPS_O_T = [
+  {
+    id:"O",icon:"i-cpu",
+    bn:"O — ভার্চুয়ালাইজেশন ও অ্যাডভান্সড টুল",en:"O — Virtualization & Advanced Tools",
+    items:[
+      {bn:"Hyper-V চালু: Windows Features > Hyper-V (Pro/Enterprise)।",en:"Enable Hyper-V via Windows Features (Pro/Enterprise)."},
+      {bn:"Virtual Machine: VirtualBox / VMware Workstation Player ব্যবহার করুন।",en:"Run VMs with VirtualBox or VMware Workstation Player."},
+      {bn:"WSL install: PowerShell (admin) > wsl --install।",en:"Install WSL: in admin PowerShell run wsl --install."},
+      {bn:"Docker Desktop: WSL2 backend দিয়ে Linux container চালান।",en:"Docker Desktop: run Linux containers via WSL2 backend."},
+      {bn:"Windows Sandbox: একবার ব্যবহারের পর state মুছে যায়; অপরিচিত .exe test-এ ভাল।",en:"Windows Sandbox state resets each session — great for testing unknown .exe."},
+      {bn:"Remote Desktop (RDP): mstsc কমান্ড দিয়ে চালু; Settings > System > Remote Desktop থেকে enable।",en:"Remote Desktop: launch with mstsc; enable in Settings > System > Remote Desktop."},
+      {bn:"Quick Assist: Win+Ctrl+Q দিয়ে অন্যের PC-তে remote help।",en:"Quick Assist: Win+Ctrl+Q to remote-help another PC."},
+      {bn:"SSH client: Settings > Apps > Optional features > OpenSSH Client install।",en:"SSH client: install OpenSSH Client from Settings > Apps > Optional features."},
+      {bn:"PowerShell scripting বেশি শক্তিশালী; CMD legacy। Windows Terminal-এ দুটোই চালান।",en:"PowerShell is more powerful than CMD (legacy); use both inside Windows Terminal."},
+      {bn:"Windows Terminal customize: settings.json দিয়ে theme, profile।",en:"Customize Windows Terminal via settings.json (themes, profiles)."}
+    ]
+  },
+  {
+    id:"P",icon:"i-printer",
+    bn:"P — প্রিন্টিং ও স্ক্যানিং",en:"P — Printing & Scanning",
+    items:[
+      {bn:"Default printer: Settings > Bluetooth & devices > Printers > Set as default।",en:"Default printer: Settings > Bluetooth & devices > Printers > Set as default."},
+      {bn:"Print queue clear: services.msc > Print Spooler > Restart।",en:"Clear print queue: services.msc > Print Spooler > Restart."},
+      {bn:"Driver সঠিকভাবে install: manufacturer-এর website থেকে exact model।",en:"Install printer drivers from the manufacturer's site for the exact model."},
+      {bn:"Print to PDF: Microsoft Print to PDF সব app-এ available।",en:"Print to PDF: Microsoft Print to PDF works in all apps."},
+      {bn:"Printer share: Settings > Printers > Manage > Printer properties > Sharing।",en:"Share printer: Settings > Printers > Manage > Printer properties > Sharing."},
+      {bn:"Wireless printer: WPS button + WiFi setup, তারপর Add device।",en:"Wireless printer: use WPS + Wi-Fi setup, then Add device."},
+      {bn:"Ink বাঁচান: Print Properties > Quality > Draft mode।",en:"Save ink: Print Properties > Quality > Draft mode."},
+      {bn:"Scanner driver: Windows Update স্বয়ংক্রিয় install করে অনেক সময়।",en:"Scanner drivers often install automatically via Windows Update."},
+      {bn:"Scan to PDF: Windows Scan অ্যাপ ব্যবহার করুন (Microsoft Store)।",en:"Scan to PDF using the Windows Scan app from Microsoft Store."},
+      {bn:"Printer offline: cable/WiFi check, restart printer + spooler, default printer reset।",en:"Printer offline: check cable/Wi-Fi, restart printer + spooler, reset default printer."}
+    ]
+  },
+  {
+    id:"Q",icon:"i-volume",
+    bn:"Q — অডিও ও ভিডিও",en:"Q — Audio & Video",
+    items:[
+      {bn:"Sound driver update: Device Manager > Audio > Update driver।",en:"Update sound driver via Device Manager > Audio > Update driver."},
+      {bn:"Default audio device: Settings > Sound > Output / Input device।",en:"Set default audio device in Settings > Sound > Output / Input device."},
+      {bn:"Audio Enhancements: Sound Control Panel > Speakers > Enhancements tab।",en:"Audio Enhancements: Sound Control Panel > Speakers > Enhancements tab."},
+      {bn:"Microphone test: Settings > Sound > Input > Test your microphone।",en:"Microphone test: Settings > Sound > Input > Test your microphone."},
+      {bn:"Stereo Mix: Recording devices > Right-click > Show disabled > Enable Stereo Mix।",en:"Enable Stereo Mix: Recording devices > Right-click > Show disabled > Enable Stereo Mix."},
+      {bn:"Video stuttering: GPU driver update, Hardware Acceleration toggle, codec install।",en:"Video stuttering: update GPU driver, toggle Hardware Acceleration, install codecs."},
+      {bn:"Codec pack: K-Lite Codec Pack (Standard) — most format support।",en:"Install K-Lite Codec Pack (Standard) for broad format support."},
+      {bn:"VLC সব format চালাতে পারে; built-in codec।",en:"VLC plays virtually any format with built-in codecs."},
+      {bn:"Screen recording: Win+G (Game Bar) দিয়ে built-in record।",en:"Screen record: press Win+G to use built-in Game Bar."},
+      {bn:"OBS Studio: high-quality recording/streaming এর জন্য সেরা ফ্রি টুল।",en:"OBS Studio is the best free tool for high-quality recording/streaming."},
+      {bn:"একাধিক device-এ audio: VoiceMeeter / Audio Router।",en:"Output audio to multiple devices with VoiceMeeter or Audio Router."},
+      {bn:"Bluetooth audio latency: aptX / aptX Low Latency কোডেক সাপোর্টেড headphone ব্যবহার।",en:"Reduce Bluetooth audio latency with aptX / aptX Low Latency headphones."},
+      {bn:"Equalizer: Equalizer APO / Realtek Audio Console।",en:"Audio Equalizer: Equalizer APO or Realtek Audio Console."},
+      {bn:"Video resolution: Settings > Display > Display resolution; native সেট রাখুন।",en:"Set display resolution to native: Settings > Display > Display resolution."},
+      {bn:"HDR: supported monitor-এ Settings > Display > HDR > Use HDR।",en:"Enable HDR on supported monitors: Settings > Display > HDR > Use HDR."}
+    ]
+  },
+  {
+    id:"R",icon:"i-game",
+    bn:"R — গেমিং টিপস",en:"R — Gaming Tips",
+    items:[
+      {bn:"Game Mode: Settings > Gaming > Game Mode > On।",en:"Enable Game Mode: Settings > Gaming > Game Mode > On."},
+      {bn:"Xbox Game Bar: Win+G দিয়ে FPS, recording, performance overlay।",en:"Xbox Game Bar (Win+G): FPS, recording, performance overlay."},
+      {bn:"GPU Hardware-Accelerated Scheduling: Settings > Display > Graphics > Default settings > On।",en:"GPU Hardware-Accelerated Scheduling: Settings > Display > Graphics > Default."},
+      {bn:"DirectX version: Win+R > dxdiag।",en:"Check DirectX version with Win+R > dxdiag."},
+      {bn:"FPS বাড়াতে: in-game graphics কমান, GPU driver আপডেট, V-Sync বন্ধ।",en:"Boost FPS: lower in-game graphics, update GPU driver, disable V-Sync."},
+      {bn:"Game DVR: Game Bar Settings > Captures > Background recording = Off।",en:"Disable Game DVR: Game Bar > Captures > Background recording = Off."},
+      {bn:"Controller calibration: Win+R > joy.cpl > Properties > Settings > Calibrate।",en:"Calibrate controllers: joy.cpl > Properties > Settings > Calibrate."},
+      {bn:"Steam game optimize: Right-click game > Properties > General > Launch Options (e.g., -high)।",en:"Steam optimize: right-click game > Properties > Launch Options (e.g., -high)."},
+      {bn:"Background process বন্ধ: Task Manager থেকে non-essential বন্ধ করুন।",en:"Close background processes from Task Manager during gameplay."},
+      {bn:"Full screen optimization বন্ধ: game .exe > Properties > Compatibility।",en:"Disable Full screen optimizations: game .exe > Properties > Compatibility."},
+      {bn:"Overclock basics: MSI Afterburner দিয়ে GPU ছোট ছোট step-এ tune।",en:"GPU overclock basics: tune in small steps with MSI Afterburner."},
+      {bn:"Game install location: Steam > Settings > Storage > Add Drive।",en:"Change game install location via Steam > Settings > Storage > Add Drive."},
+      {bn:"VRR / G-Sync / FreeSync: Display settings + GPU control panel।",en:"Enable VRR / G-Sync / FreeSync via Display settings + GPU control panel."},
+      {bn:"Online ping কমান: server region কাছের রাখুন, Wi-Fi-এর বদলে Ethernet।",en:"Lower online ping: pick a close server region; use Ethernet over Wi-Fi."},
+      {bn:"Anti-cheat (Vanguard, EAC) kernel-level access নেয় — শুধু trusted game-এই install।",en:"Anti-cheat tools (Vanguard, EAC) need kernel access — install only for trusted games."}
+    ]
+  },
+  {
+    id:"S",icon:"i-cloud2",
+    bn:"S — ক্লাউড ও সিঙ্ক",en:"S — Cloud & Sync",
+    items:[
+      {bn:"OneDrive setup: Settings > Accounts > Email & accounts > Add Microsoft account।",en:"Set up OneDrive via Settings > Accounts > Email & accounts > Add Microsoft account."},
+      {bn:"Selective sync: OneDrive icon > Settings > Account > Choose folders।",en:"Selective sync: OneDrive icon > Settings > Account > Choose folders."},
+      {bn:"Google Drive for Desktop: drive.google.com থেকে install করুন।",en:"Install Google Drive for Desktop from drive.google.com."},
+      {bn:"OneDrive vs Google Drive vs Dropbox: free 5GB / 15GB / 2GB।",en:"Free tiers: OneDrive 5GB, Google Drive 15GB, Dropbox 2GB."},
+      {bn:"Files On-Demand: OneDrive Settings > Files On-Demand > Save space।",en:"Files On-Demand: OneDrive Settings > Files On-Demand to save space."},
+      {bn:"Google Photos sync: Drive for Desktop থেকে folder sync করুন।",en:"Sync to Google Photos via Drive for Desktop with backup folder."},
+      {bn:"iCloud for Windows: Microsoft Store থেকে install।",en:"Install iCloud for Windows from Microsoft Store."},
+      {bn:"Cloud backup schedule: Backup software (Macrium Reflect Free, AOMEI)।",en:"Schedule cloud backups via Macrium Reflect Free, AOMEI, etc."},
+      {bn:"Sync conflict: ফাইলের দুটো copy থাকলে latest version বেছে নিন।",en:"Sync conflict: keep the most recent version when duplicates appear."},
+      {bn:"Offline access: গুরুত্বপূর্ণ files > Right-click > Always keep on this device।",en:"Offline access: right-click important files > Always keep on this device."}
+    ]
+  },
+  {
+    id:"T",icon:"i-laptop",
+    bn:"T — ল্যাপটপ-নির্দিষ্ট টিপস",en:"T — Laptop-Specific Tips",
+    items:[
+      {bn:"Lid action: powercfg.cpl > Choose what closing the lid does।",en:"Lid action: powercfg.cpl > Choose what closing the lid does."},
+      {bn:"External monitor: HDMI/DP cable + Win+P > Extend।",en:"External monitor: connect HDMI/DP, then Win+P > Extend."},
+      {bn:"Fan noise কমান: ventilation নিশ্চিত, dust পরিষ্কার, undervolt try।",en:"Reduce fan noise: ensure airflow, clean dust, consider undervolting."},
+      {bn:"Battery health check: powercfg /batteryreport।",en:"Battery health: run powercfg /batteryreport."},
+      {bn:"Overheat হলে: cooling pad, lap-এ না রেখে শক্ত surface-এ ব্যবহার করুন।",en:"If overheating: use a cooling pad and a hard surface (not your lap)."},
+      {bn:"Keyboard backlight: Fn + F-keys (model অনুযায়ী)।",en:"Keyboard backlight: Fn + F-keys (varies by model)."},
+      {bn:"Touchpad disable: Settings > Bluetooth & devices > Touchpad > Off।",en:"Disable touchpad: Settings > Bluetooth & devices > Touchpad > Off."},
+      {bn:"Speaker quality: FxSound / Equalizer APO দিয়ে boost।",en:"Improve speakers with FxSound or Equalizer APO."},
+      {bn:"Brightness shortcut: Fn + brightness keys বা Win+A slider।",en:"Brightness: Fn + brightness keys or the slider in Win+A."},
+      {bn:"Hibernate enable: cmd (admin) > powercfg /hibernate on।",en:"Enable Hibernate: in admin cmd, run powercfg /hibernate on."},
+      {bn:"Docking station: Thunderbolt / USB-C dock দিয়ে multiple monitor + peripheral।",en:"Use a Thunderbolt/USB-C dock for multi-monitor + peripherals."},
+      {bn:"Camera privacy: built-in shutter / sticker ব্যবহার।",en:"Camera privacy: use the built-in shutter or a sticker."},
+      {bn:"Secure Boot status: msinfo32 > Secure Boot State।",en:"Check Secure Boot status: msinfo32 > Secure Boot State."},
+      {bn:"RAM upgrade-ability: Crucial / Kingston Memory Advisor দিয়ে যাচাই।",en:"Verify RAM upgrade options via Crucial or Kingston Memory Advisor."},
+      {bn:"SSD upgrade: M.2 slot / 2.5\" SATA — clone tool (Macrium Reflect) ব্যবহার করুন।",en:"SSD upgrade: M.2 slot / 2.5\" SATA — use a clone tool (Macrium Reflect)."}
+    ]
+  }
+];
+
+const TIPS_U_Z = [
+  {
+    id:"U",icon:"i-update",
+    bn:"U — উইন্ডোজ আপডেট ও মেইনটেনেন্স",en:"U — Windows Updates & Maintenance",
+    items:[
+      {bn:"Windows Update pause: Settings > Windows Update > Pause for 1 week।",en:"Pause Windows Update: Settings > Windows Update > Pause for 1 week."},
+      {bn:"Update stuck হলে: Troubleshooter চালান, SoftwareDistribution rename করুন, retry।",en:"Update stuck: run Troubleshooter, rename SoftwareDistribution folder, retry."},
+      {bn:"Optional Updates: Settings > Windows Update > Advanced options > Optional updates।",en:"Optional Updates: Settings > Windows Update > Advanced options > Optional updates."},
+      {bn:"Driver update Windows Update থেকে: Optional updates > Driver updates।",en:"Driver updates via Windows Update: Optional updates > Driver updates."},
+      {bn:"Update history: Settings > Windows Update > Update history।",en:"Update history: Settings > Windows Update > Update history."},
+      {bn:"Update uninstall: Update history > Uninstall updates।",en:"Uninstall an update via Update history > Uninstall updates."},
+      {bn:"DISM-এ Update repair: DISM /Online /Cleanup-Image /RestoreHealth।",en:"Repair Update components via DISM /Online /Cleanup-Image /RestoreHealth."},
+      {bn:"Update Troubleshooter: Settings > System > Troubleshoot > Other > Windows Update।",en:"Run Update Troubleshooter: Settings > Troubleshoot > Other > Windows Update."},
+      {bn:"Delivery Optimization বন্ধ: Advanced options > Delivery Optimization > Off (bandwidth সীমিত হলে)।",en:"Disable Delivery Optimization on metered connections."},
+      {bn:"Windows Insider: Settings > Windows Update > Windows Insider Program; production PC-তে এড়িয়ে চলুন।",en:"Windows Insider Program: avoid on production PCs (preview builds)."}
+    ]
+  },
+  {
+    id:"V",icon:"i-eye",
+    bn:"V — অ্যাক্সেসিবিলিটি ও Ease of Use",en:"V — Accessibility & Ease of Use",
+    items:[
+      {bn:"Magnifier: Win+Plus / Win+Minus / Win+Esc।",en:"Magnifier: Win+Plus / Win+Minus / Win+Esc."},
+      {bn:"Narrator চালু: Win+Ctrl+Enter।",en:"Start Narrator: Win+Ctrl+Enter."},
+      {bn:"On-Screen Keyboard: Win+R > osk।",en:"On-Screen Keyboard: Win+R > osk."},
+      {bn:"Speech Recognition setup: Settings > Accessibility > Speech > Voice typing (Win+H)।",en:"Speech Recognition: Settings > Accessibility > Speech > Voice typing (Win+H)."},
+      {bn:"Eye Control (Tobii device): Settings > Accessibility > Eye control।",en:"Eye Control (Tobii hardware): Settings > Accessibility > Eye control."},
+      {bn:"Sticky Keys: Shift ৫ বার চাপুন।",en:"Sticky Keys: press Shift 5 times."},
+      {bn:"Filter Keys: Settings > Accessibility > Keyboard > Filter Keys।",en:"Filter Keys: Settings > Accessibility > Keyboard > Filter Keys."},
+      {bn:"Color filters: Settings > Accessibility > Color filters (color blindness modes)।",en:"Color filters: Settings > Accessibility > Color filters (incl. color-blind modes)."},
+      {bn:"Closed Captions: Settings > Accessibility > Captions।",en:"Closed Captions: Settings > Accessibility > Captions."},
+      {bn:"Text size সব জায়গায়: Settings > Accessibility > Text size।",en:"Global text size: Settings > Accessibility > Text size."}
+    ]
+  },
+  {
+    id:"W",icon:"i-network",
+    bn:"W — নেটওয়ার্ক সিকিউরিটি ও অ্যাডভান্সড নেটওয়ার্ক",en:"W — Network Security & Advanced Network",
+    items:[
+      {bn:"Windows Firewall custom rule: wf.msc > Inbound/Outbound Rules > New Rule।",en:"Custom firewall rule: wf.msc > Inbound/Outbound > New Rule."},
+      {bn:"Inbound vs Outbound: incoming connection vs outgoing connection control।",en:"Inbound controls incoming connections; Outbound controls outgoing ones."},
+      {bn:"Network profile: Settings > Network > Properties > Public/Private (Public-এ stricter rule)।",en:"Network profile: Public is stricter — Settings > Network > Properties."},
+      {bn:"MAC Address change: Device Manager > Network adapter > Properties > Advanced > Network Address।",en:"Change MAC: Device Manager > Network adapter > Properties > Advanced > Network Address."},
+      {bn:"Static IP: ncpa.cpl > IPv4 Properties > Use the following IP address।",en:"Static IP: ncpa.cpl > IPv4 Properties > Use the following IP address."},
+      {bn:"Proxy: Settings > Network > Proxy।",en:"Proxy: Settings > Network > Proxy."},
+      {bn:"Network bridge: ncpa.cpl > দুটি adapter select > Right-click > Bridge Connections।",en:"Network bridge: ncpa.cpl > select two adapters > Right-click > Bridge Connections."},
+      {bn:"WiFi password: cmd > netsh wlan show profile name=\"Name\" key=clear।",en:"Show Wi-Fi password: netsh wlan show profile name=\"Name\" key=clear."},
+      {bn:"Forget WiFi: Settings > Network > WiFi > Manage known networks।",en:"Forget Wi-Fi: Settings > Network > Wi-Fi > Manage known networks."},
+      {bn:"Router admin: 192.168.1.1 / 192.168.0.1 / 192.168.0.254 (model অনুযায়ী)।",en:"Router admin: typically 192.168.1.1, 192.168.0.1 or 192.168.0.254."},
+      {bn:"Port forwarding: router admin > NAT > Port Forwarding (gaming/server)।",en:"Port forwarding: router admin > NAT > Port Forwarding (for gaming/servers)."},
+      {bn:"Speed test: speedtest.net / fast.com (LAN cable best)।",en:"Speed test: speedtest.net or fast.com (LAN cable preferred)."},
+      {bn:"Bandwidth monitor: NetLimiter / GlassWire।",en:"Monitor bandwidth with NetLimiter or GlassWire."},
+      {bn:"VPN protocol: WireGuard (fast), OpenVPN (compatible), L2TP (older)।",en:"VPN protocols: WireGuard (fast), OpenVPN (compatible), L2TP (older)."},
+      {bn:"DNS over HTTPS: Settings > Network > Properties > DNS server assignment > Manual > Encryption On।",en:"DNS over HTTPS: Settings > Network > Properties > DNS > Manual > Encryption On."}
+    ]
+  },
+  {
+    id:"X",icon:"i-key",
+    bn:"X — ডেটা সিকিউরিটি ও এনক্রিপশন",en:"X — Data Security & Encryption",
+    items:[
+      {bn:"BitLocker: পুরো drive encrypt; recovery key Microsoft account-এ সেভ হয়।",en:"BitLocker encrypts entire drives; recovery key is saved to Microsoft account."},
+      {bn:"EFS: Right-click file > Properties > Advanced > Encrypt contents to secure data।",en:"EFS: Right-click file > Properties > Advanced > Encrypt contents."},
+      {bn:"VeraCrypt: free open-source container; cross-platform।",en:"VeraCrypt: free open-source encrypted containers, cross-platform."},
+      {bn:"Password ZIP: 7-Zip > Add to archive > Encryption > AES-256।",en:"Password ZIP: 7-Zip > Add to archive > Encryption > AES-256."},
+      {bn:"Secure delete: Eraser / SDelete (sysinternals) — file recover করা যায় না।",en:"Secure delete: Eraser or SDelete (Sysinternals) prevents recovery."},
+      {bn:"BitLocker To Go: USB drive encrypt — যেকোনো PC-তে password দিয়ে খুলবে।",en:"BitLocker To Go: encrypt USB drives — open with password on any PC."},
+      {bn:"Windows Hello: Settings > Accounts > Sign-in options (Face / Fingerprint / PIN)।",en:"Windows Hello: Settings > Accounts > Sign-in options (Face / Fingerprint / PIN)."},
+      {bn:"TPM 2.0: hardware-based security; Win11 requirement; tpm.msc দিয়ে status দেখুন।",en:"TPM 2.0: hardware security required by Windows 11; check with tpm.msc."},
+      {bn:"Credential Manager: Control Panel > Credential Manager দিয়ে saved password দেখুন।",en:"Credential Manager: view saved passwords via Control Panel > Credential Manager."},
+      {bn:"Certificate Manager: certmgr.msc দিয়ে installed certificates manage।",en:"Certificate Manager: manage installed certificates with certmgr.msc."}
+    ]
+  },
+  {
+    id:"Y",icon:"i-rocket",
+    bn:"Y — প্রোডাক্টিভিটি ও Workflow",en:"Y — Productivity & Workflow",
+    items:[
+      {bn:"Clipboard History: Win+V চাপুন; প্রথমবারে Enable করুন।",en:"Clipboard History: press Win+V (enable on first use)."},
+      {bn:"PowerToys: Microsoft-এর free productivity suite (FancyZones, PowerToys Run, Color Picker)।",en:"PowerToys: Microsoft's free productivity suite (FancyZones, PowerToys Run, Color Picker)."},
+      {bn:"FancyZones: custom window layouts; Windows Snap-এর চেয়ে শক্তিশালী।",en:"FancyZones: custom window layouts beyond Windows Snap."},
+      {bn:"PowerToys Run: Alt+Space > দ্রুত app/calculator/file খোঁজা।",en:"PowerToys Run: Alt+Space for fast app/calc/file search."},
+      {bn:"AutoHotkey: custom keyboard shortcut script; পুনরাবৃত্তিমূলক কাজ অটোমেট।",en:"AutoHotkey: scriptable custom keyboard shortcuts to automate repetitive tasks."},
+      {bn:"Text Expander: aText / Espanso দিয়ে দ্রুত typing।",en:"Text expansion: aText or Espanso for faster typing."},
+      {bn:"Multiple clipboard: Ditto / ClipDiary।",en:"Multiple clipboards via Ditto or ClipDiary."},
+      {bn:"Sticky Notes: Microsoft Store; Microsoft account-এ sync হয়।",en:"Sticky Notes (Microsoft Store) syncs with your Microsoft account."},
+      {bn:"Widgets: Win+W; Weather, Stocks, Calendar।",en:"Widgets: Win+W shows Weather, Stocks, Calendar."},
+      {bn:"Task View: Win+Tab; Timeline সব previous activity দেখায়।",en:"Task View: Win+Tab; Timeline shows previous activity."},
+      {bn:"Microsoft To Do: free task manager; cross-device sync।",en:"Microsoft To Do: free task manager with cross-device sync."},
+      {bn:"Focus Session: Clock app-এর মধ্যে; Pomodoro timer।",en:"Focus Session lives in the Clock app — built-in Pomodoro timer."},
+      {bn:"Phone Link: Settings > Phone > Phone Link দিয়ে Android connect।",en:"Phone Link: Settings > Phone > Phone Link to connect Android."},
+      {bn:"Nearby Sharing: Settings > System > Nearby sharing > Everyone nearby।",en:"Nearby Sharing: Settings > System > Nearby sharing > Everyone nearby."},
+      {bn:"File Explorer Quick Access toolbar: View > Show > Detail pane / Preview pane।",en:"File Explorer: View > Show > Detail/Preview pane."}
+    ]
+  },
+  {
+    id:"Z",icon:"i-refresh",
+    bn:"Z — Reinstall ও Fresh Start গাইড",en:"Z — Reinstall & Fresh Start Guide",
+    items:[
+      {bn:"Reset (Keep files): Settings > System > Recovery > Reset this PC > Keep my files।",en:"Reset (Keep files): Settings > Recovery > Reset this PC > Keep my files."},
+      {bn:"Reset (Remove everything): সব ডাটা মুছে নতুন install এর মতো।",en:"Reset (Remove everything): wipes data, like a fresh install."},
+      {bn:"Bootable USB clean install: ISO + Rufus + USB ৮GB+।",en:"Bootable USB clean install: ISO + Rufus + 8GB+ USB."},
+      {bn:"Win11 ISO: microsoft.com/software-download/windows11 থেকে download।",en:"Get Windows 11 ISO from microsoft.com/software-download/windows11."},
+      {bn:"Rufus সেটিংস: Partition GPT (UEFI), File system NTFS।",en:"Rufus settings: Partition GPT (UEFI), File system NTFS."},
+      {bn:"BIOS USB boot: F2/Del/F12 চেপে BIOS-এ যান, Boot order > USB।",en:"Boot from USB: press F2/Del/F12 at boot, set Boot order > USB."},
+      {bn:"Pre-install backup: Documents, Desktop, Pictures, browser bookmarks, app license।",en:"Pre-install backup: Documents, Desktop, Pictures, browser bookmarks, license keys."},
+      {bn:"Product Key দেখুন: ShowKeyPlus / wmic path softwarelicensingservice get OA3xOriginalProductKey।",en:"Find product key: ShowKeyPlus or wmic path softwarelicensingservice get OA3xOriginalProductKey."},
+      {bn:"Driver backup: Double Driver / Snappy Driver Installer।",en:"Driver backup: Double Driver or Snappy Driver Installer."},
+      {bn:"Post-install checklist: Windows Update > drivers > antivirus > essential apps > restore data।",en:"Post-install checklist: Windows Update > drivers > antivirus > essential apps > restore data."},
+      {bn:"Activation problem: slmgr.vbs /ato; Microsoft account-এ digital license।",en:"Activation: run slmgr.vbs /ato; digital license is tied to Microsoft account."},
+      {bn:"OEM vs Retail: OEM শুধু এক PC-তে; Retail অন্য PC-তে move করা যায়।",en:"OEM is locked to one PC; Retail can be transferred."},
+      {bn:"Upgrade vs Clean Install: Clean Install বেশি stable; data আগে backup।",en:"Clean Install is more stable; back up data first."},
+      {bn:"Dual Boot (Windows + Linux): Linux installer-এ separate partition বেছে নিন; GRUB bootloader handle করে।",en:"Dual Boot: pick a separate partition during Linux install; GRUB handles boot."},
+      {bn:"System Image backup: Macrium Reflect Free দিয়ে full disk image।",en:"System Image: take a full disk image with Macrium Reflect Free."}
+    ]
+  }
+];
+
+/* Combine all tips */
+const TIPS = [...TIPS_A_G, ...TIPS_H_N, ...TIPS_O_T, ...TIPS_U_Z];
+
+/* ========= Data: Problem Solver ========= */
+const PROBLEMS = [
+  {
+    id:"slow",icon:"i-speed",
+    bn:"PC স্লো হয়ে গেছে",en:"PC has become slow",
+    steps:[
+      {bn:"Task Manager খুলুন (Ctrl+Shift+Esc) এবং Startup tab থেকে অপ্রয়োজনীয় অ্যাপ Disable করুন।",en:"Open Task Manager (Ctrl+Shift+Esc) and disable unnecessary apps in the Startup tab."},
+      {bn:"Disk Cleanup চালান: Win+R > cleanmgr > drive বেছে নিন > Clean up system files।",en:"Run Disk Cleanup: Win+R, type cleanmgr, pick a drive, then Clean up system files."},
+      {bn:"Storage Sense চালু করুন: Settings > System > Storage > Storage Sense।",en:"Enable Storage Sense: Settings > System > Storage > Storage Sense."},
+      {bn:"Power Plan: 'High Performance' বেছে নিন (powercfg.cpl)।",en:"Set Power Plan to High Performance (powercfg.cpl)."},
+      {bn:"Visual effects কমান: sysdm.cpl > Advanced > Performance > Adjust for best performance।",en:"Reduce Visual effects: sysdm.cpl > Advanced > Performance > Adjust for best performance."},
+      {bn:"Background apps বন্ধ করুন: Settings > Apps > Installed apps > Advanced options > Never।",en:"Stop background apps in Settings > Apps > Installed apps > Advanced options > Never."},
+      {bn:"GPU/Chipset driver আপডেট করুন।",en:"Update GPU/Chipset drivers."},
+      {bn:"Windows Defender দিয়ে Full scan চালান।",en:"Run a full scan with Windows Defender."},
+      {bn:"PC restart করুন এবং পার্থক্য দেখুন।",en:"Restart the PC and observe the difference."}
+    ]
+  },
+  {
+    id:"nointernet",icon:"i-globe2",
+    bn:"ইন্টারনেট কাজ করছে না",en:"No Internet",
+    steps:[
+      {bn:"Router/modem ৩০ সেকেন্ড power-off রাখুন তারপর restart করুন।",en:"Power off router/modem for 30 seconds, then restart."},
+      {bn:"Airplane mode toggle করুন (Win+A > Airplane mode)।",en:"Toggle Airplane mode (Win+A > Airplane mode)."},
+      {bn:"Network troubleshooter চালান: Settings > Network > Status > Troubleshoot।",en:"Run Network troubleshooter: Settings > Network > Status > Troubleshoot."},
+      {bn:"cmd (admin) > netsh winsock reset > netsh int ip reset > restart PC।",en:"In admin cmd run: netsh winsock reset, netsh int ip reset, then restart."},
+      {bn:"DNS পরিবর্তন করুন (8.8.8.8 / 1.1.1.1) ncpa.cpl থেকে।",en:"Change DNS to 8.8.8.8 / 1.1.1.1 via ncpa.cpl."},
+      {bn:"WiFi password আবার add করুন (Forget then Reconnect)।",en:"Forget the Wi-Fi network and reconnect with the password."},
+      {bn:"WiFi driver Device Manager থেকে Update / Reinstall করুন।",en:"Update or reinstall Wi-Fi driver via Device Manager."},
+      {bn:"Other device-এ same WiFi কাজ করছে কিনা চেক করুন।",en:"Check if the same Wi-Fi works on another device."}
+    ]
+  },
+  {
+    id:"bsod",icon:"i-warn",
+    bn:"Blue Screen (BSOD)",en:"Blue Screen of Death",
+    steps:[
+      {bn:"BSOD-এর Stop code (যেমন: PAGE_FAULT_IN_NONPAGED_AREA) লিখে রাখুন।",en:"Note the Stop code shown on the BSOD."},
+      {bn:"Recently install করা software/driver uninstall করুন।",en:"Uninstall any recently installed software/drivers."},
+      {bn:"Windows Update সম্পূর্ণ করুন।",en:"Complete pending Windows updates."},
+      {bn:"sfc /scannow এবং DISM /Online /Cleanup-Image /RestoreHealth চালান।",en:"Run sfc /scannow then DISM /Online /Cleanup-Image /RestoreHealth."},
+      {bn:"RAM test: Windows Memory Diagnostic বা MemTest86।",en:"Test RAM with Windows Memory Diagnostic or MemTest86."},
+      {bn:"Drive health: CrystalDiskInfo দিয়ে দেখুন।",en:"Check drive health using CrystalDiskInfo."},
+      {bn:"GPU driver-এ corrupt থাকলে DDU দিয়ে clean uninstall করে latest reinstall করুন।",en:"For GPU driver issues, use DDU for clean uninstall and reinstall the latest driver."},
+      {bn:"সমস্যা থাকলে Safe Mode-এ গিয়ে System Restore করুন।",en:"If issue persists, boot into Safe Mode and run System Restore."}
+    ]
+  },
+  {
+    id:"nosound",icon:"i-volume",
+    bn:"সাউন্ড কাজ করছে না",en:"No Sound",
+    steps:[
+      {bn:"Volume Mixer খুলুন (taskbar speaker icon > Right-click > Open Volume Mixer)।",en:"Open Volume Mixer from the taskbar speaker icon."},
+      {bn:"Output device সঠিকভাবে selected আছে কিনা দেখুন (Settings > Sound)।",en:"Check the correct output device in Settings > Sound."},
+      {bn:"Audio Troubleshooter চালান: Settings > System > Troubleshoot > Other > Playing Audio।",en:"Run Audio Troubleshooter via Settings > Troubleshoot > Other > Playing Audio."},
+      {bn:"Audio driver Update / Reinstall করুন (Device Manager > Sound)।",en:"Update or reinstall the audio driver via Device Manager > Sound."},
+      {bn:"Cable / headphone jack ঠিক আছে কিনা পরীক্ষা করুন।",en:"Check the cable / headphone jack."},
+      {bn:"Audio Service restart: services.msc > Windows Audio > Restart।",en:"Restart Windows Audio service in services.msc."},
+      {bn:"Bluetooth audio হলে: device unpair > re-pair।",en:"For Bluetooth audio: unpair and re-pair the device."}
+    ]
+  },
+  {
+    id:"nostart",icon:"i-power",
+    bn:"PC চালু হচ্ছে না",en:"PC won't start",
+    steps:[
+      {bn:"Power cable, monitor cable সঠিকভাবে connect আছে কিনা চেক করুন।",en:"Check the power and monitor cables."},
+      {bn:"Power LED জ্বলে কিনা দেখুন; ঘুম থেকে না জাগলে power button ১০ সেকেন্ড চেপে hard reset করুন।",en:"Check power LED; if unresponsive, hold power button for 10 seconds for a hard reset."},
+      {bn:"PSU/Wall outlet পরিবর্তন করে চেষ্টা করুন।",en:"Try a different PSU or wall outlet."},
+      {bn:"Single beep / multiple beep code শুনুন (motherboard manual অনুযায়ী decode করুন)।",en:"Listen for beep codes and decode using the motherboard manual."},
+      {bn:"RAM stick নতুনভাবে seat করে দেখুন (একটা একটা করে test)।",en:"Reseat RAM sticks (test one at a time)."},
+      {bn:"GPU পুনরায় seat করুন; CMOS battery খুলে ৫ মিনিট রেখে আবার লাগান।",en:"Reseat the GPU; remove CMOS battery for 5 minutes then re-insert."},
+      {bn:"যদি Windows logo-এ আটকে থাকে: Advanced Startup > Startup Repair।",en:"If stuck on Windows logo: Advanced Startup > Startup Repair."}
+    ]
+  },
+  {
+    id:"overheat",icon:"i-thermometer",
+    bn:"PC অতিরিক্ত গরম হচ্ছে",en:"PC overheating",
+    steps:[
+      {bn:"Vent / fan-এ dust পরিষ্কার করুন (compressed air দিয়ে)।",en:"Clean dust from vents/fans with compressed air."},
+      {bn:"Hard surface-এ ব্যবহার করুন (laptop), bed/cushion-এ নয়।",en:"Use laptop on hard surface, not on a bed/cushion."},
+      {bn:"HWMonitor / Core Temp দিয়ে temp monitor করুন।",en:"Monitor temps with HWMonitor or Core Temp."},
+      {bn:"Thermal paste পরিবর্তন করুন (২-৩ বছরের পুরনো হলে)।",en:"Replace thermal paste if 2–3+ years old."},
+      {bn:"Power Plan: Balanced; Maximum processor state ৯৫-৯৯% সেট করুন।",en:"Power Plan: Balanced; set Maximum processor state to 95–99%."},
+      {bn:"Background heavy apps বন্ধ করুন।",en:"Close heavy background apps."},
+      {bn:"Cooling pad / external fan ব্যবহার করুন (laptop)।",en:"Use a cooling pad / external fan (laptop)."},
+      {bn:"Undervolt CPU (XTU / ThrottleStop) সাবধানে।",en:"Carefully undervolt CPU using Intel XTU or ThrottleStop."}
+    ]
+  },
+  {
+    id:"usb",icon:"i-usb",
+    bn:"USB device detect হচ্ছে না",en:"USB device not detected",
+    steps:[
+      {bn:"অন্য USB port-এ connect করে দেখুন।",en:"Try connecting to a different USB port."},
+      {bn:"USB cable পরিবর্তন করে দেখুন।",en:"Try a different USB cable."},
+      {bn:"Device Manager > Universal Serial Bus controllers > Right-click each > Uninstall device > Restart।",en:"In Device Manager, uninstall USB controllers and restart."},
+      {bn:"Power Management: USB Hub-এ 'Allow computer to turn off' uncheck করুন।",en:"In USB Hub Power Management uncheck 'Allow computer to turn off'."},
+      {bn:"USB drive হলে diskmgmt.msc-এ আছে কিনা চেক; থাকলে letter assign করুন।",en:"For USB drives, check diskmgmt.msc and assign a drive letter if present."},
+      {bn:"অন্য PC-তে চেষ্টা করুন device defective কিনা যাচাইয়ের জন্য।",en:"Test the device on another PC to confirm it's not defective."}
+    ]
+  },
+  {
+    id:"black",icon:"i-monitor",
+    bn:"Black screen (boot হচ্ছে কিন্তু display নেই)",en:"Black screen (boots but no display)",
+    steps:[
+      {bn:"Monitor cable ও power-source check করুন।",en:"Check monitor cable and power source."},
+      {bn:"Win + Ctrl + Shift + B চাপুন (graphics driver restart)।",en:"Press Win + Ctrl + Shift + B to restart graphics driver."},
+      {bn:"Safe Mode-এ boot করুন: power button ৩ বার repeat করে force-shutdown > Recovery > Safe Mode।",en:"Boot Safe Mode: force shutdown 3× to enter Recovery, then Safe Mode."},
+      {bn:"Recently install GPU driver Roll Back / DDU দিয়ে remove করুন।",en:"Roll back or DDU-remove recently installed GPU driver."},
+      {bn:"External monitor connect করে দেখুন।",en:"Try connecting an external monitor."},
+      {bn:"System Restore আগের stable point-এ ফিরিয়ে নিন।",en:"Use System Restore to a previous stable point."}
+    ]
+  },
+  {
+    id:"printer",icon:"i-printer",
+    bn:"Printer কাজ করছে না",en:"Printer not working",
+    steps:[
+      {bn:"Printer power, cable / WiFi connection চেক করুন।",en:"Check printer power and cable/Wi-Fi connection."},
+      {bn:"Default printer সঠিকভাবে সেট আছে কিনা: Settings > Printers।",en:"Verify the default printer in Settings > Printers."},
+      {bn:"Print Spooler restart: services.msc > Print Spooler > Restart।",en:"Restart Print Spooler in services.msc."},
+      {bn:"Print queue clear করুন।",en:"Clear the print queue."},
+      {bn:"Printer Troubleshooter চালান: Settings > Troubleshoot > Other > Printer।",en:"Run Printer Troubleshooter: Settings > Troubleshoot > Other > Printer."},
+      {bn:"Driver uninstall + manufacturer-এর latest driver reinstall করুন।",en:"Uninstall driver and reinstall the latest from the manufacturer."},
+      {bn:"Wireless হলে router same network-এ আছে কিনা যাচাই করুন।",en:"For wireless, verify printer & PC are on the same network."}
+    ]
+  },
+  {
+    id:"wifidrop",icon:"i-wifi",
+    bn:"WiFi বারবার disconnect হচ্ছে",en:"Wi-Fi keeps disconnecting",
+    steps:[
+      {bn:"Router restart করে দেখুন; firmware update থাকলে install করুন।",en:"Restart the router; install firmware updates if available."},
+      {bn:"WiFi adapter Power Management: 'Allow computer to turn off' uncheck করুন।",en:"In Wi-Fi adapter Power Management uncheck 'Allow computer to turn off'."},
+      {bn:"WiFi driver Device Manager থেকে latest version-এ update করুন।",en:"Update the Wi-Fi driver via Device Manager."},
+      {bn:"5GHz / 2.4GHz পরিবর্তন করে test করুন।",en:"Switch between 5GHz / 2.4GHz to test stability."},
+      {bn:"Network Reset: Settings > Network > Advanced > Network reset।",en:"Network Reset: Settings > Network > Advanced > Network reset."},
+      {bn:"Router channel পরিবর্তন (1, 6, 11 ২.৪GHz-এ; 36, 40, 44 ৫GHz-এ)।",en:"Change router channel (1, 6, 11 on 2.4GHz; 36, 40, 44 on 5GHz)."},
+      {bn:"Forget WiFi > Reconnect দিয়ে fresh connection।",en:"Forget the Wi-Fi network and reconnect for a fresh connection."}
+    ]
+  }
+];
+
+/* ========= Data: Run Commands ========= */
+const COMMANDS = [
+  {cmd:"msconfig",bn:"System Configuration (boot/services/startup)",en:"System Configuration (boot/services/startup)"},
+  {cmd:"devmgmt.msc",bn:"Device Manager",en:"Device Manager"},
+  {cmd:"diskmgmt.msc",bn:"Disk Management",en:"Disk Management"},
+  {cmd:"cleanmgr",bn:"Disk Cleanup",en:"Disk Cleanup"},
+  {cmd:"regedit",bn:"Registry Editor (সতর্কতার সাথে)",en:"Registry Editor (use carefully)"},
+  {cmd:"gpedit.msc",bn:"Group Policy Editor (Pro/Enterprise)",en:"Group Policy Editor (Pro/Enterprise)"},
+  {cmd:"services.msc",bn:"Services manager",en:"Services manager"},
+  {cmd:"eventvwr",bn:"Event Viewer",en:"Event Viewer"},
+  {cmd:"perfmon",bn:"Performance Monitor",en:"Performance Monitor"},
+  {cmd:"resmon",bn:"Resource Monitor",en:"Resource Monitor"},
+  {cmd:"ncpa.cpl",bn:"Network Connections",en:"Network Connections"},
+  {cmd:"sysdm.cpl",bn:"System Properties",en:"System Properties"},
+  {cmd:"appwiz.cpl",bn:"Programs & Features (uninstall)",en:"Programs & Features (uninstall)"},
+  {cmd:"firewall.cpl",bn:"Windows Firewall",en:"Windows Firewall"},
+  {cmd:"powercfg.cpl",bn:"Power Options",en:"Power Options"},
+  {cmd:"taskmgr",bn:"Task Manager",en:"Task Manager"},
+  {cmd:"winver",bn:"Windows version",en:"Windows version"},
+  {cmd:"dxdiag",bn:"DirectX Diagnostic",en:"DirectX Diagnostic"},
+  {cmd:"mrt",bn:"Malicious Software Removal Tool",en:"Malicious Software Removal Tool"},
+  {cmd:"temp",bn:"Temporary files folder",en:"Temporary files folder"},
+  {cmd:"%appdata%",bn:"AppData/Roaming folder",en:"AppData/Roaming folder"},
+  {cmd:"control",bn:"Classic Control Panel",en:"Classic Control Panel"},
+  {cmd:"netplwiz",bn:"User Accounts",en:"User Accounts"},
+  {cmd:"diskpart",bn:"Disk Partition CLI",en:"Disk Partition CLI"},
+  {cmd:"tpm.msc",bn:"TPM Management",en:"TPM Management"},
+  {cmd:"wf.msc",bn:"Windows Firewall (Advanced)",en:"Windows Firewall (Advanced)"},
+  {cmd:"taskschd.msc",bn:"Task Scheduler",en:"Task Scheduler"},
+  {cmd:"lusrmgr.msc",bn:"Local Users and Groups",en:"Local Users and Groups"},
+  {cmd:"certmgr.msc",bn:"Certificate Manager",en:"Certificate Manager"},
+  {cmd:"msinfo32",bn:"System Information",en:"System Information"},
+  {cmd:"recoverydrive",bn:"Create a Recovery Drive",en:"Create a Recovery Drive"},
+  {cmd:"osk",bn:"On-Screen Keyboard",en:"On-Screen Keyboard"}
+];
+
+/* ========= Helpers ========= */
+function el(tag, attrs, children){
+  const e = document.createElement(tag);
+  if(attrs){
+    for(const k in attrs){
+      if(k === "class") e.className = attrs[k];
+      else if(k === "html") e.innerHTML = attrs[k];
+      else if(k === "text") e.textContent = attrs[k];
+      else if(k.startsWith("on") && typeof attrs[k] === "function") e.addEventListener(k.slice(2), attrs[k]);
+      else if(attrs[k] != null) e.setAttribute(k, attrs[k]);
     }
-    else if(command.includes('scroll down') || command.includes('down')) {
-      window.scrollBy({ top: 500, behavior: 'smooth' });
-    }
-    else if(command.includes('contact') || command.includes('hire')) {
-      document.getElementById('contactSection').scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  recognition.onerror = () => {
-    voiceBtn.classList.remove('voice-active');
-    alert("Voice recognition failed. Try again!");
-  };
-} else {
-  voiceBtn.style.display = 'none'; // Hide if browser doesn't support
+  }
+  if(children){
+    (Array.isArray(children) ? children : [children]).forEach(c => {
+      if(c == null) return;
+      if(typeof c === "string") e.appendChild(document.createTextNode(c));
+      else e.appendChild(c);
+    });
+  }
+  return e;
 }
-
-
-// =================== 5. TIME-BASED UI & THEME TOGGLE ===================
-const themeToggle = document.getElementById('themeToggle');
-const themeIcon = themeToggle.querySelector('i');
-
-// Auto Day-Night Logic
-function applyAutoTheme() {
-  const savedTheme = localStorage.getItem('theme');
-  if (!savedTheme) {
-    const hour = new Date().getHours();
-    // 6 PM to 6 AM is Dark Mode
-    if (hour >= 18 || hour < 6) {
-      document.body.classList.add('dark-mode');
-      themeIcon.className = 'fas fa-sun';
+function svgIcon(id, cls){
+  return `<svg class="icon${cls?' '+cls:''}" aria-hidden="true"><use href="#${id}"/></svg>`;
+}
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+}
+function tipKey(secId, idx){ return secId + ":" + idx; }
+function findTipByKey(key){
+  if(key.startsWith("shortcut:")){
+    const [, groupStr, idxStr] = key.split(":");
+    const group = SHORTCUTS[parseInt(groupStr, 10)];
+    const item = group && group.items[parseInt(idxStr, 10)];
+    if(!group || !item) return null;
+    return { sec: group, idx: parseInt(idxStr, 10), item };
+  }
+  const [secId, idxStr] = key.split(":");
+  const sec = TIPS.find(s => s.id === secId);
+  if(!sec) return null;
+  const idx = parseInt(idxStr, 10);
+  if(isNaN(idx) || !sec.items[idx]) return null;
+  return { sec, idx, item: sec.items[idx] };
+}
+function showToast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(showToast._timer);
+  showToast._timer = setTimeout(() => t.classList.remove("show"), 1800);
+}
+async function copyText(s){
+  try {
+    if(navigator.clipboard && window.isSecureContext){
+      await navigator.clipboard.writeText(s);
     } else {
-      document.body.classList.remove('dark-mode');
-      themeIcon.className = 'fas fa-moon';
+      const ta = document.createElement("textarea");
+      ta.value = s; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
     }
-  } else if (savedTheme === 'dark') {
-    document.body.classList.add('dark-mode');
-    themeIcon.className = 'fas fa-sun';
+    showToast(t("toast.copied"));
+  } catch(e){
+    showToast(t("toast.copyFail"));
   }
 }
-applyAutoTheme();
-
-themeToggle.addEventListener('click', () => {
-  document.body.classList.toggle('dark-mode');
-  if (document.body.classList.contains('dark-mode')) {
-    themeIcon.className = 'fas fa-sun';
-    localStorage.setItem('theme', 'dark');
-  } else {
-    themeIcon.className = 'fas fa-moon';
-    localStorage.setItem('theme', 'light');
+async function shareTip(text){
+  if(navigator.share){
+    try { await navigator.share({ title: "PC Doctor BD", text }); return; } catch(e) {}
   }
-});
-
-
-// =================== SECURITY ENHANCEMENTS (UNCHANGED) ===================
-function showCopyWarning() {
-  const warning = document.getElementById('copyWarning');
-  warning.style.display = 'block';
-  setTimeout(() => { warning.style.display = 'none'; }, 2000);
-}
-function activateRecordingOverlay() {
-  const overlay = document.getElementById('recordingOverlay');
-  overlay.style.display = 'block';
-  setTimeout(() => { overlay.style.display = 'none'; }, 3000);
+  copyText(text);
 }
 
-document.addEventListener('selectstart', e => { if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') { e.preventDefault(); showCopyWarning(); return false; }});
-document.addEventListener('copy', e => { e.preventDefault(); showCopyWarning(); return false; });
-document.addEventListener('cut', e => { e.preventDefault(); showCopyWarning(); return false; });
-document.addEventListener('contextmenu', e => { if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') { e.preventDefault(); showCopyWarning(); return false; }});
-document.addEventListener('dragstart', e => { if (e.target.tagName === 'IMG' || e.target.tagName === 'A') { e.preventDefault(); return false; }});
-document.addEventListener('keydown', e => {
-  if (e.ctrlKey && ['c','v','x','a','s','p'].includes(e.key.toLowerCase()) && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') { e.preventDefault(); showCopyWarning(); return false; }
-  if (e.key === 'PrintScreen') { e.preventDefault(); showCopyWarning(); activateRecordingOverlay(); return false; }
-  if (e.key === 'F12') { e.preventDefault(); showCopyWarning(); return false; }
-});
-setInterval(() => { if (window.mediaDevices && navigator.mediaDevices.getDisplayMedia) { activateRecordingOverlay(); } }, 5000);
-if (window.location !== window.parent.location) { window.top.location = window.location; }
-window.addEventListener('blur', () => { document.body.style.filter = 'blur(3px)'; document.body.style.transition = 'filter 0.3s ease'; });
-window.addEventListener('focus', () => { document.body.style.filter = 'none'; });
-
-
-// =================== EXISTING ANIMATIONS & FORM (UNCHANGED) ===================
-const reveals = document.querySelectorAll('.reveal');
-const io = new IntersectionObserver(e => {
-  e.forEach(x => { 
-    if(x.isIntersecting){
-      x.target.classList.add('visible');
-      if(x.target.querySelector('.progress-bar div')) {
-        const progressBars = x.target.querySelectorAll('.progress-bar div');
-        progressBars.forEach(bar => {
-          const width = bar.style.width;
-          bar.style.width = '0%';
-          setTimeout(() => { bar.style.width = width; }, 100);
-        });
-      }
-    }
+/* ========= Render: Categories ========= */
+let ACTIVE_CATEGORY = null;
+function renderCategories(){
+  const grid = document.getElementById("tilesGrid");
+  grid.innerHTML = "";
+  CATEGORIES.forEach(c => {
+    const tile = el("button", {
+      class: "tile",
+      type: "button",
+      "data-section": c.section || "",
+      onclick: () => openCategory(c)
+    }, [
+      el("div", { class: "tile-icon", html: svgIcon(c.icon) }),
+      el("div", { class: "tile-title", text: pick(c) }),
+      el("p", { text: t("category.open") })
+    ]);
+    grid.appendChild(tile);
   });
-}, {threshold: .15});
-reveals.forEach(r => io.observe(r));
-
-backToTop.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
-
-const contactForm = document.getElementById('contactForm');
-const formMessage = document.getElementById('formMessage');
-contactForm.addEventListener('submit', function(e) {
-  e.preventDefault();
-  const name = document.getElementById('name').value;
-  const email = document.getElementById('email').value;
-  const message = document.getElementById('message').value;
-  if(!name || !email || !message) { formMessage.textContent = "Please fill all fields!"; formMessage.style.color = "#ff8a4b"; return; }
-  formMessage.textContent = "📧 Opening email app..."; formMessage.style.color = "#1f9bff";
-  const subject = `Message from ${name} - Portfolio Website`;
-  const body = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}\n\n---\nSent from your portfolio website.`;
-  const mailtoLink = `mailto:wasimmahmoodmia@hotmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  setTimeout(() => {
-    window.location.href = mailtoLink;
-    formMessage.textContent = "✅ Email app opened! Please send the message."; formMessage.style.color = "#25D366";
-    setTimeout(() => { contactForm.reset(); formMessage.textContent = ""; }, 3000);
-  }, 500);
-});
-
-const canvas = document.getElementById('particles-js');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-let particles = [];
-for(let i = 0; i < 100; i++) {
-  particles.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 3 + 2, dx: (Math.random() - 0.5) * 0.5, dy: (Math.random() * 0.7) + 0.3, color: `rgba(255, 255, 255, ${Math.random() * 0.2 + 0.1})` });
 }
-function animateParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  for(let p of particles) {
-    ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fillStyle = p.color; ctx.shadowColor = 'rgba(255, 255, 255, 0.5)'; ctx.shadowBlur = 4; ctx.fill();
-    p.x += p.dx; p.y += p.dy;
-    if(p.x < 0) p.x = canvas.width; if(p.x > canvas.width) p.x = 0;
-    if(p.y > canvas.height) { p.y = 0; p.x = Math.random() * canvas.width; }
+function getCategoryEntries(section){
+  if(section === "shortcuts"){
+    return SHORTCUTS.slice(0, 3).flatMap((group, groupIdx) => group.items.slice(0, 5).map((item, idx) => ({
+      key: "shortcut:" + groupIdx + ":" + idx,
+      icon: group.icon || "i-keyboard",
+      title: item.keys.join(" + "),
+      text: pick(item),
+      steps: [LANG === "bn" ? "প্রথমে প্রয়োজনীয় অ্যাপ বা উইন্ডো খুলুন।" : "First open the app or window you need.", LANG === "bn" ? item.keys.join(" + ") + " একসাথে চাপুন।" : "Press " + item.keys.join(" + ") + " together.", LANG === "bn" ? "কাজটি ঠিকভাবে হয়েছে কিনা দেখুন।" : "Check that the action worked."]
+    })));
   }
-  requestAnimationFrame(animateParticles);
+  const sec = TIPS.find(s => s.id === section);
+  if(!sec) return [];
+  return sec.items.map((item, idx) => ({
+    key: tipKey(sec.id, idx),
+    icon: sec.icon || "i-app",
+    title: pick(sec),
+    text: pick(item),
+    steps: buildTipSteps(pick(item))
+  }));
 }
-animateParticles();
-window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+function buildTipSteps(text){
+  const parts = text.split(/[।.;:>]+/).map(p => p.trim()).filter(Boolean).slice(0, 4);
+  if(parts.length >= 2) return parts;
+  return LANG === "bn"
+    ? ["টিপটি মনোযোগ দিয়ে পড়ুন।", text, "কাজ শেষ হলে PC একবার পরীক্ষা করুন।"]
+    : ["Read the tip carefully.", text, "Check the PC after applying it."];
+}
+function openCategory(c){
+  ACTIVE_CATEGORY = c;
+  const modal = document.getElementById("categoryModal");
+  document.getElementById("modalIcon").innerHTML = svgIcon(c.icon || "i-pc");
+  document.getElementById("modalTitle").textContent = pick(c);
+  document.getElementById("modalSubtitle").textContent = t("category.subtitle");
+  document.getElementById("categorySearch").value = "";
+  renderCategoryTips("");
+  modal.classList.add("show");
+  modal.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+  setTimeout(() => document.getElementById("categorySearch").focus(), 80);
+}
+function closeCategory(){
+  const modal = document.getElementById("categoryModal");
+  modal.classList.remove("show");
+  modal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+}
+function renderCategoryTips(filter){
+  const wrap = document.getElementById("categoryTips");
+  wrap.innerHTML = "";
+  if(!ACTIVE_CATEGORY) return;
+  const q = (filter || "").trim().toLowerCase();
+  const entries = getCategoryEntries(ACTIVE_CATEGORY.section).filter(entry => {
+    if(!q) return true;
+    return (entry.title + " " + entry.text + " " + entry.steps.join(" ")).toLowerCase().includes(q);
+  });
+  if(!entries.length){
+    wrap.appendChild(el("div", { class:"empty", text:t("category.noTips") }));
+    return;
+  }
+  entries.forEach((entry, idx) => wrap.appendChild(createDetailedTip(entry, idx === 0)));
+}
+function createDetailedTip(entry, open){
+  const isFav = FAVS.indexOf(entry.key) !== -1;
+  const details = el("details", { class:"category-tip", open: open ? "open" : null }, [
+    el("summary", {}, [
+      el("span", { html: `<span class="icon-wrap">${svgIcon(entry.icon)}</span> ${escapeHtml(entry.text)}` }),
+      el("span", { class:"tip-btn", text:t("tip.details") })
+    ]),
+    el("p", { text: entry.text }),
+    el("strong", { text: t("category.steps") }),
+    el("ol", {}, entry.steps.map(step => el("li", { text: step }))),
+    el("div", { class:"category-tip-actions" }, [
+      el("button", { class:"tip-btn", onclick: () => copyText(entry.text), html: svgIcon("i-copy") + `<span>${escapeHtml(t("tip.copy"))}</span>` }),
+      el("button", { class:"tip-btn fav-btn" + (isFav ? " active" : ""), "data-key": entry.key, onclick: (e) => toggleFav(entry.key, e.currentTarget), html: svgIcon("i-star") + `<span>${escapeHtml(isFav ? t("tip.unfav") : t("tip.fav"))}</span>` }),
+      el("button", { class:"tip-btn", onclick: () => shareTip(entry.text), html: svgIcon("i-share") + `<span>${escapeHtml(t("tip.share"))}</span>` })
+    ])
+  ]);
+  details.addEventListener("toggle", () => { if(details.open) addRecent(entry.key); });
+  if(open) addRecent(entry.key);
+  return details;
+}
 
+/* ========= Render: Shortcuts ========= */
+function renderShortcuts(filter){
+  const wrap = document.getElementById("shortcutsWrap");
+  wrap.innerHTML = "";
+  const q = (filter || "").trim().toLowerCase();
+  let total = 0;
+  SHORTCUTS.forEach(group => {
+    const items = group.items.filter(it => {
+      if(!q) return true;
+      const s = (pick(it) + " " + it.keys.join(" ")).toLowerCase();
+      return s.includes(q);
+    });
+    if(!items.length) return;
+    total += items.length;
+    const list = el("div", { class:"shortcut-list" });
+    items.forEach(it => {
+      const keysHtml = it.keys.map(k => `<span class="kbd">${escapeHtml(k)}</span>`).join('<span class="plus">+</span>');
+      const row = el("div", {
+        class:"shortcut-row",
+        title: pick(it)
+      }, [
+        el("div", { class:"shortcut-keys", html: keysHtml }),
+        el("div", { class:"shortcut-desc", text: pick(it) })
+      ]);
+      list.appendChild(row);
+    });
+    const groupEl = el("div", { class:"shortcut-group" }, [
+      el("div", { class:"shortcut-head", html:
+        `<div class="icon-wrap">${svgIcon(group.icon || "i-keyboard")}</div>
+         <div><h3>${escapeHtml(pick(group))}</h3></div>`
+      }),
+      list
+    ]);
+    wrap.appendChild(groupEl);
+  });
+  if(!total){
+    wrap.appendChild(el("div", { class:"empty", text: t("search.empty") }));
+  }
+}
+
+/* ========= Render: Tips ========= */
+const FEATURED_TIPS = ["A:0", "B:0", "C:0", "D:0", "E:0", "W:0"];
+function allTipRefs(){
+  return TIPS.flatMap(sec => sec.items.map((it, idx) => ({ sec, it, idx, key: tipKey(sec.id, idx) })));
+}
+function renderTips(filter){
+  const grid = document.getElementById("tipsGrid");
+  grid.innerHTML = "";
+  const q = (filter || "").trim().toLowerCase();
+  const refs = q
+    ? allTipRefs().filter(({sec, it}) => pick(it).toLowerCase().includes(q) || pick(sec).toLowerCase().includes(q))
+    : FEATURED_TIPS.map(findTipByKey).filter(Boolean);
+  if(!refs.length){
+    grid.appendChild(el("div", { class:"empty", text: t("search.empty") }));
+    return;
+  }
+  refs.slice(0, q ? 18 : FEATURED_TIPS.length).forEach(({sec, item, it, idx, key}) => {
+    const tip = item || it;
+    const realKey = key || tipKey(sec.id, idx);
+    const isFav = FAVS.indexOf(realKey) !== -1;
+    const card = el("div", { class:"tip-section" }, [
+      el("div", { class:"tip-section-head", html:`<div class="icon-wrap">${svgIcon(sec.icon || "i-app")}</div><h3>${escapeHtml(pick(sec))}</h3>` }),
+      el("div", { class:"tip-item" }, [
+        el("div", { class:"tip-text", text: pick(tip) }),
+        el("div", { class:"tip-actions" }, [
+          el("button", { class:"tip-btn", onclick: () => copyText(pick(tip)), html: svgIcon("i-copy") + `<span>${escapeHtml(t("tip.copy"))}</span>` }),
+          el("button", { class:"tip-btn fav-btn" + (isFav ? " active" : ""), "data-key": realKey, onclick: (e) => toggleFav(realKey, e.currentTarget), html: svgIcon("i-star") + `<span>${escapeHtml(isFav ? t("tip.unfav") : t("tip.fav"))}</span>` }),
+          el("button", { class:"tip-btn", onclick: () => openCategory(CATEGORIES.find(c => c.section === sec.id) || {bn:pick(sec),en:pick(sec),icon:sec.icon,section:sec.id}), html: svgIcon("i-arrow-right") + `<span>${escapeHtml(t("tip.details"))}</span>` })
+        ])
+      ])
+    ]);
+    grid.appendChild(card);
+  });
+}
+
+/* ========= Render: Problem Solver ========= */
+let SOLVER_SELECTED = null;
+function renderSolverList(){
+  const list = document.getElementById("solverList");
+  list.innerHTML = "";
+  PROBLEMS.forEach(p => {
+    const item = el("button", {
+      class:"solver-item" + (SOLVER_SELECTED === p.id ? " active" : ""),
+      "data-id": p.id,
+      onclick: () => { SOLVER_SELECTED = p.id; renderSolverList(); renderSolverDetail(); }
+    }, [
+      el("div", { class:"icon-wrap", html: svgIcon(p.icon || "i-wrench") }),
+      el("div", { class:"solver-item-text", text: pick(p) })
+    ]);
+    list.appendChild(item);
+  });
+}
+function renderSolverDetail(){
+  const detail = document.getElementById("solverDetail");
+  detail.innerHTML = "";
+  const p = PROBLEMS.find(x => x.id === SOLVER_SELECTED);
+  if(!p){
+    detail.appendChild(el("div", { class:"solver-empty", html:
+      `<div class="icon-wrap large">${svgIcon("i-tools")}</div>
+       <p>${escapeHtml(t("solver.empty"))}</p>`
+    }));
+    return;
+  }
+  detail.appendChild(el("div", { class:"solver-detail-head", html:
+    `<div class="icon-wrap">${svgIcon(p.icon || "i-wrench")}</div>
+     <h3>${escapeHtml(pick(p))}</h3>`
+  }));
+  const ol = el("ol", { class:"solver-steps" });
+  p.steps.forEach((s, i) => {
+    ol.appendChild(el("li", {}, [
+      el("span", { class:"step-num", text: String(i + 1) }),
+      el("span", { class:"step-text", text: pick(s) })
+    ]));
+  });
+  detail.appendChild(ol);
+}
+
+/* ========= Render: Commands ========= */
+function renderCommands(filter){
+  const tbody = document.getElementById("cmdBody");
+  tbody.innerHTML = "";
+  const q = (filter || "").trim().toLowerCase();
+  let total = 0;
+  COMMANDS.forEach(c => {
+    if(q && !c.cmd.toLowerCase().includes(q) && !pick(c).toLowerCase().includes(q)) return;
+    total++;
+    const tr = el("tr");
+    const tdCmd = el("td", { html:
+      `<code class="cmd-code">${escapeHtml(c.cmd)}</code>
+       <button class="cmd-copy tip-btn" title="${escapeHtml(t("tip.copy"))}">${svgIcon("i-copy")}</button>`
+    });
+    tdCmd.querySelector(".cmd-copy").addEventListener("click", () => copyText(c.cmd));
+    tr.appendChild(tdCmd);
+    tr.appendChild(el("td", { text: pick(c) }));
+    tbody.appendChild(tr);
+  });
+  if(!total){
+    const tr = el("tr");
+    tr.appendChild(el("td", { colspan:"2", text: t("search.empty") }));
+    tbody.appendChild(tr);
+  }
+}
+
+/* ========= Render: Favorites ========= */
+function renderFavorites(){
+  const wrap = document.getElementById("favWrap");
+  wrap.innerHTML = "";
+  if(!FAVS.length){
+    wrap.appendChild(el("div", { class:"empty", html:
+      `<div class="icon-wrap large">${svgIcon("i-star")}</div>
+       <p>${escapeHtml(t("favorites.empty"))}</p>`
+    }));
+    return;
+  }
+  const list = el("div", { class:"fav-list" });
+  FAVS.forEach(key => {
+    const found = findTipByKey(key);
+    if(!found) return;
+    const { sec, item } = found;
+    const card = el("div", { class:"fav-card" }, [
+      el("div", { class:"fav-meta", html:
+        `<div class="icon-wrap">${svgIcon(sec.icon || "i-star")}</div>
+         <span>${escapeHtml(pick(sec))}</span>`
+      }),
+      el("div", { class:"fav-text", text: pick(item) }),
+      el("div", { class:"tip-actions" }, [
+        el("button", {
+          class:"tip-btn",
+          onclick: () => copyText(pick(item)),
+          html: svgIcon("i-copy") + `<span>${escapeHtml(t("tip.copy"))}</span>`
+        }),
+        el("button", {
+          class:"tip-btn fav-btn active",
+          onclick: () => toggleFav(key),
+          html: svgIcon("i-x") + `<span>${escapeHtml(t("tip.unfav"))}</span>`
+        })
+      ])
+    ]);
+    list.appendChild(card);
+  });
+  wrap.appendChild(list);
+}
+
+/* ========= Favorites toggle ========= */
+function toggleFav(key, btnEl){
+  const i = FAVS.indexOf(key);
+  if(i === -1){ FAVS.push(key); showToast(t("toast.fav")); }
+  else { FAVS.splice(i, 1); showToast(t("toast.unfav")); }
+  localStorage.setItem("pcdr.favs", JSON.stringify(FAVS));
+  document.querySelectorAll('.fav-btn[data-key="' + key.replace(/"/g, '\\"') + '"]').forEach(b => {
+    const isFav = FAVS.indexOf(key) !== -1;
+    b.classList.toggle("active", isFav);
+    const span = b.querySelector("span");
+    if(span) span.textContent = isFav ? t("tip.unfav") : t("tip.fav");
+  });
+  renderFavorites();
+  renderRecentTips();
+}
+function addRecent(key){
+  RECENTS = [key].concat(RECENTS.filter(k => k !== key)).slice(0, 6);
+  localStorage.setItem("pcdr.recents", JSON.stringify(RECENTS));
+  renderRecentTips();
+}
+function renderRecentTips(){
+  const wrap = document.getElementById("recentWrap");
+  if(!wrap) return;
+  wrap.innerHTML = "";
+  const recent = RECENTS.map(findTipByKey).filter(Boolean);
+  if(!recent.length){
+    wrap.appendChild(el("div", { class:"empty", text: LANG === "bn" ? "এখনও কোনো টিপ খোলা হয়নি।" : "No tips opened yet." }));
+    return;
+  }
+  const list = el("div", { class:"fav-list" });
+  recent.forEach(({sec, item}) => {
+    list.appendChild(el("div", { class:"fav-card" }, [
+      el("div", { class:"fav-meta", html:`<div class="icon-wrap">${svgIcon(sec.icon || "i-bell")}</div><span>${escapeHtml(pick(sec))}</span>` }),
+      el("div", { class:"fav-text", text: pick(item) }),
+      el("button", { class:"tip-btn", onclick: () => copyText(pick(item)), html: svgIcon("i-copy") + `<span>${escapeHtml(t("tip.copy"))}</span>` })
+    ]));
+  });
+  wrap.appendChild(list);
+}
+
+/* ========= Tip of Day ========= */
+function renderTipOfDay(){
+  const all = [];
+  TIPS.forEach(sec => sec.items.forEach((it, idx) => all.push({sec, it, idx})));
+  if(!all.length) return;
+  const today = new Date();
+  const seed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+  const pickIdx = Math.abs(seed) % all.length;
+  const chosen = all[pickIdx];
+  document.getElementById("tipOfDayText").textContent = pick(chosen.it);
+}
+
+/* ========= i18n apply ========= */
+function applyI18n(){
+  document.documentElement.setAttribute("lang", LANG);
+  document.querySelectorAll("[data-i18n]").forEach(node => {
+    const k = node.getAttribute("data-i18n");
+    const v = t(k);
+    if(v) node.textContent = v;
+  });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(node => {
+    const k = node.getAttribute("data-i18n-placeholder");
+    const v = t(k);
+    if(v) node.setAttribute("placeholder", v);
+  });
+  document.getElementById("langLabel").textContent = LANG === "bn" ? "English" : "বাংলা";
+  const loaderText = document.getElementById("loaderText");
+  if(loaderText) loaderText.textContent = t("loader.text");
+  document.title = t("page.title");
+}
+
+function applyTheme(){
+  document.documentElement.setAttribute("data-theme", THEME);
+  const btn = document.getElementById("themeBtn");
+  if(btn){
+    btn.innerHTML = svgIcon(THEME === "dark" ? "i-sun" : "i-moon");
+  }
+}
+
+/* ========= Search ========= */
+function highlight(text, q){
+  const safe = escapeHtml(text);
+  if(!q) return safe;
+  const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return safe.replace(new RegExp("(" + escaped + ")", "ig"), "<mark>$1</mark>");
+}
+function renderSearchPanel(q){
+  const panel = document.getElementById("searchPanel");
+  const query = (q || "").trim().toLowerCase();
+  panel.innerHTML = "";
+  if(!query){ panel.classList.remove("show"); return; }
+  const tips = allTipRefs().filter(({sec, it}) => (pick(sec) + " " + pick(it)).toLowerCase().includes(query)).slice(0, 3)
+    .map(({sec, it}) => ({ icon: sec.icon || "i-app", title: pick(sec), text: pick(it), action: () => openCategory(CATEGORIES.find(c => c.section === sec.id) || {bn:pick(sec),en:pick(sec),icon:sec.icon,section:sec.id}) }));
+  const shortcuts = SHORTCUTS.flatMap(group => group.items.map(item => ({ group, item }))).filter(({group, item}) => (pick(group) + " " + pick(item) + " " + item.keys.join(" ")).toLowerCase().includes(query)).slice(0, 2)
+    .map(({group, item}) => ({ icon: group.icon || "i-keyboard", title: item.keys.join(" + "), text: pick(item), action: () => document.getElementById("shortcuts").scrollIntoView({behavior:"smooth"}) }));
+  const commands = COMMANDS.filter(cmd => (cmd.cmd + " " + pick(cmd)).toLowerCase().includes(query)).slice(0, 2)
+    .map(cmd => ({ icon:"i-terminal", title: cmd.cmd, text: pick(cmd), action: () => document.getElementById("commands").scrollIntoView({behavior:"smooth"}) }));
+  const results = tips.concat(shortcuts, commands).slice(0, 7);
+  if(!results.length){ panel.appendChild(el("div", { class:"search-result", text:t("search.empty") })); panel.classList.add("show"); return; }
+  results.forEach(result => panel.appendChild(el("button", { class:"search-result", type:"button", onclick: () => { panel.classList.remove("show"); result.action(); }, html:`<div class="icon-wrap">${svgIcon(result.icon)}</div><div><strong>${highlight(result.title, query)}</strong><span>${highlight(result.text, query)}</span></div>` })));
+  panel.classList.add("show");
+}
+function applySearch(q){
+  renderShortcuts(q);
+  renderTips(q);
+  renderCommands(q);
+  renderSearchPanel(q);
+}
+
+/* ========= Init ========= */
+function renderAll(){
+  applyTheme();
+  applyI18n();
+  renderCategories();
+  renderShortcuts("");
+  renderTips("");
+  renderCommands("");
+  renderSolverList();
+  renderSolverDetail();
+  renderFavorites();
+  renderRecentTips();
+  renderTipOfDay();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  renderAll();
+
+  // Hide loader
+  const loader = document.getElementById("loader");
+  setTimeout(() => {
+    loader.classList.add("hide");
+    setTimeout(() => { loader.style.display = "none"; }, 600);
+  }, 900);
+
+  // Language toggle
+  document.getElementById("langBtn").addEventListener("click", () => {
+    LANG = LANG === "bn" ? "en" : "bn";
+    localStorage.setItem("pcdr.lang", LANG);
+    const q = document.getElementById("searchInput").value;
+    renderAll();
+    if(q) applySearch(q);
+  });
+
+  // Theme toggle
+  document.getElementById("themeBtn").addEventListener("click", () => {
+    THEME = THEME === "light" ? "dark" : "light";
+    localStorage.setItem("pcdr.theme", THEME);
+    applyTheme();
+  });
+
+  // Hamburger menu
+  document.getElementById("menuBtn").addEventListener("click", () => {
+    document.getElementById("navLinks").classList.toggle("open");
+  });
+  document.querySelectorAll("#navLinks a").forEach(a => a.addEventListener("click", () => {
+    document.getElementById("navLinks").classList.remove("open");
+  }));
+
+  // Search
+  let searchTimer = null;
+  const searchInput = document.getElementById("searchInput");
+  searchInput.addEventListener("input", () => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => applySearch(searchInput.value), 100);
+  });
+
+  // Category modal
+  document.getElementById("modalClose").addEventListener("click", closeCategory);
+  document.getElementById("categoryModal").addEventListener("click", (e) => {
+    if(e.target.id === "categoryModal") closeCategory();
+  });
+  document.addEventListener("keydown", (e) => {
+    if(e.key === "Escape") closeCategory();
+  });
+  document.getElementById("categorySearch").addEventListener("input", (e) => renderCategoryTips(e.target.value));
+
+  // Print
+  document.getElementById("printBtn").addEventListener("click", () => window.print());
+
+  // Scroll to top
+  const scrollBtn = document.getElementById("scrollTop");
+  window.addEventListener("scroll", () => {
+    scrollBtn.classList.toggle("show", window.scrollY > 400);
+  });
+  scrollBtn.addEventListener("click", () => window.scrollTo({top:0, behavior:"smooth"}));
+
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener("click", (e) => {
+      const id = a.getAttribute("href").slice(1);
+      if(!id) return;
+      const target = document.getElementById(id);
+      if(target){
+        e.preventDefault();
+        target.scrollIntoView({behavior:"smooth", block:"start"});
+      }
+    });
+  });
+});
 </script>
 </body>
 </html>
