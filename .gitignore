@@ -1,0 +1,12 @@
+node_modules
+.next
+out
+.env*.local
+.env
+.DS_Store
+*.log
+tsconfig.tsbuildinfo
+public/sw.js
+public/workbox-*.js
+public/fallback-*.js
+public/worker-*.js
